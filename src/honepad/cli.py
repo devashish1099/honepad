@@ -22,19 +22,22 @@ from honepad.packspec import missing_tools, on_missing_tools, run_spec
 from honepad.runner import _RUNNERS, run, spec_src
 from honepad.session import (
     RetiredLanguage,
+    clock_left,
     drop_level,
     ensure_session,
     ensure_work_copy,
     extra_work_note,
     format_debrief,
+    is_paused,
     load_session,
     mark_cleared,
     max_level,
     note_clock_restarted,
+    pause_clock,
     peek_unlocked,
     record_last_run,
-    remaining_s,
     require_minutes,
+    resume_clock,
     unlock_next,
     work_src,
 )
@@ -416,7 +419,6 @@ def cmd_start(args: argparse.Namespace) -> int:
                 print_workspace_note(exc)
         level = unlocked if args.level is None else args.level
         minutes = int(session["minutes"])
-        started_at = int(session["started_at"])
     except HONEPAD_ERRORS as exc:
         print_fail(exc, lang=getattr(args, "lang", None))
         return 1
@@ -429,7 +431,7 @@ def cmd_start(args: argparse.Namespace) -> int:
     if not spec.is_file():
         print(status_fail(f"FAIL: missing spec {spec}"))
         return 1
-    left = remaining_s(started_at, minutes)
+    left = clock_left(session)
     if unlocked > 1:
         print(
             status_note(
@@ -452,7 +454,9 @@ def cmd_start(args: argparse.Namespace) -> int:
             "(run, submit, reset, spec, vscode, switch, help)."
         )
     )
-    print(status_ok(f"OK: LEVEL {unlocked}  [{format_clock(left, span_s=minutes * 60)}]"))
+    print(status_ok(f"OK: LEVEL {unlocked}  [{_clock_text(session, left, minutes)}]"))
+    if is_paused(session):
+        print(status_note(f"NOTE: clock is paused. NEXT: {invocation()} resume"))
     if args.level is not None and level != unlocked:
         print(
             status_note(f"NOTE: showing LEVEL {level}. The desk is open through LEVEL {unlocked}.")
@@ -497,9 +501,13 @@ def cmd_run(args: argparse.Namespace) -> int:
         kind = args.kind
         if kind is None:
             kind = "work" if same and session is not None else "solution"
+        if same and session is not None and kind == "work" and is_paused(session):
+            print(status_fail("PAUSED: clock is stopped. Run and submit wait for resume."))
+            print(f"NEXT: {invocation()} resume")
+            return 1
         left = 0
         if session is not None and same:
-            left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+            left = clock_left(session)
             # No clock line here: the console prompt one line up already shows
             # it, and TIME UP below is what actually changes what happens.
             if lang is not None:
@@ -514,7 +522,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                     print_workspace_note(exc)
         report = run(args.problem, lang, level, kind=kind)
         if session is not None and same:
-            left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+            left = clock_left(session)
             record_last_run(
                 session,
                 level=report.level,
@@ -595,7 +603,7 @@ def cmd_run(args: argparse.Namespace) -> int:
                     f"failed={len(hidden_report.failed)}"
                 )
                 if session is not None and same:
-                    left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+                    left = clock_left(session)
                     record_last_run(
                         session,
                         level=hidden_report.level,
@@ -627,7 +635,7 @@ def cmd_run(args: argparse.Namespace) -> int:
         except HONEPAD_ERRORS + (NotImplementedError,) as exc:
             print_fail(exc)
             if session is not None and same:
-                left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+                left = clock_left(session)
                 record_last_run(
                     session,
                     level=report.level,
@@ -807,7 +815,7 @@ def cmd_submit(args: argparse.Namespace) -> int:
             session = load_session()
             left = 1
             if session is not None and session.get("problem") == args.problem:
-                left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+                left = 0 if is_paused(session) else clock_left(session)
             if left > 0:
                 from honepad.console import _confirm_unlock, _use_live
 
@@ -855,7 +863,7 @@ def cmd_debrief(_args: argparse.Namespace) -> int:
             print(f"NEXT: {invocation()} start")
             return 1
         print(format_debrief(session))
-        left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+        left = clock_left(session)
         if left == 0:
             print(f"NEXT: {invocation()} start")
     except HONEPAD_ERRORS as exc:
@@ -878,7 +886,11 @@ def cmd_timer(args: argparse.Namespace) -> int:
         print_fail(exc)
         return 1
     if session is not None:
-        left = remaining_s(started, minutes)
+        left = clock_left(session)
+        if is_paused(session):
+            print(f"PAUSED: timer {minutes}m remaining_s={left}")
+            print(f"NEXT: {invocation()} resume")
+            return 0
         print(f"WAIT: timer {minutes}m remaining_s={left}")
         print(f"OK: started_at={started}")
     else:
@@ -886,6 +898,58 @@ def cmd_timer(args: argparse.Namespace) -> int:
         print(f"WAIT: timer {minutes}m remaining_s={remaining}")
         print(f"OK: started_at={started}")
     print("NEXT: re-check remaining_s later; do not sleep inside this process")
+    return 0
+
+
+def _clock_text(session: dict[str, Any], left: int, minutes: int) -> str:
+    clock = format_clock(left, span_s=minutes * 60)
+    return f"PAUSED {clock}" if is_paused(session) else clock
+
+
+def cmd_pause(_args: argparse.Namespace) -> int:
+    try:
+        session = load_session()
+        if session is None:
+            print(status_fail("FAIL: no session"))
+            print(f"NEXT: {invocation()} start")
+            return 1
+        minutes = int(session["minutes"])
+        if is_paused(session):
+            print(
+                status_note(
+                    f"NOTE: already paused at {_clock_text(session, clock_left(session), minutes)}"
+                )
+            )
+            print(f"NEXT: {invocation()} resume")
+            return 0
+        if not pause_clock(session):
+            print(status_fail("FAIL: clock is at 0. Nothing to pause."))
+            return 1
+    except HONEPAD_ERRORS as exc:
+        print_fail(exc)
+        return 1
+    left = clock_left(session)
+    print(status_ok(f"OK: paused with {format_clock(left, span_s=minutes * 60)} left"))
+    print(f"NEXT: {invocation()} resume")
+    return 0
+
+
+def cmd_resume(_args: argparse.Namespace) -> int:
+    try:
+        session = load_session()
+        if session is None:
+            print(status_fail("FAIL: no session"))
+            print(f"NEXT: {invocation()} start")
+            return 1
+        if not resume_clock(session):
+            print(status_note("NOTE: clock is not paused"))
+            return 0
+    except HONEPAD_ERRORS as exc:
+        print_fail(exc)
+        return 1
+    minutes = int(session["minutes"])
+    left = clock_left(session)
+    print(status_ok(f"OK: resumed with {format_clock(left, span_s=minutes * 60)} left"))
     return 0
 
 
@@ -1002,6 +1066,12 @@ def build_parser() -> argparse.ArgumentParser:
     timer = sub.add_parser("timer", help="print a 90-minute remaining_s")
     timer.add_argument("--minutes", type=int, default=90)
     timer.set_defaults(func=cmd_timer)
+
+    pause = sub.add_parser("pause", help="stop the session clock; run and submit wait")
+    pause.set_defaults(func=cmd_pause)
+
+    resume = sub.add_parser("resume", help="restart a paused session clock")
+    resume.set_defaults(func=cmd_resume)
 
     debrief = sub.add_parser(
         "debrief",

@@ -195,6 +195,48 @@ def remaining_s(started_at: int, minutes: int, now: int | None = None) -> int:
     return left if left > 0 else 0
 
 
+def is_paused(session: dict[str, Any]) -> bool:
+    return session.get("paused_at") is not None
+
+
+def clock_left(session: dict[str, Any], now: int | None = None) -> int:
+    """Seconds left on the session clock. A paused clock reads as of its pause."""
+    paused = session.get("paused_at")
+    at = int(paused) if paused is not None else now
+    return remaining_s(int(session["started_at"]), int(session["minutes"]), now=at)
+
+
+def pause_clock(session: dict[str, Any], now: int | None = None) -> bool:
+    """Freeze the clock. False if it is already paused or already at 0."""
+    if is_paused(session) or clock_left(session, now) == 0:
+        return False
+    session["paused_at"] = int(time.time()) if now is None else now
+    save_session(session)
+    return True
+
+
+def resume_clock(session: dict[str, Any], now: int | None = None) -> bool:
+    """Restart a paused clock. The paused span does not count. False if not paused."""
+    paused = session.get("paused_at")
+    if paused is None:
+        return False
+    now_ts = int(time.time()) if now is None else now
+    session["started_at"] = int(session["started_at"]) + max(0, now_ts - int(paused))
+    session.pop("paused_at", None)
+    save_session(session)
+    return True
+
+
+def _parse_paused(raw: Any) -> int | None:
+    if raw is None:
+        return None
+    try:
+        value = _strict_int(raw, "paused_at")
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return value if value >= 0 else None
+
+
 class RetiredLanguage(Exception):
     """Stored session lang is gone from the catalog; start a new desk."""
 
@@ -257,6 +299,9 @@ def load_session(
         "unlocked": unlocked,
         "cleared": payload.get("cleared") is True,
     }
+    paused_at = _parse_paused(payload.get("paused_at"))
+    if paused_at is not None:
+        loaded["paused_at"] = paused_at
     last_run = _parse_last_run(payload.get("last_run"))
     if last_run is not None:
         loaded["last_run"] = last_run
@@ -333,7 +378,7 @@ def format_debrief(session: dict[str, Any], now: int | None = None) -> str:
     unlocked = int(session["unlocked"])
     top = max_level(problem)
     minutes = int(session["minutes"])
-    left = remaining_s(int(session["started_at"]), minutes, now=now)
+    left = clock_left(session, now=now)
     used = minutes * 60 - left
     lines = [
         f"DEBRIEF: {problem} {lang} LEVEL {unlocked}/{top}",
@@ -370,6 +415,9 @@ def _desk_snapshot(session: dict[str, Any]) -> dict[str, Any]:
     }
     if session.get("cleared") is True:
         snap["cleared"] = True
+    paused_at = _parse_paused(session.get("paused_at"))
+    if paused_at is not None:
+        snap["paused_at"] = paused_at
     last_run = _parse_last_run(session.get("last_run"))
     if last_run is not None:
         snap["last_run"] = last_run
@@ -407,6 +455,9 @@ def _parse_desks(raw: Any) -> dict[str, dict[str, Any]]:
         }
         if row.get("cleared") is True:
             item["cleared"] = True
+        paused_at = _parse_paused(row.get("paused_at"))
+        if paused_at is not None:
+            item["paused_at"] = paused_at
         last_run = _parse_last_run(row.get("last_run"))
         if last_run is not None:
             item["last_run"] = last_run
@@ -423,6 +474,9 @@ def _session_from_desk(problem: str, saved: dict[str, Any]) -> dict[str, Any]:
         "unlocked": int(saved["unlocked"]),
         "cleared": saved.get("cleared") is True,
     }
+    paused_at = _parse_paused(saved.get("paused_at"))
+    if paused_at is not None:
+        session["paused_at"] = paused_at
     last_run = _parse_last_run(saved.get("last_run"))
     if last_run is not None:
         session["last_run"] = last_run
@@ -474,6 +528,9 @@ def save_session(session: dict[str, Any], path: Path | None = None) -> Path:
     }
     if session.get("cleared") is True:
         payload["cleared"] = True
+    paused_at = _parse_paused(session.get("paused_at"))
+    if paused_at is not None:
+        payload["paused_at"] = paused_at
     last_run = _parse_last_run(session.get("last_run"))
     if last_run is not None:
         payload["last_run"] = last_run
@@ -505,9 +562,10 @@ def new_session(problem: str, lang: str, minutes: int = 90) -> dict[str, Any]:
 def _apply_saved_clock(session: dict[str, Any]) -> bool:
     """Restart an expired saved clock without changing its minutes. Returns True
     when the clock was replaced."""
-    if remaining_s(int(session["started_at"]), int(session["minutes"])) != 0:
+    if clock_left(session) != 0:
         return False
     session["started_at"] = int(time.time())
+    session.pop("paused_at", None)
     return True
 
 
@@ -585,7 +643,7 @@ def ensure_session(
         current["cleared"] = False
         current.pop("last_run", None)
     current["lang"] = lang
-    left = remaining_s(int(current["started_at"]), int(current["minutes"]))
+    left = clock_left(current)
     restarted = False
     now_minutes: int | None = None
     if left == 0:
@@ -594,12 +652,14 @@ def ensure_session(
         # turn a 30-minute desk into the 90-minute default.
         if minutes is not None:
             current["minutes"] = require_minutes(minutes)
+        current.pop("paused_at", None)
         restarted = True
     elif minutes is not None and int(current["minutes"]) != minutes:
         current["minutes"] = require_minutes(minutes)
         now_minutes = int(current["minutes"])
-        if remaining_s(int(current["started_at"]), now_minutes) == 0:
+        if clock_left(current) == 0:
             current["started_at"] = int(time.time())
+            current.pop("paused_at", None)
     save_session(current)
     current["clock_restarted"] = restarted
     current["desk_fresh"] = False

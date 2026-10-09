@@ -18,11 +18,14 @@ from honepad.session import (
     ensure_work_copy,
     extra_work_note,
     format_debrief,
+    is_paused,
     load_session,
     max_level,
     note_clock_restarted,
+    pause_clock,
     remaining_s,
     restart_all,
+    resume_clock,
     work_src,
 )
 from honepad.term import (
@@ -65,11 +68,11 @@ def render_banner(session: dict[str, Any], now: int | None = None) -> str:
     lang = str(session["lang"])
     unlocked = int(session["unlocked"])
     top = max_level(problem)
-    left = remaining_s(int(session["started_at"]), int(session["minutes"]), now)
+    left = _clock_left(session, now)
     work = work_src(problem, lang)
     title = gradient("honepad", (94, 234, 212), (56, 189, 248))
     level = accent(f"LEVEL {unlocked}/{top}")
-    clock = clock_style(left, format_clock(left, span_s=int(session["minutes"]) * 60))
+    clock = clock_style(left, _clock_text(session, left))
     dots = level_dots(unlocked, top)
     head = f"{title}  {problem}  {lang}  {level}"
     if dots:
@@ -94,6 +97,35 @@ def render_banner(session: dict[str, Any], now: int | None = None) -> str:
         lines.append(format_debrief(session, now=now))
         lines.append(f"NEXT: {invocation()} start")
     return "\n".join(lines)
+
+
+def _clock_left(session: dict[str, Any], now: int | None = None) -> int:
+    """Seconds left. A paused clock reads as of its pause."""
+    paused = session.get("paused_at")
+    at = int(paused) if paused is not None else now
+    return remaining_s(int(session["started_at"]), int(session["minutes"]), at)
+
+
+def _clock_text(session: dict[str, Any], left: int) -> str:
+    clock = format_clock(left, span_s=int(session["minutes"]) * 60)
+    return f"PAUSED {clock}" if is_paused(session) else clock
+
+
+def _toggle_pause(session: dict[str, Any], stdout: TextIO) -> int:
+    if is_paused(session):
+        resume_clock(session)
+        left = format_clock(_clock_left(session), span_s=int(session["minutes"]) * 60)
+        stdout.write(status_unlock(f"OK: resumed with {left} left") + "\n")
+    elif pause_clock(session):
+        left = format_clock(_clock_left(session), span_s=int(session["minutes"]) * 60)
+        stdout.write(status_note(f"OK: paused with {left} left. p resumes.") + "\n")
+        stdout.write(status_note("NOTE: run and submit wait until you resume.") + "\n")
+    else:
+        stdout.write(status_fail("FAIL: clock is at 0. Nothing to pause.") + "\n")
+        stdout.flush()
+        return 1
+    stdout.flush()
+    return 0
 
 
 def cmd_console(args: argparse.Namespace) -> int:
@@ -169,13 +201,14 @@ def _reload_session(session: dict[str, Any], stdout: TextIO | None = None) -> di
     return session
 
 
-def _banner_key(session: dict[str, Any]) -> tuple[str, str, int, bool]:
+def _banner_key(session: dict[str, Any]) -> tuple[str, str, int, bool, bool]:
     """What the banner shows. A change here is what makes it reprint."""
     return (
         str(session["problem"]),
         str(session["lang"]),
         int(session["unlocked"]),
         bool(session.get("cleared")),
+        is_paused(session),
     )
 
 
@@ -192,6 +225,9 @@ _MENU_CHOICES = {
     "code",
     "6",
     "switch",
+    "p",
+    "pause",
+    "resume",
     "?",
     "h",
     "help",
@@ -224,7 +260,7 @@ def loop_console(
                 shown = now_key
                 shown_menu[0] = True
             else:
-                left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+                left = _clock_left(session)
                 if left > 0:
                     shown_time_up[0] = False
                 if now_key != shown:
@@ -279,8 +315,8 @@ def loop_console(
                 continue
             if choice in {"2", "submit"}:
                 if int(session["unlocked"]) < max_level(str(session["problem"])):
-                    left = remaining_s(int(session["started_at"]), int(session["minutes"]))
-                    if left > 0:
+                    left = _clock_left(session)
+                    if left > 0 and not is_paused(session):
                         unlock = _confirm_unlock(stdin, stdout, live=use_live)
                         if unlock is None:
                             return last
@@ -414,6 +450,8 @@ def dispatch(
             return _run_work(problem, lang, unlock=True)
         if choice in {"3", "reset"}:
             return _reset_work(session, stdout)
+        if choice in {"p", "pause", "resume"}:
+            return _toggle_pause(session, stdout)
         if choice in {"4", "spec"}:
             return _print_spec(problem, unlocked, stdout)
         if choice in {"6", "switch"}:
@@ -519,7 +557,7 @@ def _confirm_reset(session: dict[str, Any], stdin: TextIO, stdout: TextIO) -> st
         )
         + "\n"
     )
-    left = remaining_s(int(session["started_at"]), int(session["minutes"]))
+    left = _clock_left(session)
     if left == 0:
         stdout.write("NEXT: quit then start starts a new clock and keeps work.\n")
     stdout.flush()
@@ -750,12 +788,12 @@ def _read_choice(
     def _left() -> int:
         if clock_fn is not None:
             return clock_fn()
-        return remaining_s(int(session["started_at"]), int(session["minutes"]))
+        return _clock_left(session)
 
     def _prompt() -> str:
         left = _left()
         return render_prompt(
-            format_clock(left, span_s=int(session["minutes"]) * 60),
+            _clock_text(session, left),
             seconds=left,
             level=int(session["unlocked"]),
         )
