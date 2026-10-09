@@ -1,0 +1,110 @@
+{
+  "bars": {
+    "min_kill_all": 0.89,
+    "min_kill_public": 0.69,
+    "max_stub_pass": 0.25,
+    "max_api_overlap": 0.5,
+    "min_cases_per_level": 3,
+    "min_hidden_calls_per_level": 6,
+    "harder_min_decisions": 28,
+    "harder_min_code_lines": 181,
+    "legacy_spec_examples": [
+      "bank_system",
+      "file_storage",
+      "in_memory_database",
+      "workers"
+    ]
+  },
+  "baseline": {
+    "bank_system": {
+      "kill_all": 0.973,
+      "kill_public": 0.973,
+      "stub_pass": 0.031,
+      "code_lines": 188,
+      "decisions": 25,
+      "methods": 8,
+      "spec_words": 1076
+    },
+    "in_memory_database": {
+      "kill_all": 0.964,
+      "kill_public": 0.964,
+      "stub_pass": 0.074,
+      "code_lines": 179,
+      "decisions": 33,
+      "methods": 13,
+      "spec_words": 917
+    },
+    "file_storage": {
+      "kill_all": 0.811,
+      "kill_public": 0.811,
+      "stub_pass": 0.05,
+      "code_lines": 184,
+      "decisions": 45,
+      "methods": 10,
+      "spec_words": 886
+    },
+    "workers": {
+      "kill_all": 0.895,
+      "kill_public": 0.895,
+      "stub_pass": 0.0,
+      "code_lines": 180,
+      "decisions": 27,
+      "methods": 7,
+      "spec_words": 801
+    },
+    "inventory": {
+      "kill_all": 0.812,
+      "kill_public": 0.688,
+      "stub_pass": 0.0,
+      "code_lines": 83,
+      "decisions": 17,
+      "methods": 7,
+      "spec_words": 343
+    },
+    "rate_limiter": {
+      "kill_all": 0.875,
+      "kill_public": 0.875,
+      "stub_pass": 0.0,
+      "code_lines": 62,
+      "decisions": 8,
+      "methods": 4,
+      "spec_words": 399
+    },
+    "gpu_scheduler": {
+      "kill_all": 0.696,
+      "kill_public": 0.696,
+      "stub_pass": 0.0,
+      "code_lines": 124,
+      "decisions": 22,
+      "methods": 7,
+      "spec_words": 339
+    },
+    "load_balancer": {
+      "kill_all": 0.925,
+      "kill_public": 0.925,
+      "stub_pass": 0.125,
+      "code_lines": 130,
+      "decisions": 25,
+      "methods": 6,
+      "spec_words": 314
+    },
+    "pubsub": {
+      "kill_all": 1.0,
+      "kill_public": 1.0,
+      "stub_pass": 0.062,
+      "code_lines": 74,
+      "decisions": 10,
+      "methods": 9,
+      "spec_words": 395
+    },
+    "text_editor": {
+      "kill_all": 0.686,
+      "kill_public": 0.571,
+      "stub_pass": 0.0,
+      "code_lines": 129,
+      "decisions": 19,
+      "methods": 13,
+      "spec_words": 457
+    }
+  }
+}
