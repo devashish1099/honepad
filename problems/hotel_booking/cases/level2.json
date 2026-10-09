@@ -1,0 +1,224 @@
+[
+  {
+    "id": "l2-available",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "s2",
+          "single",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "s1",
+          "single",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "s3",
+          "single",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "d1",
+          "double",
+          150
+        ],
+        "e": true
+      },
+      {
+        "m": "available",
+        "a": [
+          2,
+          "single",
+          1,
+          3
+        ],
+        "e": [
+          "s3(60)",
+          "s1(80)",
+          "s2(80)"
+        ]
+      },
+      {
+        "m": "book",
+        "a": [
+          3,
+          "g1",
+          "s3",
+          2,
+          4
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "available",
+        "a": [
+          4,
+          "single",
+          1,
+          3
+        ],
+        "e": [
+          "s1(80)",
+          "s2(80)"
+        ]
+      },
+      {
+        "m": "available",
+        "a": [
+          5,
+          "single",
+          4,
+          6
+        ],
+        "e": [
+          "s3(60)",
+          "s1(80)",
+          "s2(80)"
+        ]
+      },
+      {
+        "m": "available",
+        "a": [
+          6,
+          "suite",
+          1,
+          3
+        ],
+        "e": []
+      },
+      {
+        "m": "available",
+        "a": [
+          7,
+          "single",
+          3,
+          3
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l2-book-any",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "b",
+          "single",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "a",
+          "single",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "book_any",
+        "a": [
+          2,
+          "g1",
+          "single",
+          1,
+          3
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book_any",
+        "a": [
+          3,
+          "g2",
+          "single",
+          2,
+          4
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "book_any",
+        "a": [
+          4,
+          "g3",
+          "single",
+          2,
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "available",
+        "a": [
+          5,
+          "single",
+          3,
+          4
+        ],
+        "e": [
+          "a(80)"
+        ]
+      },
+      {
+        "m": "book_any",
+        "a": [
+          6,
+          "g3",
+          "single",
+          3,
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "book_any",
+        "a": [
+          7,
+          "g3",
+          "double",
+          1,
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "book_any",
+        "a": [
+          8,
+          "g3",
+          "single",
+          3,
+          5
+        ],
+        "e": "booking3"
+      }
+    ]
+  }
+]

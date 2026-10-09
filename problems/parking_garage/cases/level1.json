@@ -1,0 +1,250 @@
+[
+  {
+    "id": "l1-smallest-fit",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          2,
+          "m1",
+          "medium"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          3,
+          "l1",
+          "large"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          4,
+          "s1",
+          "large"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          5,
+          "x1",
+          "huge"
+        ],
+        "e": false
+      },
+      {
+        "m": "park",
+        "a": [
+          6,
+          "car1",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          7,
+          "car2",
+          "small"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "park",
+        "a": [
+          8,
+          "car3",
+          "medium"
+        ],
+        "e": "l1"
+      },
+      {
+        "m": "park",
+        "a": [
+          9,
+          "car4",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          10,
+          "car1",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "leave",
+        "a": [
+          11,
+          "car2"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          12,
+          "car2"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          13,
+          "car5",
+          "large"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          14,
+          "car5",
+          "medium"
+        ],
+        "e": "m1"
+      }
+    ]
+  },
+  {
+    "id": "l1-id-order-is-string-order",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s2",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          2,
+          "s10",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          3,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          4,
+          "a",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          5,
+          "b",
+          "small"
+        ],
+        "e": "s10"
+      },
+      {
+        "m": "park",
+        "a": [
+          6,
+          "c",
+          "small"
+        ],
+        "e": "s2"
+      },
+      {
+        "m": "leave",
+        "a": [
+          7,
+          "b"
+        ],
+        "e": "s10"
+      },
+      {
+        "m": "park",
+        "a": [
+          8,
+          "d",
+          "small"
+        ],
+        "e": "s10"
+      }
+    ]
+  },
+  {
+    "id": "l1-bad-size",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "m1",
+          "medium"
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          2,
+          "a",
+          "tiny"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          3,
+          "a",
+          "medium"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          4,
+          "zzz"
+        ],
+        "e": null
+      }
+    ]
+  }
+]

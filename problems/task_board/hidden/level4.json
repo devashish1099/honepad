@@ -1,0 +1,117 @@
+[
+  {
+    "id": "hid-l4-reassign-after-overdue",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "v",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "a",
+          "u",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          5
+        ],
+        "e": [
+          "a(u)"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          5,
+          "a",
+          "u"
+        ],
+        "e": false
+      },
+      {
+        "m": "assign",
+        "a": [
+          6,
+          "a",
+          "v",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          7
+        ],
+        "e": []
+      },
+      {
+        "m": "complete",
+        "a": [
+          8,
+          "a",
+          "v"
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          100
+        ],
+        "e": []
+      },
+      {
+        "m": "top_completers",
+        "a": [
+          101,
+          5
+        ],
+        "e": [
+          "v(1)",
+          "u(0)"
+        ]
+      },
+      {
+        "m": "assign",
+        "a": [
+          102,
+          "a",
+          "u",
+          3
+        ],
+        "e": false
+      }
+    ]
+  }
+]

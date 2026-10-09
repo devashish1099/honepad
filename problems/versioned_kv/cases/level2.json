@@ -1,0 +1,145 @@
+[
+  {
+    "id": "l2-scan",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set",
+        "a": [
+          1,
+          "user:2",
+          "bo"
+        ],
+        "e": null
+      },
+      {
+        "m": "set",
+        "a": [
+          2,
+          "user:10",
+          "amy"
+        ],
+        "e": null
+      },
+      {
+        "m": "set",
+        "a": [
+          3,
+          "item:1",
+          "pen"
+        ],
+        "e": null
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          4,
+          "user:"
+        ],
+        "e": [
+          "user:10=amy",
+          "user:2=bo"
+        ]
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          5,
+          ""
+        ],
+        "e": [
+          "item:1=pen",
+          "user:10=amy",
+          "user:2=bo"
+        ]
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          6,
+          "order"
+        ],
+        "e": []
+      },
+      {
+        "m": "size",
+        "a": [
+          7
+        ],
+        "e": 3
+      },
+      {
+        "m": "delete",
+        "a": [
+          8,
+          "user:2"
+        ],
+        "e": true
+      },
+      {
+        "m": "size",
+        "a": [
+          9
+        ],
+        "e": 2
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          10,
+          "user"
+        ],
+        "e": [
+          "user:10=amy"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l2-empty",
+    "level": 2,
+    "calls": [
+      {
+        "m": "size",
+        "a": [
+          1
+        ],
+        "e": 0
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          2,
+          ""
+        ],
+        "e": []
+      },
+      {
+        "m": "set",
+        "a": [
+          3,
+          "k",
+          ""
+        ],
+        "e": null
+      },
+      {
+        "m": "size",
+        "a": [
+          4
+        ],
+        "e": 1
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          5,
+          "k"
+        ],
+        "e": [
+          "k="
+        ]
+      }
+    ]
+  }
+]

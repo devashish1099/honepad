@@ -1,0 +1,123 @@
+[
+  {
+    "id": "hid-l4-busy-own-spot",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s2",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          5,
+          "early",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          6,
+          "s1",
+          "vip",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          10,
+          "vip",
+          "small"
+        ],
+        "e": "s2"
+      },
+      {
+        "m": "current_fee",
+        "a": [
+          11,
+          "vip"
+        ],
+        "e": 2
+      },
+      {
+        "m": "leave",
+        "a": [
+          12,
+          "early"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          13,
+          "other",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "leave",
+        "a": [
+          14,
+          "vip"
+        ],
+        "e": "s2"
+      },
+      {
+        "m": "park",
+        "a": [
+          15,
+          "vip",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          10815,
+          "vip"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "revenue",
+        "a": [
+          10816,
+          0,
+          10816
+        ],
+        "e": 7
+      },
+      {
+        "m": "park",
+        "a": [
+          10817,
+          "other",
+          "small"
+        ],
+        "e": "s1"
+      }
+    ]
+  }
+]

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "l1-add-borrow",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_book",
+        "a": [
+          1,
+          "b1",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_book",
+        "a": [
+          2,
+          "b1",
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "add_book",
+        "a": [
+          3,
+          "b2",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "borrow",
+        "a": [
+          4,
+          "m1",
+          "b1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "borrow",
+        "a": [
+          5,
+          "m2",
+          "b1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "borrow",
+        "a": [
+          6,
+          "m3",
+          "b1"
+        ],
+        "e": null
+      },
+      {
+        "m": "borrow",
+        "a": [
+          7,
+          "m1",
+          "b9"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-return",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_book",
+        "a": [
+          1,
+          "b1",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "borrow",
+        "a": [
+          2,
+          "m1",
+          "b1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "borrow",
+        "a": [
+          3,
+          "m1",
+          "b1"
+        ],
+        "e": null
+      },
+      {
+        "m": "return_book",
+        "a": [
+          4,
+          "m2",
+          "b1"
+        ],
+        "e": null
+      },
+      {
+        "m": "return_book",
+        "a": [
+          5,
+          "m1",
+          "b1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "return_book",
+        "a": [
+          6,
+          "m1",
+          "b1"
+        ],
+        "e": null
+      },
+      {
+        "m": "borrow",
+        "a": [
+          7,
+          "m1",
+          "b1"
+        ],
+        "e": 1
+      }
+    ]
+  },
+  {
+    "id": "l1-two-books",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_book",
+        "a": [
+          1,
+          "dune",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_book",
+        "a": [
+          2,
+          "emma",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "borrow",
+        "a": [
+          3,
+          "ann",
+          "dune"
+        ],
+        "e": 0
+      },
+      {
+        "m": "borrow",
+        "a": [
+          4,
+          "ann",
+          "emma"
+        ],
+        "e": 2
+      },
+      {
+        "m": "borrow",
+        "a": [
+          5,
+          "bob",
+          "dune"
+        ],
+        "e": null
+      },
+      {
+        "m": "return_book",
+        "a": [
+          6,
+          "ann",
+          "emma"
+        ],
+        "e": 3
+      },
+      {
+        "m": "return_book",
+        "a": [
+          7,
+          "bob",
+          "dune"
+        ],
+        "e": null
+      },
+      {
+        "m": "return_book",
+        "a": [
+          8,
+          "ann",
+          "dune"
+        ],
+        "e": 1
+      },
+      {
+        "m": "borrow",
+        "a": [
+          9,
+          "bob",
+          "dune"
+        ],
+        "e": 0
+      }
+    ]
+  }
+]

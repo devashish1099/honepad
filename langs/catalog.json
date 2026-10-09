@@ -9,7 +9,13 @@
     "gpu_scheduler",
     "load_balancer",
     "pubsub",
-    "text_editor"
+    "text_editor",
+    "library",
+    "parking_garage",
+    "task_board",
+    "versioned_kv",
+    "order_book",
+    "hotel_booking"
   ],
   "required_ids": [
     "clojure",

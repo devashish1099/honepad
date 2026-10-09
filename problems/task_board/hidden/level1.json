@@ -1,0 +1,84 @@
+[
+  {
+    "id": "hid-l1-sequence",
+    "level": 1,
+    "calls": [
+      {
+        "m": "get_task",
+        "a": [
+          1,
+          "q"
+        ],
+        "e": null
+      },
+      {
+        "m": "add_task",
+        "a": [
+          2,
+          "q",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "update_task",
+        "a": [
+          3,
+          "q",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          4,
+          "q"
+        ],
+        "e": 4
+      },
+      {
+        "m": "add_task",
+        "a": [
+          5,
+          "Q",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          6,
+          "Q"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_task",
+        "a": [
+          7,
+          "q"
+        ],
+        "e": 4
+      },
+      {
+        "m": "update_task",
+        "a": [
+          8,
+          "Q",
+          -1
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          9,
+          "Q"
+        ],
+        "e": -1
+      }
+    ]
+  }
+]

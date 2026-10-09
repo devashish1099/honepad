@@ -1811,13 +1811,13 @@ def test_submit_last_pubsub_prints_next_text_editor(monkeypatch, tmp_path: Path,
     assert "start text_editor" in out
 
 
-def test_submit_last_text_editor_has_no_next_desk(monkeypatch, tmp_path: Path, capsys) -> None:
+def test_submit_last_hotel_booking_has_no_next_desk(monkeypatch, tmp_path: Path, capsys) -> None:
     session_file = tmp_path / "session.json"
     monkeypatch.setenv("HONEPAD_SESSION", str(session_file))
     session_file.write_text(
         json.dumps(
             {
-                "problem": "text_editor",
+                "problem": "hotel_booking",
                 "lang": "python3",
                 "started_at": 1_700_000_000,
                 "minutes": 90,
@@ -1827,9 +1827,9 @@ def test_submit_last_text_editor_has_no_next_desk(monkeypatch, tmp_path: Path, c
         + "\n",
         encoding="utf-8",
     )
-    assert main(["submit", "text_editor", "--kind", "solution", "--confirm", "y"]) == 0
+    assert main(["submit", "hotel_booking", "--kind", "solution", "--confirm", "y"]) == 0
     out = capsys.readouterr().out
-    assert "DONE: text_editor python3" in out
+    assert "DONE: hotel_booking python3" in out
     assert "NEXT:" not in out
 
 

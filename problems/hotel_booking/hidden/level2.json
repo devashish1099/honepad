@@ -1,0 +1,141 @@
+[
+  {
+    "id": "hid-l2-cheapest-changes",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "cheap",
+          "x",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "mid",
+          "x",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "top",
+          "x",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "book_any",
+        "a": [
+          2,
+          "g",
+          "x",
+          1,
+          5
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book_any",
+        "a": [
+          3,
+          "g",
+          "x",
+          4,
+          6
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "available",
+        "a": [
+          4,
+          "x",
+          5,
+          6
+        ],
+        "e": [
+          "cheap(10)",
+          "top(30)"
+        ]
+      },
+      {
+        "m": "available",
+        "a": [
+          4,
+          "x",
+          0,
+          1
+        ],
+        "e": [
+          "cheap(10)",
+          "mid(20)",
+          "top(30)"
+        ]
+      },
+      {
+        "m": "cancel",
+        "a": [
+          5,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "book_any",
+        "a": [
+          6,
+          "g",
+          "x",
+          2,
+          7
+        ],
+        "e": "booking3"
+      },
+      {
+        "m": "available",
+        "a": [
+          7,
+          "x",
+          6,
+          7
+        ],
+        "e": [
+          "mid(20)",
+          "top(30)"
+        ]
+      },
+      {
+        "m": "book_any",
+        "a": [
+          8,
+          "g",
+          "x",
+          5,
+          6
+        ],
+        "e": "booking4"
+      },
+      {
+        "m": "book_any",
+        "a": [
+          9,
+          "g",
+          "x",
+          5,
+          6
+        ],
+        "e": null
+      }
+    ]
+  }
+]

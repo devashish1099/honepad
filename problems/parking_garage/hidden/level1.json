@@ -1,0 +1,130 @@
+[
+  {
+    "id": "hid-l1-cascade",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "l2",
+          "large"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "l1",
+          "large"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "m1",
+          "medium"
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          2,
+          "a",
+          "medium"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "park",
+        "a": [
+          3,
+          "b",
+          "medium"
+        ],
+        "e": "l1"
+      },
+      {
+        "m": "park",
+        "a": [
+          4,
+          "c",
+          "small"
+        ],
+        "e": "l2"
+      },
+      {
+        "m": "park",
+        "a": [
+          5,
+          "d",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "leave",
+        "a": [
+          6,
+          "b"
+        ],
+        "e": "l1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          7,
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "park",
+        "a": [
+          8,
+          "d",
+          "large"
+        ],
+        "e": "l1"
+      },
+      {
+        "m": "park",
+        "a": [
+          9,
+          "e",
+          "small"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "park",
+        "a": [
+          10,
+          "e",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "leave",
+        "a": [
+          11,
+          "c"
+        ],
+        "e": "l2"
+      },
+      {
+        "m": "leave",
+        "a": [
+          12,
+          "c"
+        ],
+        "e": null
+      }
+    ]
+  }
+]

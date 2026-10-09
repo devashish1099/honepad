@@ -1,0 +1,154 @@
+[
+  {
+    "id": "l2-occupancy",
+    "level": 2,
+    "calls": [
+      {
+        "m": "occupancy",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          2,
+          "l1",
+          "large"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          3,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          4,
+          "s2",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          5
+        ],
+        "e": [
+          "small(0/2)",
+          "large(0/1)"
+        ]
+      },
+      {
+        "m": "park",
+        "a": [
+          6,
+          "a",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          7,
+          "b",
+          "medium"
+        ],
+        "e": "l1"
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          8
+        ],
+        "e": [
+          "small(1/2)",
+          "large(1/1)"
+        ]
+      },
+      {
+        "m": "leave",
+        "a": [
+          9,
+          "a"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          10
+        ],
+        "e": [
+          "small(0/2)",
+          "large(1/1)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l2-find-car",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "find_car",
+        "a": [
+          2,
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          3,
+          "a",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "find_car",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          5,
+          "a"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "find_car",
+        "a": [
+          6,
+          "a"
+        ],
+        "e": null
+      }
+    ]
+  }
+]

@@ -1,0 +1,140 @@
+[
+  {
+    "id": "hid-l4-merge-then-revenue",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "x",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "a",
+          "r1",
+          1,
+          3
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          3,
+          "b",
+          "r1",
+          3,
+          6
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          4,
+          "b",
+          "x",
+          2,
+          4
+        ],
+        "e": 1
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          5,
+          "a",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          6,
+          "a"
+        ],
+        "e": 5
+      },
+      {
+        "m": "cancel",
+        "a": [
+          7,
+          "booking2"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          8,
+          "a"
+        ],
+        "e": [
+          "booking1(r1)"
+        ]
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          9,
+          6
+        ],
+        "e": 50
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          9,
+          7
+        ],
+        "e": 20
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          10,
+          "a",
+          "x",
+          1,
+          2
+        ],
+        "e": 2
+      },
+      {
+        "m": "cancel",
+        "a": [
+          11,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          12,
+          "a"
+        ],
+        "e": [
+          "booking4(r1)",
+          "booking3(r1)"
+        ]
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          13,
+          13
+        ],
+        "e": 30
+      }
+    ]
+  }
+]

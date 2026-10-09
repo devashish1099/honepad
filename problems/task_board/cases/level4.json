@@ -1,0 +1,424 @@
+[
+  {
+    "id": "l4-complete",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "b",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u1",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u2",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          10,
+          "a",
+          "u1",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          10,
+          "b",
+          "u1",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          11,
+          "a",
+          "u2"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          12,
+          "a",
+          "u1"
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          13,
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "complete",
+        "a": [
+          14,
+          "a",
+          "u1"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          20,
+          "b",
+          "u1"
+        ],
+        "e": false
+      },
+      {
+        "m": "top_completers",
+        "a": [
+          21,
+          5
+        ],
+        "e": [
+          "u1(1)",
+          "u2(0)"
+        ]
+      },
+      {
+        "m": "top_completers",
+        "a": [
+          21,
+          0
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l4-overdue",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "b",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "c",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u1",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u2",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          10,
+          "c",
+          "u1",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          10,
+          "a",
+          "u2",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          11,
+          "b",
+          "u1",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          14
+        ],
+        "e": [
+          "b(u1)"
+        ]
+      },
+      {
+        "m": "overdue",
+        "a": [
+          15
+        ],
+        "e": [
+          "b(u1)",
+          "a(u2)",
+          "c(u1)"
+        ]
+      },
+      {
+        "m": "assign",
+        "a": [
+          16,
+          "b",
+          "u2",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          17
+        ],
+        "e": [
+          "a(u2)",
+          "c(u1)"
+        ]
+      },
+      {
+        "m": "remove_task",
+        "a": [
+          18,
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "overdue",
+        "a": [
+          19
+        ],
+        "e": [
+          "c(u1)"
+        ]
+      },
+      {
+        "m": "overdue",
+        "a": [
+          26
+        ],
+        "e": [
+          "c(u1)",
+          "b(u2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l4-ranking",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "zed",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "amy",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "bo",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "t1",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "t2",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "t3",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "t1",
+          "zed",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "t2",
+          "amy",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "t3",
+          "zed",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          3,
+          "t1",
+          "zed"
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          4,
+          "t2",
+          "amy"
+        ],
+        "e": true
+      },
+      {
+        "m": "top_completers",
+        "a": [
+          5,
+          2
+        ],
+        "e": [
+          "amy(1)",
+          "zed(1)"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          6,
+          "t3",
+          "zed"
+        ],
+        "e": true
+      },
+      {
+        "m": "top_completers",
+        "a": [
+          7,
+          3
+        ],
+        "e": [
+          "zed(2)",
+          "amy(1)",
+          "bo(0)"
+        ]
+      },
+      {
+        "m": "search",
+        "a": [
+          8,
+          "t",
+          5
+        ],
+        "e": []
+      }
+    ]
+  }
+]

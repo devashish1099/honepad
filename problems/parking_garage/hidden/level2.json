@@ -1,0 +1,106 @@
+[
+  {
+    "id": "hid-l2-sizes",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "m1",
+          "medium"
+        ],
+        "e": true
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          2
+        ],
+        "e": [
+          "medium(0/1)"
+        ]
+      },
+      {
+        "m": "park",
+        "a": [
+          3,
+          "a",
+          "small"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          4
+        ],
+        "e": [
+          "medium(1/1)"
+        ]
+      },
+      {
+        "m": "find_car",
+        "a": [
+          5,
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          6,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          7,
+          "b",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          8
+        ],
+        "e": [
+          "small(1/1)",
+          "medium(1/1)"
+        ]
+      },
+      {
+        "m": "leave",
+        "a": [
+          9,
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "find_car",
+        "a": [
+          10,
+          "b"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "occupancy",
+        "a": [
+          11
+        ],
+        "e": [
+          "small(1/1)",
+          "medium(0/1)"
+        ]
+      }
+    ]
+  }
+]

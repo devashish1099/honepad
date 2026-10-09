@@ -1,0 +1,200 @@
+[
+  {
+    "id": "l1-crud",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "t1",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          2,
+          "t1",
+          9
+        ],
+        "e": false
+      },
+      {
+        "m": "get_task",
+        "a": [
+          3,
+          "t1"
+        ],
+        "e": 5
+      },
+      {
+        "m": "update_task",
+        "a": [
+          4,
+          "t1",
+          7
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          5,
+          "t1"
+        ],
+        "e": 7
+      },
+      {
+        "m": "update_task",
+        "a": [
+          6,
+          "t2",
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "get_task",
+        "a": [
+          7,
+          "t2"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-negative-and-zero",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          0
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          2,
+          "b",
+          -3
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          3,
+          "a"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_task",
+        "a": [
+          4,
+          "b"
+        ],
+        "e": -3
+      },
+      {
+        "m": "update_task",
+        "a": [
+          5,
+          "b",
+          0
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          6,
+          "b"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l1-many",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "x",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          2,
+          "y",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          3,
+          "z",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "update_task",
+        "a": [
+          4,
+          "x",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "get_task",
+        "a": [
+          5,
+          "x"
+        ],
+        "e": 10
+      },
+      {
+        "m": "get_task",
+        "a": [
+          6,
+          "y"
+        ],
+        "e": 2
+      },
+      {
+        "m": "add_task",
+        "a": [
+          7,
+          "y",
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "get_task",
+        "a": [
+          8,
+          "y"
+        ],
+        "e": 2
+      }
+    ]
+  }
+]

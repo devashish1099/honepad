@@ -1,0 +1,485 @@
+[
+  {
+    "id": "l4-revenue-at",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g1",
+          "r1",
+          10,
+          12
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          4,
+          "g2",
+          "r1",
+          12,
+          14
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "cancel",
+        "a": [
+          7,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          20,
+          1
+        ],
+        "e": 0
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          20,
+          3
+        ],
+        "e": 200
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          20,
+          4
+        ],
+        "e": 400
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          20,
+          6
+        ],
+        "e": 400
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          20,
+          7
+        ],
+        "e": 200
+      }
+    ]
+  },
+  {
+    "id": "l4-merge",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r2",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "a",
+          "r1",
+          5,
+          7
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          3,
+          "b",
+          "r2",
+          1,
+          3
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          4,
+          "a",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          5,
+          "a"
+        ],
+        "e": [
+          "booking2(r2)",
+          "booking1(r1)"
+        ]
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          5,
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          6,
+          "a"
+        ],
+        "e": 4
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          7,
+          "a",
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          8,
+          "a",
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          9,
+          "zz",
+          "a"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-merge-waitlist",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "a",
+          "r1",
+          1,
+          5
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          3,
+          "b",
+          "single",
+          2,
+          4
+        ],
+        "e": 1
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          4,
+          "c",
+          "single",
+          3,
+          4
+        ],
+        "e": 2
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          5,
+          "c",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "cancel",
+        "a": [
+          6,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          7,
+          "c"
+        ],
+        "e": [
+          "booking2(r1)"
+        ]
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          8,
+          "c",
+          "single",
+          3,
+          4
+        ],
+        "e": 2
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          9,
+          "c"
+        ],
+        "e": 2
+      }
+    ]
+  },
+  {
+    "id": "l4-booking-number-order",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g",
+          "r1",
+          1,
+          2
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          2,
+          3
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          3,
+          4
+        ],
+        "e": "booking3"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          4,
+          5
+        ],
+        "e": "booking4"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          5,
+          6
+        ],
+        "e": "booking5"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          6,
+          7
+        ],
+        "e": "booking6"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          7,
+          8
+        ],
+        "e": "booking7"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          8,
+          9
+        ],
+        "e": "booking8"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "h",
+          "r1",
+          9,
+          10
+        ],
+        "e": "booking9"
+      },
+      {
+        "m": "cancel",
+        "a": [
+          3,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          4,
+          "g",
+          "r1",
+          1,
+          2
+        ],
+        "e": "booking10"
+      },
+      {
+        "m": "add_room",
+        "a": [
+          5,
+          "r2",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          6,
+          "h",
+          "r2",
+          1,
+          2
+        ],
+        "e": "booking11"
+      },
+      {
+        "m": "merge_guests",
+        "a": [
+          7,
+          "g",
+          "h"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          8,
+          "g"
+        ],
+        "e": [
+          "booking10(r1)",
+          "booking11(r2)",
+          "booking2(r1)",
+          "booking3(r1)",
+          "booking4(r1)",
+          "booking5(r1)",
+          "booking6(r1)",
+          "booking7(r1)",
+          "booking8(r1)",
+          "booking9(r1)"
+        ]
+      },
+      {
+        "m": "revenue_at",
+        "a": [
+          9,
+          3
+        ],
+        "e": 800
+      }
+    ]
+  }
+]

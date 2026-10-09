@@ -25,6 +25,12 @@ _CLASS = {
     "load_balancer": "Simulation",
     "pubsub": "Simulation",
     "text_editor": "Simulation",
+    "library": "Simulation",
+    "parking_garage": "Simulation",
+    "task_board": "Simulation",
+    "versioned_kv": "Simulation",
+    "order_book": "Simulation",
+    "hotel_booking": "Simulation",
 }
 
 

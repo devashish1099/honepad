@@ -1,0 +1,361 @@
+[
+  {
+    "id": "l3-quota-and-ttl",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "t1",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          2,
+          "t2",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          3,
+          "t3",
+          9
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          4,
+          "u1",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          5,
+          "u1",
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "add_user",
+        "a": [
+          6,
+          "u0",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "assign",
+        "a": [
+          10,
+          "t1",
+          "u1",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          11,
+          "t2",
+          "u1",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          12,
+          "t3",
+          "u1",
+          100
+        ],
+        "e": false
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          13,
+          "u1"
+        ],
+        "e": [
+          "t1(5)",
+          "t2(3)"
+        ]
+      },
+      {
+        "m": "assign",
+        "a": [
+          61,
+          "t3",
+          "u1",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          61,
+          "u1"
+        ],
+        "e": [
+          "t3(9)",
+          "t1(5)"
+        ]
+      },
+      {
+        "m": "assign",
+        "a": [
+          62,
+          "t1",
+          "u2",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "add_user",
+        "a": [
+          63,
+          "u2",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          64,
+          "t1",
+          "u2",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "assign",
+        "a": [
+          110,
+          "t1",
+          "u2",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          111,
+          "u2"
+        ],
+        "e": [
+          "t1(5)"
+        ]
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          111,
+          "u9"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-remove-frees-quota",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "b",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "a",
+          "u",
+          1000
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          3,
+          "b",
+          "u",
+          1000
+        ],
+        "e": false
+      },
+      {
+        "m": "remove_task",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          5,
+          "u"
+        ],
+        "e": []
+      },
+      {
+        "m": "assign",
+        "a": [
+          6,
+          "b",
+          "u",
+          1000
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          7,
+          "zzz",
+          "u",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "assign",
+        "a": [
+          8,
+          "b",
+          "u",
+          0
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-update-shows",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_task",
+        "a": [
+          1,
+          "b",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_user",
+        "a": [
+          1,
+          "u",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "a",
+          "u",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "assign",
+        "a": [
+          2,
+          "b",
+          "u",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "update_task",
+        "a": [
+          3,
+          "a",
+          8
+        ],
+        "e": true
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          4,
+          "u"
+        ],
+        "e": [
+          "a(8)",
+          "b(2)"
+        ]
+      },
+      {
+        "m": "get_user_tasks",
+        "a": [
+          12,
+          "u"
+        ],
+        "e": []
+      }
+    ]
+  }
+]

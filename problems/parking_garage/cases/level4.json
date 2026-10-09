@@ -1,0 +1,376 @@
+[
+  {
+    "id": "l4-reservation-blocks",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s2",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          1,
+          "s1",
+          "vip",
+          100,
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          2,
+          "s1",
+          "x",
+          150,
+          250
+        ],
+        "e": false
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          3,
+          "s1",
+          "x",
+          200,
+          300
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          4,
+          "s9",
+          "x",
+          1,
+          2
+        ],
+        "e": false
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          5,
+          "s2",
+          "y",
+          10,
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "park",
+        "a": [
+          100,
+          "car1",
+          "small"
+        ],
+        "e": "s2"
+      },
+      {
+        "m": "park",
+        "a": [
+          101,
+          "car2",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          102,
+          "vip",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "current_fee",
+        "a": [
+          3702,
+          "vip"
+        ],
+        "e": 1
+      },
+      {
+        "m": "leave",
+        "a": [
+          7303,
+          "vip"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "revenue",
+        "a": [
+          7304,
+          0,
+          7304
+        ],
+        "e": 3
+      }
+    ]
+  },
+  {
+    "id": "l4-outside-window",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s2",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          2,
+          "s1",
+          "vip",
+          100,
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          50,
+          "z",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          100,
+          "vip",
+          "small"
+        ],
+        "e": "s2"
+      },
+      {
+        "m": "current_fee",
+        "a": [
+          3700,
+          "vip"
+        ],
+        "e": 2
+      },
+      {
+        "m": "leave",
+        "a": [
+          150,
+          "z"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "park",
+        "a": [
+          160,
+          "w",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "park",
+        "a": [
+          200,
+          "w",
+          "small"
+        ],
+        "e": "s1"
+      }
+    ]
+  },
+  {
+    "id": "l4-own-spot-wins",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "a1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "z9",
+          "large"
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          2,
+          "z9",
+          "vip",
+          10,
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "park",
+        "a": [
+          10,
+          "vip",
+          "small"
+        ],
+        "e": "z9"
+      },
+      {
+        "m": "leave",
+        "a": [
+          14410,
+          "vip"
+        ],
+        "e": "z9"
+      },
+      {
+        "m": "revenue",
+        "a": [
+          14411,
+          0,
+          14411
+        ],
+        "e": 10
+      }
+    ]
+  },
+  {
+    "id": "l4-cancel",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_spot",
+        "a": [
+          1,
+          "s1",
+          "small"
+        ],
+        "e": true
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          2,
+          "s1",
+          "vip",
+          10,
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "cancel_reservation",
+        "a": [
+          3,
+          "s1",
+          "x",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "cancel_reservation",
+        "a": [
+          4,
+          "s1",
+          "vip",
+          11
+        ],
+        "e": false
+      },
+      {
+        "m": "park",
+        "a": [
+          10,
+          "a",
+          "small"
+        ],
+        "e": null
+      },
+      {
+        "m": "cancel_reservation",
+        "a": [
+          11,
+          "s1",
+          "vip",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "cancel_reservation",
+        "a": [
+          12,
+          "s1",
+          "vip",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "park",
+        "a": [
+          13,
+          "a",
+          "small"
+        ],
+        "e": "s1"
+      },
+      {
+        "m": "reserve_spot",
+        "a": [
+          14,
+          "s1",
+          "x",
+          10,
+          20
+        ],
+        "e": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,368 @@
+[
+  {
+    "id": "l3-waitlist",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "d1",
+          "double",
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g1",
+          "d1",
+          1,
+          5
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          3,
+          "g2",
+          "double",
+          3,
+          6
+        ],
+        "e": 1
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          4,
+          "g3",
+          "double",
+          6,
+          8
+        ],
+        "e": null
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          5,
+          "g4",
+          "double",
+          2,
+          4
+        ],
+        "e": 2
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          6,
+          "g5",
+          "double",
+          4,
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "cancel",
+        "a": [
+          7,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          8,
+          "g2"
+        ],
+        "e": [
+          "booking2(d1)"
+        ]
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          8,
+          "g4"
+        ],
+        "e": []
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          9,
+          "g2"
+        ],
+        "e": 3
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          9,
+          "g4"
+        ],
+        "e": 0
+      },
+      {
+        "m": "add_room",
+        "a": [
+          10,
+          "d2",
+          "double",
+          150
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          11,
+          "g4"
+        ],
+        "e": [
+          "booking3(d2)"
+        ]
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          11,
+          "zz"
+        ],
+        "e": null
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          11,
+          "zz"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-skipped-keeps-place",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g1",
+          "r1",
+          1,
+          10
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g1",
+          "r1",
+          10,
+          20
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          3,
+          "a",
+          "single",
+          5,
+          15
+        ],
+        "e": 1
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          4,
+          "b",
+          "single",
+          12,
+          14
+        ],
+        "e": 2
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          5,
+          "c",
+          "single",
+          2,
+          3
+        ],
+        "e": 3
+      },
+      {
+        "m": "cancel",
+        "a": [
+          6,
+          "booking2"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          7,
+          "b"
+        ],
+        "e": [
+          "booking3(r1)"
+        ]
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          7,
+          "a"
+        ],
+        "e": []
+      },
+      {
+        "m": "cancel",
+        "a": [
+          8,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          9,
+          "c"
+        ],
+        "e": [
+          "booking4(r1)"
+        ]
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          9,
+          "a"
+        ],
+        "e": []
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          10,
+          "d",
+          "single",
+          4,
+          6
+        ],
+        "e": null
+      },
+      {
+        "m": "waitlist",
+        "a": [
+          11,
+          "d",
+          "single",
+          11,
+          13
+        ],
+        "e": 2
+      }
+    ]
+  },
+  {
+    "id": "l3-loyalty",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_room",
+        "a": [
+          1,
+          "r1",
+          "single",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "book",
+        "a": [
+          2,
+          "g",
+          "r1",
+          1,
+          4
+        ],
+        "e": "booking1"
+      },
+      {
+        "m": "book",
+        "a": [
+          3,
+          "g",
+          "r1",
+          10,
+          12
+        ],
+        "e": "booking2"
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          4,
+          "g"
+        ],
+        "e": 5
+      },
+      {
+        "m": "cancel",
+        "a": [
+          5,
+          "booking1"
+        ],
+        "e": true
+      },
+      {
+        "m": "loyalty",
+        "a": [
+          6,
+          "g"
+        ],
+        "e": 2
+      },
+      {
+        "m": "guest_bookings",
+        "a": [
+          7,
+          "g"
+        ],
+        "e": [
+          "booking2(r1)"
+        ]
+      }
+    ]
+  }
+]

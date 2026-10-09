@@ -1,0 +1,268 @@
+[
+  {
+    "id": "l3-ttl-window",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_with_ttl",
+        "a": [
+          10,
+          "a",
+          "1",
+          5
+        ],
+        "e": null
+      },
+      {
+        "m": "get",
+        "a": [
+          14,
+          "a"
+        ],
+        "e": "1"
+      },
+      {
+        "m": "ttl_remaining",
+        "a": [
+          12,
+          "a"
+        ],
+        "e": 3
+      },
+      {
+        "m": "get",
+        "a": [
+          15,
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "ttl_remaining",
+        "a": [
+          15,
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "delete",
+        "a": [
+          16,
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "set",
+        "a": [
+          17,
+          "a",
+          "2"
+        ],
+        "e": null
+      },
+      {
+        "m": "ttl_remaining",
+        "a": [
+          18,
+          "a"
+        ],
+        "e": -1
+      }
+    ]
+  },
+  {
+    "id": "l3-ttl-reads",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_with_ttl",
+        "a": [
+          1,
+          "x:1",
+          "a",
+          10
+        ],
+        "e": null
+      },
+      {
+        "m": "set",
+        "a": [
+          2,
+          "x:2",
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_with_ttl",
+        "a": [
+          3,
+          "x:3",
+          "c",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          4,
+          "x:"
+        ],
+        "e": [
+          "x:1=a",
+          "x:2=b",
+          "x:3=c"
+        ]
+      },
+      {
+        "m": "size",
+        "a": [
+          4
+        ],
+        "e": 3
+      },
+      {
+        "m": "scan_prefix",
+        "a": [
+          5,
+          "x:"
+        ],
+        "e": [
+          "x:1=a",
+          "x:2=b"
+        ]
+      },
+      {
+        "m": "size",
+        "a": [
+          11
+        ],
+        "e": 1
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          11,
+          "x:1",
+          "a",
+          "z"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-cas-keeps-ttl",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_with_ttl",
+        "a": [
+          20,
+          "c",
+          "x",
+          10
+        ],
+        "e": null
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          25,
+          "c",
+          "x",
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          29,
+          "c"
+        ],
+        "e": "y"
+      },
+      {
+        "m": "ttl_remaining",
+        "a": [
+          29,
+          "c"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get",
+        "a": [
+          30,
+          "c"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-set-clears-ttl",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_with_ttl",
+        "a": [
+          1,
+          "k",
+          "v",
+          5
+        ],
+        "e": null
+      },
+      {
+        "m": "set",
+        "a": [
+          2,
+          "k",
+          "w"
+        ],
+        "e": "v"
+      },
+      {
+        "m": "get",
+        "a": [
+          100,
+          "k"
+        ],
+        "e": "w"
+      },
+      {
+        "m": "set_with_ttl",
+        "a": [
+          101,
+          "k",
+          "z",
+          5
+        ],
+        "e": "w"
+      },
+      {
+        "m": "set_with_ttl",
+        "a": [
+          102,
+          "k",
+          "q",
+          50
+        ],
+        "e": "z"
+      },
+      {
+        "m": "ttl_remaining",
+        "a": [
+          103,
+          "k"
+        ],
+        "e": 49
+      }
+    ]
+  }
+]
