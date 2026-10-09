@@ -1,0 +1,1197 @@
+[
+  {
+    "id": "l4-amend-rules",
+    "level": 4,
+    "calls": [
+      {
+        "m": "amend_order",
+        "a": [
+          1,
+          "b1",
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "b1",
+          "buy",
+          50,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "b1",
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "b1",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "b1",
+          -2
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          4,
+          "b1",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          4,
+          "b1"
+        ],
+        "e": "open(2)"
+      },
+      {
+        "m": "depth",
+        "a": [
+          4,
+          "buy",
+          50
+        ],
+        "e": 2
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          5,
+          "b1",
+          9
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          5,
+          "b1"
+        ],
+        "e": "open(9)"
+      },
+      {
+        "m": "top_levels",
+        "a": [
+          5,
+          "buy",
+          1
+        ],
+        "e": [
+          "50(9)"
+        ]
+      },
+      {
+        "m": "place_order",
+        "a": [
+          6,
+          "s1",
+          "sell",
+          50,
+          9
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          7,
+          "b1",
+          4
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          7,
+          "s1",
+          4
+        ],
+        "e": false
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          8,
+          "b1"
+        ],
+        "e": null
+      },
+      {
+        "m": "place_order",
+        "a": [
+          9,
+          "b2",
+          "buy",
+          40,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          10,
+          "b2"
+        ],
+        "e": 1
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          11,
+          "b2",
+          3
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-amend-priority",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "s1",
+          "sell",
+          100,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "s2",
+          "sell",
+          100,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "s3",
+          "sell",
+          100,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          4,
+          "s1",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          5,
+          "b1",
+          "buy",
+          100,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          5,
+          1
+        ],
+        "e": [
+          "b1:s1:100:1"
+        ]
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          6,
+          "s1",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          7,
+          "b2",
+          "buy",
+          100,
+          6
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          8,
+          2
+        ],
+        "e": [
+          "b2:s3:100:1",
+          "b2:s2:100:5"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "s1"
+        ],
+        "e": "open(4)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "s2"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "s3"
+        ],
+        "e": "open(4)"
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          9,
+          "s3",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          10,
+          "b3",
+          "buy",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          10,
+          2
+        ],
+        "e": [
+          "b3:s1:100:1",
+          "b3:s3:100:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          10,
+          "s1"
+        ],
+        "e": "open(3)"
+      }
+    ]
+  },
+  {
+    "id": "l4-amend-ttl",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          1,
+          "s1",
+          "sell",
+          100,
+          2,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "s1",
+          8
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          5,
+          "s1"
+        ],
+        "e": "open(8)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "s1"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          6,
+          "s1",
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          7,
+          "s2",
+          "sell",
+          99,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          7,
+          "s3",
+          "sell",
+          100,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          8,
+          "s2",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          9,
+          "b1",
+          "buy",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          9,
+          2
+        ],
+        "e": [
+          "b1:s2:99:2"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "s3"
+        ],
+        "e": "open(1)"
+      }
+    ]
+  },
+  {
+    "id": "l4-stop-buy",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_stop_order",
+        "a": [
+          1,
+          "st1",
+          "buy",
+          105,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          1,
+          "st1"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "best_price",
+        "a": [
+          1,
+          "buy"
+        ],
+        "e": null
+      },
+      {
+        "m": "depth",
+        "a": [
+          1,
+          "buy",
+          105
+        ],
+        "e": 0
+      },
+      {
+        "m": "top_levels",
+        "a": [
+          1,
+          "buy",
+          2
+        ],
+        "e": []
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "s1",
+          "sell",
+          104,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "s2",
+          "sell",
+          105,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          4,
+          "s3",
+          "sell",
+          106,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          5,
+          "b1",
+          "buy",
+          104,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          5,
+          "st1"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          5,
+          5
+        ],
+        "e": [
+          "b1:s1:104:1"
+        ]
+      },
+      {
+        "m": "place_order",
+        "a": [
+          6,
+          "b2",
+          "buy",
+          105,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "st1"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          6,
+          2
+        ],
+        "e": [
+          "st1:s3:106:3",
+          "b2:s2:105:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "s3"
+        ],
+        "e": "open(2)"
+      }
+    ]
+  },
+  {
+    "id": "l4-stop-sell-cascade",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "b1",
+          "buy",
+          100,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "b2",
+          "buy",
+          98,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "b3",
+          "buy",
+          96,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          4,
+          "b4",
+          "buy",
+          94,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          5,
+          "st1",
+          "sell",
+          97,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          6,
+          "st2",
+          "sell",
+          98,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          7,
+          "st3",
+          "sell",
+          93,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          8,
+          "m1",
+          "sell",
+          2
+        ],
+        "e": 2
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          9,
+          9
+        ],
+        "e": [
+          "b4:st1:94:1",
+          "b3:st2:96:1",
+          "b2:m1:98:1",
+          "b1:m1:100:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "st1"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "st2"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "st3"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "b4"
+        ],
+        "e": "open(3)"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          10,
+          "x",
+          "sell",
+          94,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          10,
+          "st3"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          11,
+          "st3"
+        ],
+        "e": 1
+      },
+      {
+        "m": "place_order",
+        "a": [
+          12,
+          "y",
+          "sell",
+          90,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "st3"
+        ],
+        "e": "cancelled"
+      }
+    ]
+  },
+  {
+    "id": "l4-stop-rules",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_stop_order",
+        "a": [
+          1,
+          "a",
+          "buy",
+          0,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          1,
+          "a",
+          "buy",
+          10,
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          1,
+          "a",
+          "long",
+          10,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          2,
+          "a",
+          "buy",
+          10,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          2,
+          "a",
+          "buy",
+          11,
+          2
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "a",
+          "buy",
+          5,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "a",
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "a",
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": 2
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "order_status",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          5,
+          "s",
+          "sell",
+          10,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          6,
+          "b",
+          "buy",
+          10,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          7,
+          "c",
+          "buy",
+          10,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          7,
+          "c"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          8,
+          "d",
+          "sell",
+          9,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "d"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          9,
+          "e",
+          "sell",
+          10,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          9,
+          "e"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          10,
+          "f",
+          "buy",
+          11,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          10,
+          "f"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          11,
+          "s2",
+          "sell",
+          12,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          12,
+          "b2",
+          "buy",
+          12,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "f"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          12,
+          2
+        ],
+        "e": [
+          "f:s2:12:4",
+          "b2:s2:12:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "s2"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "d"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "place_stop_order",
+        "a": [
+          13,
+          "g",
+          "sell",
+          1,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          13,
+          "g"
+        ],
+        "e": "pending"
+      }
+    ]
+  },
+  {
+    "id": "l4-amend-then-new",
+    "level": 4,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "s1",
+          "sell",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "s2",
+          "sell",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          3,
+          "s1",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          4,
+          "s3",
+          "sell",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "amend_order",
+        "a": [
+          5,
+          "s2",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          6,
+          "b1",
+          "buy",
+          100,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          6,
+          2
+        ],
+        "e": [
+          "b1:s1:100:2",
+          "b1:s2:100:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "s1"
+        ],
+        "e": "open(1)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "s3"
+        ],
+        "e": "open(2)"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          7,
+          "b2",
+          "buy",
+          100,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          7,
+          2
+        ],
+        "e": [
+          "b2:s3:100:1",
+          "b2:s1:100:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          7,
+          "s3"
+        ],
+        "e": "open(1)"
+      }
+    ]
+  }
+]

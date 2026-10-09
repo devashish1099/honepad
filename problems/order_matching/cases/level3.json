@@ -1,0 +1,701 @@
+[
+  {
+    "id": "l3-ttl-window",
+    "level": 3,
+    "calls": [
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          10,
+          "s1",
+          "sell",
+          100,
+          5,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "best_price",
+        "a": [
+          10,
+          "sell"
+        ],
+        "e": 100
+      },
+      {
+        "m": "depth",
+        "a": [
+          14,
+          "sell",
+          100
+        ],
+        "e": 5
+      },
+      {
+        "m": "order_status",
+        "a": [
+          14,
+          "s1"
+        ],
+        "e": "open(5)"
+      },
+      {
+        "m": "top_levels",
+        "a": [
+          14,
+          "sell",
+          2
+        ],
+        "e": [
+          "100(5)"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          15,
+          "s1"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "depth",
+        "a": [
+          15,
+          "sell",
+          100
+        ],
+        "e": 0
+      },
+      {
+        "m": "best_price",
+        "a": [
+          15,
+          "sell"
+        ],
+        "e": null
+      },
+      {
+        "m": "top_levels",
+        "a": [
+          15,
+          "sell",
+          2
+        ],
+        "e": []
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          16,
+          "s1"
+        ],
+        "e": null
+      },
+      {
+        "m": "place_order",
+        "a": [
+          17,
+          "s1",
+          "sell",
+          100,
+          1
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-ttl-rules",
+    "level": 3,
+    "calls": [
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          1,
+          "a",
+          "buy",
+          90,
+          2,
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          1,
+          "a",
+          "buy",
+          90,
+          2,
+          -4
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          2,
+          "a",
+          "buy",
+          0,
+          2,
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          2,
+          "a",
+          "sideways",
+          90,
+          2,
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          2,
+          "a",
+          "buy",
+          90,
+          0,
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          3,
+          "a",
+          "buy",
+          90,
+          2,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          3,
+          "a",
+          "buy",
+          91,
+          2,
+          9
+        ],
+        "e": false
+      },
+      {
+        "m": "order_status",
+        "a": [
+          3,
+          "a"
+        ],
+        "e": "open(2)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          4,
+          "a"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          5,
+          "b",
+          "buy",
+          90,
+          2,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          6,
+          "b"
+        ],
+        "e": 2
+      },
+      {
+        "m": "order_status",
+        "a": [
+          200,
+          "b"
+        ],
+        "e": "cancelled"
+      }
+    ]
+  },
+  {
+    "id": "l3-ttl-matching",
+    "level": 3,
+    "calls": [
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          1,
+          "s1",
+          "sell",
+          100,
+          4,
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "s2",
+          "sell",
+          101,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "b1",
+          "buy",
+          100,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          4,
+          "s1"
+        ],
+        "e": "open(3)"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          11,
+          "b2",
+          "buy",
+          101,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          12,
+          2
+        ],
+        "e": [
+          "b2:s2:101:4",
+          "b1:s1:100:1"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "s1"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "s2"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          12,
+          "b2"
+        ],
+        "e": "open(1)"
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          13,
+          "s3",
+          "sell",
+          101,
+          3,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "order_status",
+        "a": [
+          14,
+          "b2"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          14,
+          "s3"
+        ],
+        "e": "open(2)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          99,
+          "s3"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          99,
+          "b1"
+        ],
+        "e": "filled"
+      }
+    ]
+  },
+  {
+    "id": "l3-market-buy",
+    "level": 3,
+    "calls": [
+      {
+        "m": "place_market_order",
+        "a": [
+          1,
+          "m0",
+          "buy",
+          3
+        ],
+        "e": 0
+      },
+      {
+        "m": "order_status",
+        "a": [
+          1,
+          "m0"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "s1",
+          "sell",
+          105,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "s2",
+          "sell",
+          103,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          4,
+          "s3",
+          "sell",
+          103,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          5,
+          "m1",
+          "buy",
+          4
+        ],
+        "e": 4
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          6,
+          3
+        ],
+        "e": [
+          "m1:s1:105:1",
+          "m1:s3:103:1",
+          "m1:s2:103:2"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "m1"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          6,
+          "s1"
+        ],
+        "e": "open(1)"
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          7,
+          "m2",
+          "buy",
+          9
+        ],
+        "e": 1
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "m2"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "best_price",
+        "a": [
+          8,
+          "buy"
+        ],
+        "e": null
+      },
+      {
+        "m": "depth",
+        "a": [
+          8,
+          "buy",
+          105
+        ],
+        "e": 0
+      },
+      {
+        "m": "top_levels",
+        "a": [
+          8,
+          "buy",
+          3
+        ],
+        "e": []
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          9,
+          "m1",
+          "buy",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          9,
+          "m3",
+          "up",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          9,
+          "m3",
+          "buy",
+          0
+        ],
+        "e": null
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          9,
+          "m3",
+          "buy",
+          -1
+        ],
+        "e": null
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          10,
+          "m2"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-market-sell",
+    "level": 3,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "b1",
+          "buy",
+          95,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "b2",
+          "buy",
+          97,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "b3",
+          "buy",
+          97,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          4,
+          "m1",
+          "sell",
+          7
+        ],
+        "e": 7
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          5,
+          3
+        ],
+        "e": [
+          "b1:m1:95:1",
+          "b3:m1:97:3",
+          "b2:m1:97:3"
+        ]
+      },
+      {
+        "m": "order_status",
+        "a": [
+          5,
+          "b1"
+        ],
+        "e": "open(2)"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          5,
+          "m1"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "place_order_with_ttl",
+        "a": [
+          6,
+          "b4",
+          "buy",
+          99,
+          5,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "place_market_order",
+        "a": [
+          8,
+          "m2",
+          "sell",
+          4
+        ],
+        "e": 2
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "b4"
+        ],
+        "e": "expired"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "m2"
+        ],
+        "e": "cancelled"
+      },
+      {
+        "m": "order_status",
+        "a": [
+          8,
+          "b1"
+        ],
+        "e": "filled"
+      },
+      {
+        "m": "last_trades",
+        "a": [
+          8,
+          1
+        ],
+        "e": [
+          "b1:m2:95:2"
+        ]
+      }
+    ]
+  }
+]

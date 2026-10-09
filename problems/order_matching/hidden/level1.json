@@ -1,0 +1,376 @@
+[
+  {
+    "id": "l1-hidden-mixed",
+    "level": 1,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "o1",
+          "sell",
+          200,
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          1,
+          "o2",
+          "sell",
+          200,
+          6
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          2,
+          "o3",
+          "sell",
+          199,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "o4",
+          "buy",
+          198,
+          9
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          3,
+          "o5",
+          "buy",
+          198,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          4,
+          "o6",
+          "buy",
+          150,
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "best_price",
+        "a": [
+          5,
+          "sell"
+        ],
+        "e": 199
+      },
+      {
+        "m": "best_price",
+        "a": [
+          5,
+          "buy"
+        ],
+        "e": 198
+      },
+      {
+        "m": "depth",
+        "a": [
+          5,
+          "sell",
+          200
+        ],
+        "e": 11
+      },
+      {
+        "m": "depth",
+        "a": [
+          5,
+          "buy",
+          198
+        ],
+        "e": 10
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          6,
+          "o3"
+        ],
+        "e": 1
+      },
+      {
+        "m": "best_price",
+        "a": [
+          7,
+          "sell"
+        ],
+        "e": 200
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          7,
+          "o4"
+        ],
+        "e": 9
+      },
+      {
+        "m": "depth",
+        "a": [
+          8,
+          "buy",
+          198
+        ],
+        "e": 1
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          8,
+          "o5"
+        ],
+        "e": 1
+      },
+      {
+        "m": "best_price",
+        "a": [
+          9,
+          "buy"
+        ],
+        "e": 150
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          9,
+          "o6"
+        ],
+        "e": 2
+      },
+      {
+        "m": "best_price",
+        "a": [
+          10,
+          "buy"
+        ],
+        "e": null
+      },
+      {
+        "m": "place_order",
+        "a": [
+          11,
+          "o3",
+          "sell",
+          199,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          11,
+          "o7",
+          "sell",
+          0,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          12,
+          "o7",
+          "seller",
+          201,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "place_order",
+        "a": [
+          13,
+          "o7",
+          "sell",
+          201,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "depth",
+        "a": [
+          14,
+          "sell",
+          201
+        ],
+        "e": 3
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          15,
+          "o1"
+        ],
+        "e": 5
+      },
+      {
+        "m": "depth",
+        "a": [
+          16,
+          "sell",
+          200
+        ],
+        "e": 6
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          17,
+          "o9"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-hidden-sides",
+    "level": 1,
+    "calls": [
+      {
+        "m": "place_order",
+        "a": [
+          5,
+          "x",
+          "sell",
+          10,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          5,
+          "y",
+          "buy",
+          9,
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "depth",
+        "a": [
+          6,
+          "buy",
+          10
+        ],
+        "e": 0
+      },
+      {
+        "m": "depth",
+        "a": [
+          6,
+          "sell",
+          9
+        ],
+        "e": 0
+      },
+      {
+        "m": "depth",
+        "a": [
+          6,
+          "sell",
+          10
+        ],
+        "e": 1
+      },
+      {
+        "m": "best_price",
+        "a": [
+          7,
+          "sell"
+        ],
+        "e": 10
+      },
+      {
+        "m": "best_price",
+        "a": [
+          7,
+          "buy"
+        ],
+        "e": 9
+      },
+      {
+        "m": "cancel_order",
+        "a": [
+          8,
+          "x"
+        ],
+        "e": 1
+      },
+      {
+        "m": "best_price",
+        "a": [
+          9,
+          "sell"
+        ],
+        "e": null
+      },
+      {
+        "m": "best_price",
+        "a": [
+          9,
+          "buy"
+        ],
+        "e": 9
+      },
+      {
+        "m": "place_order",
+        "a": [
+          10,
+          "z",
+          "sell",
+          12,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "place_order",
+        "a": [
+          10,
+          "w",
+          "sell",
+          11,
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "best_price",
+        "a": [
+          11,
+          "sell"
+        ],
+        "e": 11
+      }
+    ]
+  }
+]

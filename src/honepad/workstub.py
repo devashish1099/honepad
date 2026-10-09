@@ -31,6 +31,7 @@ _CLASS = {
     "versioned_kv": "Simulation",
     "order_book": "Simulation",
     "hotel_booking": "Simulation",
+    "order_matching": "Simulation",
 }
 
 

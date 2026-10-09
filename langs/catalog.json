@@ -15,7 +15,8 @@
     "task_board",
     "versioned_kv",
     "order_book",
-    "hotel_booking"
+    "hotel_booking",
+    "order_matching"
   ],
   "required_ids": [
     "clojure",
