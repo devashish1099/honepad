@@ -1,0 +1,1019 @@
+[
+  {
+    "id": "l2-unread",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "ops"
+        ],
+        "e": null
+      },
+      {
+        "m": "unread",
+        "a": [
+          "zz",
+          "dev"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 3
+      }
+    ]
+  },
+  {
+    "id": "l2-mark-read",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "bob",
+          "ops"
+        ],
+        "e": null
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l2-join-late",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "join",
+        "a": [
+          "dan",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread",
+        "a": [
+          "dan",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "dan",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          9
+        ],
+        "e": [
+          "ann:1",
+          "ann:2",
+          "ann:3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l2-leave",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "leave",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "leave",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "leave",
+        "a": [
+          "bob",
+          "zz"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l2-other-channel-posts",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "x"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "y"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "z"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "w"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l2-most-active",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": []
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "4"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "5"
+        ],
+        "e": "m5"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "6"
+        ],
+        "e": "m6"
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": [
+          "bob(2)",
+          "ann(1)",
+          "cat(1)"
+        ]
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          2
+        ],
+        "e": [
+          "bob(2)",
+          "ann(1)"
+        ]
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          1
+        ],
+        "e": [
+          "bob(2)"
+        ]
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "ops",
+          5
+        ],
+        "e": [
+          "ann(2)"
+        ]
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "zz",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "leave",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          1
+        ],
+        "e": [
+          "bob(2)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l2-most-active-ties",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "zo",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "eve",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "al",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "dan",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bo",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "kim",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "zo",
+          "c",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "eve",
+          "c",
+          "1"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "al",
+          "c",
+          "1"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "post",
+        "a": [
+          "dan",
+          "c",
+          "1"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bo",
+          "c",
+          "1"
+        ],
+        "e": "m5"
+      },
+      {
+        "m": "post",
+        "a": [
+          "kim",
+          "c",
+          "1"
+        ],
+        "e": "m6"
+      },
+      {
+        "m": "post",
+        "a": [
+          "zo",
+          "c",
+          "2"
+        ],
+        "e": "m7"
+      },
+      {
+        "m": "post",
+        "a": [
+          "kim",
+          "c",
+          "2"
+        ],
+        "e": "m8"
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "c",
+          6
+        ],
+        "e": [
+          "kim(2)",
+          "zo(2)",
+          "al(1)",
+          "bo(1)",
+          "dan(1)",
+          "eve(1)"
+        ]
+      },
+      {
+        "m": "post",
+        "a": [
+          "zo",
+          "c",
+          "3"
+        ],
+        "e": "m9"
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "c",
+          3
+        ],
+        "e": [
+          "zo(3)",
+          "kim(2)",
+          "al(1)"
+        ]
+      }
+    ]
+  }
+]

@@ -32,6 +32,13 @@ _CLASS = {
     "order_book": "Simulation",
     "hotel_booking": "Simulation",
     "order_matching": "Simulation",
+    "auction_house": "Simulation",
+    "chat_service": "Simulation",
+    "job_dag": "Simulation",
+    "kv_transactions": "Simulation",
+    "mini_git": "Simulation",
+    "spreadsheet": "Simulation",
+    "tiered_cache": "Simulation",
 }
 
 

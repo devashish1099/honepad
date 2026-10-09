@@ -1,0 +1,606 @@
+[
+  {
+    "id": "l3-edit",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "helo"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m1",
+          "hello"
+        ],
+        "e": true
+      },
+      {
+        "m": "edit",
+        "a": [
+          "bob",
+          "m1",
+          "hijack"
+        ],
+        "e": false
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m1",
+          ""
+        ],
+        "e": false
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m9",
+          "x"
+        ],
+        "e": false
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": [
+          "ann:hello (edited)"
+        ]
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m1",
+          "hello!"
+        ],
+        "e": true
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": [
+          "ann:hello! (edited)"
+        ]
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 1
+      }
+    ]
+  },
+  {
+    "id": "l3-delete",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "bob",
+          "m1"
+        ],
+        "e": false
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "ann",
+          "m1"
+        ],
+        "e": true
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "ann",
+          "m1"
+        ],
+        "e": false
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m1",
+          "x"
+        ],
+        "e": false
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": [
+          "bob:2",
+          "ann:3"
+        ]
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          1
+        ],
+        "e": [
+          "ann:3"
+        ]
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "4"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          9
+        ],
+        "e": [
+          "bob:2",
+          "ann:3",
+          "cat:4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-mentions",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "@bob look"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "hey @bob and @ann"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "@bobby no"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "email bob@x.com"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "@bob self"
+        ],
+        "e": "m5"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "@bob ops"
+        ],
+        "e": "m6"
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "bob"
+        ],
+        "e": [
+          "m1",
+          "m2"
+        ]
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "ann"
+        ],
+        "e": [
+          "m2"
+        ]
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": []
+      },
+      {
+        "m": "edit",
+        "a": [
+          "ann",
+          "m3",
+          "ok @bob"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "bob"
+        ],
+        "e": [
+          "m1",
+          "m2",
+          "m3"
+        ]
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "ann",
+          "m1"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "bob"
+        ],
+        "e": [
+          "m2",
+          "m3"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-mentions-membership",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "@cat ping"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": [
+          "m1"
+        ]
+      },
+      {
+        "m": "leave",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": []
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": [
+          "m1"
+        ]
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "@cat ops"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": [
+          "m1"
+        ]
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": [
+          "m1",
+          "m2"
+        ]
+      }
+    ]
+  }
+]

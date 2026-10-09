@@ -1,0 +1,759 @@
+[
+  {
+    "id": "l3-priority",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "c",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "b",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "zz",
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "c"
+        ]
+      },
+      {
+        "m": "run_until",
+        "a": [
+          3
+        ],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "a",
+          9
+        ],
+        "e": false
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "e",
+          -1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "d",
+          -2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          5
+        ],
+        "e": [
+          "e",
+          "d"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-fail-retry",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          3
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": "failed"
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "failed"
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "run_until",
+        "a": [
+          10
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "b"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-fail-blocks",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "e",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "fail",
+        "a": [
+          "b"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "status",
+        "a": [
+          "d"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "b"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          4
+        ],
+        "e": [
+          "c",
+          "e"
+        ]
+      },
+      {
+        "m": "fail",
+        "a": [
+          "b"
+        ],
+        "e": "failed"
+      },
+      {
+        "m": "status",
+        "a": [
+          "d"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "done"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          20
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "done"
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "e",
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "g",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "g",
+          "d"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "g",
+          "b"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-critical-path",
+    "level": 3,
+    "calls": [
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 0
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 10
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 10
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 10
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 14
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 14
+      }
+    ]
+  },
+  {
+    "id": "l3-priority-only-pending",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "a",
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "c",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          5
+        ],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "c"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "c",
+          0
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-priority-zero-explicit",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "b",
+          0
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "status",
+        "a": [
+          "c"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "e",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "status",
+        "a": [
+          "c"
+        ],
+        "e": "pending"
+      }
+    ]
+  }
+]

@@ -1,0 +1,619 @@
+[
+  {
+    "id": "l3-copy",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B1",
+          10
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=A1+B1"
+        ],
+        "e": 11
+      },
+      {
+        "m": "copy",
+        "a": [
+          "C1",
+          "C2"
+        ],
+        "e": 2
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C2"
+        ],
+        "e": "=A2+B2"
+      },
+      {
+        "m": "copy",
+        "a": [
+          "C1",
+          "D1"
+        ],
+        "e": 21
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "D1"
+        ],
+        "e": "=B1+C1"
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A1",
+          "A5"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A5"
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A5"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "Z9",
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "C1"
+        ],
+        "e": 10
+      }
+    ]
+  },
+  {
+    "id": "l3-copy-bounds",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "B2",
+          "=A1+1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B2",
+          "A2"
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B2",
+          "B1"
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B2",
+          "Z99"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "Z99"
+        ],
+        "e": "=Y98+1"
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B3",
+          "=SUM(A1:B2)"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B3",
+          "Z3"
+        ],
+        "e": 0
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B3",
+          "B98"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B98"
+        ],
+        "e": "=SUM(A96:B97)"
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B3",
+          "B99"
+        ],
+        "e": 0
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B2",
+          "C2"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "C2",
+          "D3"
+        ],
+        "e": 2
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "D3"
+        ],
+        "e": "=C2+1"
+      }
+    ]
+  },
+  {
+    "id": "l3-copy-cycle",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A1+1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A2",
+          "=B2"
+        ],
+        "e": 0
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B1",
+          "B2"
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A2",
+          "A3"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A3"
+        ],
+        "e": "=B3"
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=B1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "copy",
+        "a": [
+          "C1",
+          "A1"
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A1",
+          "B1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B1"
+        ],
+        "e": 1
+      }
+    ]
+  },
+  {
+    "id": "l3-insert-row",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A3",
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A1+A2+A3"
+        ],
+        "e": 6
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B5",
+          "=SUM(A1:A3)"
+        ],
+        "e": 6
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A2"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 2
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B1"
+        ],
+        "e": "=A1+A3+A4"
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B6"
+        ],
+        "e": "=SUM(A1:A4)"
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B6"
+        ],
+        "e": 6
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B5"
+        ],
+        "e": null
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          100
+        ],
+        "e": false
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B2"
+        ],
+        "e": "=A2+A4+A5"
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A1",
+          "A9"
+        ],
+        "e": 6
+      }
+    ]
+  },
+  {
+    "id": "l3-insert-row-limits",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A99",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          99
+        ],
+        "e": false
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A99"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=C99"
+        ],
+        "e": 0
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=C98"
+        ],
+        "e": 0
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          99
+        ],
+        "e": true
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          98
+        ],
+        "e": true
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C98",
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          3
+        ],
+        "e": false
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B1"
+        ],
+        "e": "=C99"
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B1"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l3-copy-edges",
+    "level": 3,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=B1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A1",
+          "Z1"
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A1",
+          "Y1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "Y1"
+        ],
+        "e": "=Z1"
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=A1+1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "copy",
+        "a": [
+          "C1",
+          "C99"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C99"
+        ],
+        "e": "=A99+1"
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A99",
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "C99"
+        ],
+        "e": 5
+      }
+    ]
+  }
+]

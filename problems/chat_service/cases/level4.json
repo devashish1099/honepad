@@ -1,0 +1,569 @@
+[
+  {
+    "id": "l4-threads",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "q?"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m1",
+          "a1"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "cat",
+          "m1",
+          "a2"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "dan",
+          "m1",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m1",
+          ""
+        ],
+        "e": null
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m2",
+          "nested"
+        ],
+        "e": null
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m9",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": [
+          "bob:a1",
+          "cat:a2"
+        ]
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m2"
+        ],
+        "e": null
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m9"
+        ],
+        "e": null
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": [
+          "ann:q?"
+        ]
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l4-thread-edit-delete",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "q"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m1",
+          "r1"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "cat",
+          "m1",
+          "r2"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "edit",
+        "a": [
+          "bob",
+          "m2",
+          "r1b"
+        ],
+        "e": true
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "cat",
+          "m3"
+        ],
+        "e": true
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": [
+          "bob:r1b (edited)"
+        ]
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "ann",
+          "m1"
+        ],
+        "e": true
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": null
+      },
+      {
+        "m": "edit",
+        "a": [
+          "bob",
+          "m2",
+          "x"
+        ],
+        "e": false
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m1",
+          "late"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "next"
+        ],
+        "e": "m4"
+      }
+    ]
+  },
+  {
+    "id": "l4-thread-mentions",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "plan"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m1",
+          "@cat thoughts?"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": [
+          "m2"
+        ]
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "ann",
+          "m1"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "cat"
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l4-unread-total",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "ann"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "ops",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "ann"
+        ],
+        "e": 3
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "bob"
+        ],
+        "e": 1
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "ann"
+        ],
+        "e": 1
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m3",
+          "t"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "ann"
+        ],
+        "e": 1
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "zed"
+        ],
+        "e": 0
+      },
+      {
+        "m": "leave",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "ann"
+        ],
+        "e": 0
+      }
+    ]
+  }
+]

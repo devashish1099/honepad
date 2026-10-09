@@ -1,0 +1,489 @@
+[
+  {
+    "id": "l1-channels",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "zz"
+        ],
+        "e": false
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": []
+      },
+      {
+        "m": "history",
+        "a": [
+          "zz",
+          5
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-post",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "hi"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "hello there"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "dan",
+          "dev",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "zz",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "ops",
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          ""
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "deploy"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          10
+        ],
+        "e": [
+          "ann:hi",
+          "bob:hello there"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "ops",
+          10
+        ],
+        "e": [
+          "ann:deploy"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l1-history-window",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "1"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "2"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "3"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "4"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          2
+        ],
+        "e": [
+          "cat:3",
+          "ann:4"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          4
+        ],
+        "e": [
+          "ann:1",
+          "bob:2",
+          "cat:3",
+          "ann:4"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          1
+        ],
+        "e": [
+          "ann:4"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          -1
+        ],
+        "e": []
+      },
+      {
+        "m": "history",
+        "a": [
+          "ops",
+          3
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l1-ids-shared",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "ops",
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "b"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "zed",
+          "dev",
+          "c"
+        ],
+        "e": null
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "d"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "new"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "zed",
+          "new"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "zed",
+          "new",
+          "e"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "history",
+        "a": [
+          "new",
+          9
+        ],
+        "e": [
+          "zed:e"
+        ]
+      }
+    ]
+  }
+]

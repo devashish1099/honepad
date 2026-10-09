@@ -1,0 +1,571 @@
+[
+  {
+    "id": "l2-formulas",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A3",
+          "=A1+A2"
+        ],
+        "e": 5
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A3"
+        ],
+        "e": "=A1+A2"
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 5
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          10
+        ],
+        "e": 2
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 13
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A3-A1-1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B2",
+          "=7"
+        ],
+        "e": 7
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B3",
+          "=B9+5"
+        ],
+        "e": 5
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A1"
+        ],
+        "e": null
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A3",
+          0
+        ],
+        "e": 13
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B1"
+        ],
+        "e": -11
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A3"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l2-invalid",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "A2+1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "="
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A2+"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=+A2"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=a2"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A0"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A100"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A2*3"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A2 +1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A2B"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=1234567"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=SUM(A2)"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=SUM(B2:A3)"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=SUM(A3:A2)"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=SUM(A2:B3"
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=0+00"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A01"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l2-sum-formula",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B1",
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=SUM(A1:B2)"
+        ],
+        "e": 10
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C2",
+          "=SUM(A1:A2)-SUM(B1:B1)+1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C2"
+        ],
+        "e": "=SUM(A1:A2)-SUM(B1:B1)+1"
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          40
+        ],
+        "e": 4
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "C1"
+        ],
+        "e": 46
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "C1",
+          "C2"
+        ],
+        "e": 47
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "D1",
+          "=SUM(C1:C2)+C1"
+        ],
+        "e": 93
+      }
+    ]
+  },
+  {
+    "id": "l2-cycles",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=A1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=B1+1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=C1+1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=A1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=SUM(A1:B1)"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C1",
+          5
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 7
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=SUM(B1:B1)+1"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "D1",
+          "=SUM(A1:C1)"
+        ],
+        "e": 18
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=D1"
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "D1"
+        ],
+        "e": 18
+      }
+    ]
+  },
+  {
+    "id": "l2-dependents",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=B1+1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A2",
+          "=SUM(A1:A1)"
+        ],
+        "e": 1
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B10",
+          "=C1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B9",
+          "=7"
+        ],
+        "e": 7
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "A1"
+        ],
+        "e": [
+          "A2",
+          "B1",
+          "B10",
+          "C1"
+        ]
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "B1"
+        ],
+        "e": [
+          "B10",
+          "C1"
+        ]
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "B10"
+        ],
+        "e": []
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "Z9"
+        ],
+        "e": []
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B1",
+          3
+        ],
+        "e": 1
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "A1"
+        ],
+        "e": [
+          "A2"
+        ]
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "B1"
+        ],
+        "e": [
+          "B10",
+          "C1"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,329 @@
+[
+  {
+    "id": "l4-hidden",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "f",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "f",
+          "e"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "f",
+          "d"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "abort",
+        "a": [
+          "e"
+        ],
+        "e": [
+          "f"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "f"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          5
+        ],
+        "e": [
+          "c",
+          "b"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "b"
+        ],
+        "e": 5
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "c"
+        ],
+        "e": 3
+      },
+      {
+        "m": "abort",
+        "a": [
+          "d"
+        ],
+        "e": []
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "d"
+        ],
+        "e": null
+      },
+      {
+        "m": "run_until",
+        "a": [
+          7
+        ],
+        "e": []
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "d"
+        ],
+        "e": null
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 8
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "aborted"
+      }
+    ]
+  },
+  {
+    "id": "l4-hidden-2",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "p",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "q",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "r",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "r",
+          "p"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "r",
+          "q"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "p"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "q"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "q"
+        ],
+        "e": 2
+      },
+      {
+        "m": "status",
+        "a": [
+          "p"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          4
+        ],
+        "e": [
+          "p"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "p"
+        ],
+        "e": 3
+      },
+      {
+        "m": "run_until",
+        "a": [
+          6
+        ],
+        "e": [
+          "r"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "r"
+        ],
+        "e": 5
+      },
+      {
+        "m": "abort",
+        "a": [
+          "r"
+        ],
+        "e": null
+      }
+    ]
+  }
+]

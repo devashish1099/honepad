@@ -1,0 +1,154 @@
+[
+  {
+    "id": "l1-hidden",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "a b c"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "ops",
+          "no"
+        ],
+        "e": null
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "ops",
+          "yes"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "z"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": [
+          "cat:a b c",
+          "ann:z"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "ops",
+          3
+        ],
+        "e": [
+          "cat:yes"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "ops",
+          1
+        ],
+        "e": [
+          "cat:yes"
+        ]
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "ops"
+        ],
+        "e": false
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": false
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          1
+        ],
+        "e": [
+          "ann:z"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,738 @@
+[
+  {
+    "id": "l4-abort",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "abort",
+        "a": [
+          "zz"
+        ],
+        "e": null
+      },
+      {
+        "m": "abort",
+        "a": [
+          "b"
+        ],
+        "e": [
+          "d"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "aborted"
+      },
+      {
+        "m": "status",
+        "a": [
+          "d"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "abort",
+        "a": [
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "abort",
+        "a": [
+          "d"
+        ],
+        "e": null
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "c"
+        ]
+      },
+      {
+        "m": "abort",
+        "a": [
+          "a"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l4-abort-running",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "abort",
+        "a": [
+          "a"
+        ],
+        "e": [
+          "c"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "aborted"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "b"
+        ],
+        "e": 2
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "status",
+        "a": [
+          "c"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-finished-at",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          3
+        ],
+        "e": [
+          "a",
+          "c"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "a"
+        ],
+        "e": 2
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "c"
+        ],
+        "e": 3
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "run_until",
+        "a": [
+          9
+        ],
+        "e": [
+          "b",
+          "d"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "b"
+        ],
+        "e": 5
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "d"
+        ],
+        "e": 7
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "m",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          "m"
+        ],
+        "e": true
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "m"
+        ],
+        "e": 9
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "zz"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l4-chain-block",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "e",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "abort",
+        "a": [
+          "b"
+        ],
+        "e": [
+          "c",
+          "d"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "d"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          3
+        ],
+        "e": [
+          "e"
+        ]
+      },
+      {
+        "m": "finished_at",
+        "a": [
+          "e"
+        ],
+        "e": 1
+      },
+      {
+        "m": "abort",
+        "a": [
+          "e"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l4-reverse-chain",
+    "level": 4,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "z",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "y",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "y",
+          "z"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "abort",
+        "a": [
+          "z"
+        ],
+        "e": [
+          "a",
+          "b",
+          "y"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "blocked"
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "w",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "v",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "v",
+          "w"
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "w"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "w"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "w"
+        ],
+        "e": "failed"
+      },
+      {
+        "m": "status",
+        "a": [
+          "v"
+        ],
+        "e": "blocked"
+      }
+    ]
+  }
+]

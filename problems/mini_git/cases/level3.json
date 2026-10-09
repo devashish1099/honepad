@@ -1,0 +1,485 @@
+[
+  {
+    "id": "l3-branch",
+    "level": 3,
+    "calls": [
+      {
+        "m": "current_branch",
+        "a": [],
+        "e": "main"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "base"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "branch",
+        "a": [
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "branch",
+        "a": [
+          "main"
+        ],
+        "e": false
+      },
+      {
+        "m": "current_branch",
+        "a": [],
+        "e": "main"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "current_branch",
+        "a": [],
+        "e": "dev"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "nope"
+        ],
+        "e": false
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "on dev"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "log",
+        "a": [
+          5
+        ],
+        "e": [
+          "c2:on dev",
+          "c1:base"
+        ]
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "main"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": "1"
+      },
+      {
+        "m": "log",
+        "a": [
+          5
+        ],
+        "e": [
+          "c1:base"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-dirty-switch",
+    "level": 3,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "base"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": false
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "b",
+          "x"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "main"
+        ],
+        "e": false
+      },
+      {
+        "m": "remove",
+        "a": [
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "main"
+        ],
+        "e": true
+      },
+      {
+        "m": "current_branch",
+        "a": [],
+        "e": "main"
+      }
+    ]
+  },
+  {
+    "id": "l3-diverge",
+    "level": 3,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "base"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "branch",
+        "a": [
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "x",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "x1"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "y",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "y1"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "write",
+        "a": [
+          "y",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "y2"
+        ],
+        "e": "c4"
+      },
+      {
+        "m": "log",
+        "a": [
+          9
+        ],
+        "e": [
+          "c4:y2",
+          "c3:y1",
+          "c1:base"
+        ]
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "log",
+        "a": [
+          9
+        ],
+        "e": [
+          "c2:x1",
+          "c1:base"
+        ]
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "main"
+        ],
+        "e": true
+      },
+      {
+        "m": "log",
+        "a": [
+          9
+        ],
+        "e": [
+          "c1:base"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-branch-from-branch",
+    "level": 3,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c1"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c2"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "feat"
+        ],
+        "e": true
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "feat"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "log",
+        "a": [
+          9
+        ],
+        "e": [
+          "c2:c2",
+          "c1:c1"
+        ]
+      },
+      {
+        "m": "remove",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c3"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      }
+    ]
+  }
+]

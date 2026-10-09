@@ -1,0 +1,438 @@
+[
+  {
+    "id": "l1-create",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          1,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          0,
+          100
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          10,
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          10,
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          -3,
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          2,
+          "a2",
+          "sam",
+          1,
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "zz"
+        ],
+        "e": null
+      },
+      {
+        "m": "winner",
+        "a": [
+          2,
+          "a1"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-bids",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          50,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          49
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a1",
+          "ann",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "ann:50"
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "bob",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "a1",
+          "bob",
+          51
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          5,
+          "a1",
+          "sam",
+          90
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a1",
+          "ann",
+          51
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          7,
+          "a1",
+          "ann",
+          70
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "ann:70"
+      },
+      {
+        "m": "bid",
+        "a": [
+          8,
+          "zz",
+          "ann",
+          70
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          9,
+          "a1",
+          "ann",
+          75
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "ann:75"
+      }
+    ]
+  },
+  {
+    "id": "l1-winner",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          10,
+          "a1",
+          "ann",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          20,
+          "a1",
+          "bob",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          49,
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "winner",
+        "a": [
+          50,
+          "a1"
+        ],
+        "e": "bob:30"
+      },
+      {
+        "m": "bid",
+        "a": [
+          50,
+          "a1",
+          "cat",
+          99
+        ],
+        "e": false
+      },
+      {
+        "m": "winner",
+        "a": [
+          60,
+          "a2"
+        ],
+        "e": ""
+      },
+      {
+        "m": "winner",
+        "a": [
+          59,
+          "a2"
+        ],
+        "e": null
+      },
+      {
+        "m": "winner",
+        "a": [
+          70,
+          "zz"
+        ],
+        "e": null
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "bob:30"
+      }
+    ]
+  },
+  {
+    "id": "l1-many",
+    "level": 1,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "x",
+          "s1",
+          5,
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "y",
+          "s2",
+          5,
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "x",
+          "s2",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "y",
+          "s1",
+          6
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "y",
+          "u",
+          6
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "y",
+          "u",
+          7
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "x"
+        ],
+        "e": "s2:5"
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "y"
+        ],
+        "e": "u:7"
+      },
+      {
+        "m": "winner",
+        "a": [
+          30,
+          "x"
+        ],
+        "e": "s2:5"
+      },
+      {
+        "m": "winner",
+        "a": [
+          40,
+          "y"
+        ],
+        "e": "u:7"
+      }
+    ]
+  }
+]

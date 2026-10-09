@@ -1,0 +1,313 @@
+[
+  {
+    "id": "l1-values",
+    "level": 1,
+    "calls": [
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          5
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 5
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          -7
+        ],
+        "e": 5
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": -7
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "Z99",
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "Z99"
+        ],
+        "e": 3
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A1"
+        ],
+        "e": true
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A1"
+        ],
+        "e": false
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          0
+        ],
+        "e": null
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A1"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          1
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-sum-range",
+    "level": 1,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B1",
+          10
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          20
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C3",
+          100
+        ],
+        "e": null
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A1",
+          "B2"
+        ],
+        "e": 33
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A1",
+          "A2"
+        ],
+        "e": 3
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A1",
+          "C3"
+        ],
+        "e": 133
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "B2",
+          "B2"
+        ],
+        "e": 20
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "B1",
+          "A2"
+        ],
+        "e": null
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A2",
+          "B1"
+        ],
+        "e": null
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "D1",
+          "E5"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l1-sum-two-digit-rows",
+    "level": 1,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A9",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A10",
+          2
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A11",
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A9",
+          "A10"
+        ],
+        "e": 3
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A10",
+          "A11"
+        ],
+        "e": 6
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "A1",
+          "A99"
+        ],
+        "e": 7
+      }
+    ]
+  },
+  {
+    "id": "l1-overwrite",
+    "level": 1,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "C5",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C5",
+          2
+        ],
+        "e": 1
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C5",
+          3
+        ],
+        "e": 2
+      },
+      {
+        "m": "sum_range",
+        "a": [
+          "C5",
+          "C5"
+        ],
+        "e": 3
+      },
+      {
+        "m": "clear",
+        "a": [
+          "C5"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C5",
+          4
+        ],
+        "e": null
+      }
+    ]
+  }
+]

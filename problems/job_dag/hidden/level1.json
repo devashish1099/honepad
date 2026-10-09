@@ -1,0 +1,156 @@
+[
+  {
+    "id": "l1-hidden",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "x",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "y",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "z",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "w",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "w",
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "w",
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "w",
+          "z"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "x",
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "y",
+          "w"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "z",
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "y"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "x"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "z"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "w"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          "z"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "w"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "w"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      }
+    ]
+  }
+]

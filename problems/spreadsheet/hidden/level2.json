@@ -1,0 +1,152 @@
+[
+  {
+    "id": "l2-hidden",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "A1",
+          "=B1+B2"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=C1-1"
+        ],
+        "e": -1
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "C1",
+          10
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          5
+        ],
+        "e": null
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 14
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=SUM(A1:A1)"
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "C1",
+          "=SUM(B2:B2)"
+        ],
+        "e": 5
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 9
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "B2"
+        ],
+        "e": [
+          "A1",
+          "B1",
+          "C1"
+        ]
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "C1"
+        ],
+        "e": [
+          "A1",
+          "B1"
+        ]
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C1"
+        ],
+        "e": "=SUM(B2:B2)"
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "B2",
+          0
+        ],
+        "e": 5
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": -1
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "D5",
+          "=A1+A1"
+        ],
+        "e": -2
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "D5"
+        ],
+        "e": -2
+      },
+      {
+        "m": "clear",
+        "a": [
+          "C1"
+        ],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "D5"
+        ],
+        "e": -2
+      },
+      {
+        "m": "dependents",
+        "a": [
+          "B2"
+        ],
+        "e": [
+          "A1",
+          "D5"
+        ]
+      }
+    ]
+  }
+]

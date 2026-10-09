@@ -1,0 +1,354 @@
+[
+  {
+    "id": "l2-log",
+    "level": 2,
+    "calls": [
+      {
+        "m": "log",
+        "a": [
+          5
+        ],
+        "e": []
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "one"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "two"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "write",
+        "a": [
+          "b",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "three"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "log",
+        "a": [
+          2
+        ],
+        "e": [
+          "c3:three",
+          "c2:two"
+        ]
+      },
+      {
+        "m": "log",
+        "a": [
+          10
+        ],
+        "e": [
+          "c3:three",
+          "c2:two",
+          "c1:one"
+        ]
+      },
+      {
+        "m": "log",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "log",
+        "a": [
+          -1
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l2-diff",
+    "level": 2,
+    "calls": [
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "write",
+        "a": [
+          "b",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": [
+          "+a",
+          "+b"
+        ]
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "remove",
+        "a": [
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "c",
+          "3"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": [
+          "~a",
+          "-b",
+          "+c"
+        ]
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": [
+          "-b",
+          "+c"
+        ]
+      },
+      {
+        "m": "commit",
+        "a": [
+          "d"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l2-restore",
+    "level": 2,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "remove",
+        "a": [
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "n",
+          "new"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "restore",
+        "a": [
+          "n"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "n"
+        ],
+        "e": null
+      },
+      {
+        "m": "restore",
+        "a": [
+          "zz"
+        ],
+        "e": false
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l2-restore-before-commit",
+    "level": 2,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "restore",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "diff",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "log",
+        "a": [
+          1
+        ],
+        "e": []
+      }
+    ]
+  }
+]

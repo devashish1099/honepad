@@ -1,0 +1,414 @@
+[
+  {
+    "id": "l2-history",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "a1"
+        ],
+        "e": []
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a1",
+          "bob",
+          9
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "bob",
+          15
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "a1",
+          "ann",
+          16
+        ],
+        "e": true
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "a1"
+        ],
+        "e": [
+          "ann:10",
+          "bob:15",
+          "ann:16"
+        ]
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "zz"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l2-retract",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a1",
+          "bob",
+          15
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "ann",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          4,
+          "a1",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "bob:15"
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "a1"
+        ],
+        "e": [
+          "bob:15"
+        ]
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          5,
+          "a1",
+          "ann"
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a1",
+          "cat",
+          15
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          7,
+          "a1",
+          "cat",
+          16
+        ],
+        "e": true
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          8,
+          "a1",
+          "bob"
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "cat:16"
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          9,
+          "zz",
+          "bob"
+        ],
+        "e": false
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          100,
+          "a1",
+          "cat"
+        ],
+        "e": false
+      },
+      {
+        "m": "winner",
+        "a": [
+          100,
+          "a1"
+        ],
+        "e": "cat:16"
+      }
+    ]
+  },
+  {
+    "id": "l2-retract-all",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          12
+        ],
+        "e": true
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          2,
+          "a1",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "a1"
+        ],
+        "e": []
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "bob",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "a1",
+          "ann",
+          11
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          100,
+          "a1"
+        ],
+        "e": "ann:11"
+      }
+    ]
+  },
+  {
+    "id": "l2-active",
+    "level": 2,
+    "calls": [
+      {
+        "m": "active_auctions",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "c",
+          "s",
+          1,
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a",
+          "s",
+          1,
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "b",
+          "s",
+          1,
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "d",
+          "s",
+          1,
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          0
+        ],
+        "e": [
+          "d",
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          9
+        ],
+        "e": [
+          "d",
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          10
+        ],
+        "e": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          29
+        ],
+        "e": [
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          30
+        ],
+        "e": []
+      }
+    ]
+  }
+]

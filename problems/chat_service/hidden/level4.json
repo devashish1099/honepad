@@ -1,0 +1,287 @@
+[
+  {
+    "id": "l4-hidden",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "p"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "q"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "cat",
+          "m1",
+          "@ann r"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "ann",
+          "m1",
+          "s"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "bob",
+          "m2",
+          "t"
+        ],
+        "e": "m5"
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": [
+          "cat:@ann r",
+          "ann:s"
+        ]
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m2"
+        ],
+        "e": [
+          "bob:t"
+        ]
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m3"
+        ],
+        "e": null
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "ann"
+        ],
+        "e": [
+          "m3"
+        ]
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "cat"
+        ],
+        "e": 2
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "bob",
+          "m2"
+        ],
+        "e": true
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m2"
+        ],
+        "e": null
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "cat"
+        ],
+        "e": 1
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": [
+          "ann:p"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l4-hidden-2",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "u",
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "v",
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "u",
+          "x",
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "reply",
+        "a": [
+          "v",
+          "m1",
+          "b"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "v",
+          "x",
+          "c"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "u"
+        ],
+        "e": 1
+      },
+      {
+        "m": "unread_total",
+        "a": [
+          "v"
+        ],
+        "e": 0
+      },
+      {
+        "m": "leave",
+        "a": [
+          "v",
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "reply",
+        "a": [
+          "v",
+          "m1",
+          "d"
+        ],
+        "e": null
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": [
+          "v:b"
+        ]
+      },
+      {
+        "m": "edit",
+        "a": [
+          "v",
+          "m2",
+          "b2"
+        ],
+        "e": true
+      },
+      {
+        "m": "thread",
+        "a": [
+          "m1"
+        ],
+        "e": [
+          "v:b2 (edited)"
+        ]
+      }
+    ]
+  }
+]

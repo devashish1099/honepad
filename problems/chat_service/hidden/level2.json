@@ -1,0 +1,203 @@
+[
+  {
+    "id": "l2-hidden",
+    "level": 2,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "b"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "c"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "unread",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "leave",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "d"
+        ],
+        "e": "m4"
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 0
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "e"
+        ],
+        "e": "m5"
+      },
+      {
+        "m": "unread",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 1
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          2
+        ],
+        "e": [
+          "ann(2)",
+          "bob(2)"
+        ]
+      },
+      {
+        "m": "post",
+        "a": [
+          "ann",
+          "dev",
+          "f"
+        ],
+        "e": "m6"
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          9
+        ],
+        "e": [
+          "ann(3)",
+          "bob(2)",
+          "cat(1)"
+        ]
+      }
+    ]
+  }
+]

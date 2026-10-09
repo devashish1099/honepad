@@ -1,0 +1,365 @@
+[
+  {
+    "id": "l1-files",
+    "level": 1,
+    "calls": [
+      {
+        "m": "read",
+        "a": [
+          "a.txt"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a.txt",
+          "hi"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "read",
+        "a": [
+          "a.txt"
+        ],
+        "e": "hi"
+      },
+      {
+        "m": "write",
+        "a": [
+          "a.txt",
+          "hi"
+        ],
+        "e": "unchanged"
+      },
+      {
+        "m": "write",
+        "a": [
+          "a.txt",
+          "bye"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "read",
+        "a": [
+          "a.txt"
+        ],
+        "e": "bye"
+      },
+      {
+        "m": "write",
+        "a": [
+          "b.txt",
+          ""
+        ],
+        "e": "created"
+      },
+      {
+        "m": "read",
+        "a": [
+          "b.txt"
+        ],
+        "e": ""
+      },
+      {
+        "m": "remove",
+        "a": [
+          "a.txt"
+        ],
+        "e": true
+      },
+      {
+        "m": "remove",
+        "a": [
+          "a.txt"
+        ],
+        "e": false
+      },
+      {
+        "m": "read",
+        "a": [
+          "a.txt"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a.txt",
+          "new"
+        ],
+        "e": "created"
+      }
+    ]
+  },
+  {
+    "id": "l1-commit",
+    "level": 1,
+    "calls": [
+      {
+        "m": "commit",
+        "a": [
+          "empty"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          ""
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [
+          "first"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "again"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": "unchanged"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "same"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "second"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "remove",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [
+          "third"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "write",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "back"
+        ],
+        "e": "c4"
+      }
+    ]
+  },
+  {
+    "id": "l1-commit-removal",
+    "level": 1,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "x",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "write",
+        "a": [
+          "y",
+          "2"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "remove",
+        "a": [
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "y",
+          "2"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "noop"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "z",
+          "3"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "remove",
+        "a": [
+          "z"
+        ],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [
+          "noop2"
+        ],
+        "e": null
+      },
+      {
+        "m": "remove",
+        "a": [
+          "x"
+        ],
+        "e": true
+      },
+      {
+        "m": "remove",
+        "a": [
+          "y"
+        ],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [
+          "all gone"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "still"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l1-modify-back",
+    "level": 1,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "f",
+          "v1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "one"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "write",
+        "a": [
+          "f",
+          "v2"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "write",
+        "a": [
+          "f",
+          "v1"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "x"
+        ],
+        "e": null
+      },
+      {
+        "m": "write",
+        "a": [
+          "g",
+          "v1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "two"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "read",
+        "a": [
+          "g"
+        ],
+        "e": "v1"
+      }
+    ]
+  }
+]

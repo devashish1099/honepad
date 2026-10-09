@@ -16,7 +16,14 @@
     "versioned_kv",
     "order_book",
     "hotel_booking",
-    "order_matching"
+    "order_matching",
+    "auction_house",
+    "chat_service",
+    "job_dag",
+    "kv_transactions",
+    "mini_git",
+    "spreadsheet",
+    "tiered_cache"
   ],
   "required_ids": [
     "clojure",

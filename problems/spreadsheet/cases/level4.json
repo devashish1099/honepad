@@ -1,0 +1,401 @@
+[
+  {
+    "id": "l4-undo",
+    "level": 4,
+    "calls": [
+      {
+        "m": "undo",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          2
+        ],
+        "e": 1
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-redo-cleared",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          2
+        ],
+        "e": 1
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          3
+        ],
+        "e": 1
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 3
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "clear",
+        "a": [
+          "B1"
+        ],
+        "e": false
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 3
+      }
+    ]
+  },
+  {
+    "id": "l4-undo-formula-ops",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A1+1"
+        ],
+        "e": 2
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=A1+"
+        ],
+        "e": null
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B1"
+        ],
+        "e": null
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B1"
+        ],
+        "e": "=A1+1"
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B1",
+          "B2"
+        ],
+        "e": 1
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B3"
+        ],
+        "e": "=A3+1"
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B2"
+        ],
+        "e": "=A2+1"
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "B2"
+        ],
+        "e": null
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A1"
+        ],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B1"
+        ],
+        "e": 2
+      }
+    ]
+  },
+  {
+    "id": "l4-failed-ops-not-undone",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A2",
+          "=A2"
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "A1",
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A99",
+          9
+        ],
+        "e": null
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "clear",
+        "a": [
+          "Q5"
+        ],
+        "e": false
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A99"
+        ],
+        "e": 0
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 1
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A1"
+        ],
+        "e": 0
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": false
+      }
+    ]
+  }
+]

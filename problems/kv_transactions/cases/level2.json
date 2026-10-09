@@ -1,0 +1,525 @@
+[
+  {
+    "id": "l2-rollback",
+    "level": 2,
+    "calls": [
+      {
+        "m": "commit",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": null
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": "1"
+      },
+      {
+        "m": "set",
+        "a": [
+          "b",
+          "3"
+        ],
+        "e": null
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "count",
+        "a": [
+          "3"
+        ],
+        "e": 1
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "1"
+      },
+      {
+        "m": "get",
+        "a": [
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "count",
+        "a": [
+          "3"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l2-commit",
+    "level": 2,
+    "calls": [
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": null
+      },
+      {
+        "m": "delete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "set",
+        "a": [
+          "b",
+          "2"
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "get",
+        "a": [
+          "b"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "delete",
+        "a": [
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "b"
+        ],
+        "e": null
+      },
+      {
+        "m": "delete",
+        "a": [
+          "b"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l2-nested",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "base"
+        ],
+        "e": null
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "t1"
+        ],
+        "e": "base"
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "t2"
+        ],
+        "e": "t1"
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "t2"
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "t1"
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "delete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "base"
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "set",
+        "a": [
+          "z",
+          "1"
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "z"
+        ],
+        "e": "1"
+      }
+    ]
+  },
+  {
+    "id": "l2-nested-delete-then-set",
+    "level": 2,
+    "calls": [
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": null
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "delete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "2"
+        ],
+        "e": null
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 2
+      },
+      {
+        "m": "delete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "count",
+        "a": [
+          "2"
+        ],
+        "e": 0
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "commit",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "count",
+        "a": [
+          "1"
+        ],
+        "e": 0
+      }
+    ]
+  },
+  {
+    "id": "l2-cas",
+    "level": 2,
+    "calls": [
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "1",
+          "2"
+        ],
+        "e": false
+      },
+      {
+        "m": "set",
+        "a": [
+          "a",
+          "1"
+        ],
+        "e": null
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "0",
+          "2"
+        ],
+        "e": false
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "1",
+          "2"
+        ],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "begin",
+        "a": [],
+        "e": 1
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "2",
+          "3"
+        ],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "3"
+      },
+      {
+        "m": "rollback",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get",
+        "a": [
+          "a"
+        ],
+        "e": "2"
+      },
+      {
+        "m": "delete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "2",
+          "9"
+        ],
+        "e": false
+      },
+      {
+        "m": "compare_and_set",
+        "a": [
+          "a",
+          "",
+          "9"
+        ],
+        "e": false
+      }
+    ]
+  }
+]

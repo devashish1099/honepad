@@ -1,0 +1,127 @@
+[
+  {
+    "id": "l1-hidden",
+    "level": 1,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "p",
+          "a"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "write",
+        "a": [
+          "q",
+          "b"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "1"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "write",
+        "a": [
+          "p",
+          "b"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "write",
+        "a": [
+          "q",
+          "a"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "2"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "write",
+        "a": [
+          "p",
+          "a"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "write",
+        "a": [
+          "q",
+          "b"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "3"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "remove",
+        "a": [
+          "p"
+        ],
+        "e": true
+      },
+      {
+        "m": "remove",
+        "a": [
+          "zz"
+        ],
+        "e": false
+      },
+      {
+        "m": "commit",
+        "a": [
+          "4"
+        ],
+        "e": "c4"
+      },
+      {
+        "m": "read",
+        "a": [
+          "p"
+        ],
+        "e": null
+      },
+      {
+        "m": "read",
+        "a": [
+          "q"
+        ],
+        "e": "b"
+      },
+      {
+        "m": "write",
+        "a": [
+          "q",
+          "b"
+        ],
+        "e": "unchanged"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "5"
+        ],
+        "e": null
+      }
+    ]
+  }
+]

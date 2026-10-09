@@ -1,0 +1,794 @@
+[
+  {
+    "id": "l4-budget",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "bob",
+          -1
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a2",
+          "ann",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a2",
+          "ann",
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "a1",
+          "ann",
+          70
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          5,
+          "a2",
+          "bob",
+          1000
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a1",
+          "ann",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          7,
+          "a2",
+          "ann",
+          1001
+        ],
+        "e": false
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          8,
+          "a2",
+          "ann",
+          120
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          9,
+          "a2",
+          "ann",
+          121
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-budget-raise-own",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a1",
+          "ann",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "ann",
+          51
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          4,
+          "a1",
+          "bob",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          5,
+          "a2",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a2",
+          "ann",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          7,
+          "a1",
+          "bob"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          8,
+          "a3",
+          "sam",
+          1,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          9,
+          "a3",
+          "ann",
+          1
+        ],
+        "e": false
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          0
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          10,
+          "a3",
+          "ann",
+          2
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l4-settle",
+    "level": 4,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a3",
+          "kim",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a3",
+          "ann",
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          3,
+          "a3",
+          "kim",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "settle",
+        "a": [
+          49,
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "settle",
+        "a": [
+          50,
+          "a1"
+        ],
+        "e": "ann:30"
+      },
+      {
+        "m": "settle",
+        "a": [
+          51,
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "settle",
+        "a": [
+          50,
+          "a2"
+        ],
+        "e": ""
+      },
+      {
+        "m": "settle",
+        "a": [
+          50,
+          "a3"
+        ],
+        "e": ""
+      },
+      {
+        "m": "settle",
+        "a": [
+          50,
+          "zz"
+        ],
+        "e": null
+      },
+      {
+        "m": "earnings",
+        "a": [
+          "sam"
+        ],
+        "e": 30
+      },
+      {
+        "m": "earnings",
+        "a": [
+          "kim"
+        ],
+        "e": 0
+      },
+      {
+        "m": "earnings",
+        "a": [
+          "ann"
+        ],
+        "e": 0
+      },
+      {
+        "m": "winner",
+        "a": [
+          60,
+          "a1"
+        ],
+        "e": "ann:30"
+      }
+    ]
+  },
+  {
+    "id": "l4-settle-budget",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          2,
+          "a2",
+          "ann",
+          41
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a2",
+          "ann",
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "settle",
+        "a": [
+          50,
+          "a1"
+        ],
+        "e": "ann:60"
+      },
+      {
+        "m": "bid",
+        "a": [
+          51,
+          "a2",
+          "ann",
+          41
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          52,
+          "a2",
+          "ann",
+          40
+        ],
+        "e": false
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          53,
+          "a2",
+          "ann",
+          99
+        ],
+        "e": true
+      },
+      {
+        "m": "earnings",
+        "a": [
+          "sam"
+        ],
+        "e": 60
+      }
+    ]
+  },
+  {
+    "id": "l4-buy-now-budget",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a2",
+          "sam",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          3,
+          "a2",
+          "ann"
+        ],
+        "e": false
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          4,
+          "a1",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          5,
+          "a2",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "settle",
+        "a": [
+          5,
+          "a2"
+        ],
+        "e": "ann:50"
+      },
+      {
+        "m": "earnings",
+        "a": [
+          "sam"
+        ],
+        "e": 50
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a1",
+          "ann",
+          51
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          7,
+          "a1",
+          "ann",
+          50
+        ],
+        "e": true
+      }
+    ]
+  },
+  {
+    "id": "l4-budget-exact",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_budget",
+        "a": [
+          "ann",
+          110
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a3",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a2",
+          "sam",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a3",
+          "sam",
+          51
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          3,
+          "a3",
+          "ann"
+        ],
+        "e": false
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          4,
+          "a2",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          5,
+          "a3",
+          "ann",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "set_budget",
+        "a": [
+          "bob",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a3",
+          "bob",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          7,
+          "a1",
+          "bob",
+          61
+        ],
+        "e": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,147 @@
+[
+  {
+    "id": "l3-hidden",
+    "level": 3,
+    "calls": [
+      {
+        "m": "write",
+        "a": [
+          "f",
+          "0"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c1"
+        ],
+        "e": "c1"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "b1"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "f",
+          "1"
+        ],
+        "e": "modified"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c2"
+        ],
+        "e": "c2"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "b1"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "f"
+        ],
+        "e": "0"
+      },
+      {
+        "m": "branch",
+        "a": [
+          "b2"
+        ],
+        "e": true
+      },
+      {
+        "m": "write",
+        "a": [
+          "g",
+          "1"
+        ],
+        "e": "created"
+      },
+      {
+        "m": "commit",
+        "a": [
+          "c3"
+        ],
+        "e": "c3"
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "b2"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "g"
+        ],
+        "e": null
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "main"
+        ],
+        "e": true
+      },
+      {
+        "m": "read",
+        "a": [
+          "f"
+        ],
+        "e": "1"
+      },
+      {
+        "m": "read",
+        "a": [
+          "g"
+        ],
+        "e": null
+      },
+      {
+        "m": "current_branch",
+        "a": [],
+        "e": "main"
+      },
+      {
+        "m": "log",
+        "a": [
+          1
+        ],
+        "e": [
+          "c2:c2"
+        ]
+      },
+      {
+        "m": "switch_branch",
+        "a": [
+          "b1"
+        ],
+        "e": true
+      },
+      {
+        "m": "log",
+        "a": [
+          9
+        ],
+        "e": [
+          "c3:c3",
+          "c1:c1"
+        ]
+      }
+    ]
+  }
+]

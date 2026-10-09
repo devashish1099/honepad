@@ -1,0 +1,203 @@
+[
+  {
+    "id": "l2-hidden",
+    "level": 2,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "e",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "f",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "f",
+          "e"
+        ],
+        "e": true
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "status",
+        "a": [
+          "e"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          2
+        ],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "status",
+        "a": [
+          "c"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          3
+        ],
+        "e": []
+      },
+      {
+        "m": "run_until",
+        "a": [
+          4
+        ],
+        "e": [
+          "e"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "f"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          5
+        ],
+        "e": [
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "run_until",
+        "a": [
+          6
+        ],
+        "e": [
+          "f"
+        ]
+      },
+      {
+        "m": "run_until",
+        "a": [
+          7
+        ],
+        "e": [
+          "d"
+        ]
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      }
+    ]
+  }
+]

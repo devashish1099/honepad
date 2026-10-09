@@ -1,0 +1,246 @@
+[
+  {
+    "id": "l4-hidden",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          3
+        ],
+        "e": null
+      },
+      {
+        "m": "set_formula",
+        "a": [
+          "A2",
+          "=A1+A1"
+        ],
+        "e": 6
+      },
+      {
+        "m": "insert_row",
+        "a": [
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 6
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A2"
+        ],
+        "e": 6
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A3"
+        ],
+        "e": "=A2+A2"
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          100
+        ],
+        "e": 3
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 200
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "A2"
+        ],
+        "e": "=A1+A1"
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A3"
+        ],
+        "e": 200
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": false
+      },
+      {
+        "m": "clear",
+        "a": [
+          "A2"
+        ],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "A2"
+        ],
+        "e": 6
+      }
+    ]
+  },
+  {
+    "id": "l4-hidden-2",
+    "level": 4,
+    "calls": [
+      {
+        "m": "set_formula",
+        "a": [
+          "B1",
+          "=SUM(A1:A3)"
+        ],
+        "e": 0
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A2",
+          4
+        ],
+        "e": null
+      },
+      {
+        "m": "copy",
+        "a": [
+          "B1",
+          "C1"
+        ],
+        "e": 4
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C1"
+        ],
+        "e": null
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_formula",
+        "a": [
+          "C1"
+        ],
+        "e": "=SUM(B1:B3)"
+      },
+      {
+        "m": "set_value",
+        "a": [
+          "A1",
+          1
+        ],
+        "e": null
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "undo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "B1"
+        ],
+        "e": 4
+      },
+      {
+        "m": "redo",
+        "a": [],
+        "e": true
+      },
+      {
+        "m": "get_value",
+        "a": [
+          "C1"
+        ],
+        "e": 4
+      }
+    ]
+  }
+]

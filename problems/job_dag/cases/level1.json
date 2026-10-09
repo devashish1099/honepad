@@ -1,0 +1,479 @@
+[
+  {
+    "id": "l1-add",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": false
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          -1
+        ],
+        "e": false
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          5
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a",
+          "b"
+        ]
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "zz"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "zz",
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l1-cycles",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "c"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "d"
+        ],
+        "e": false
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l1-complete",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "a"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": false
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "b",
+          "c"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "d"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "d"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "d"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      },
+      {
+        "m": "complete",
+        "a": [
+          "zz"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l1-dep-after-done",
+    "level": 1,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "complete",
+        "a": [
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "a",
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          4
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "c"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "b"
+        ],
+        "e": false
+      },
+      {
+        "m": "complete",
+        "a": [
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": [
+          "b"
+        ]
+      },
+      {
+        "m": "complete",
+        "a": [
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      }
+    ]
+  }
+]

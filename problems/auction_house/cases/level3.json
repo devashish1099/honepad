@@ -1,0 +1,854 @@
+[
+  {
+    "id": "l3-reserve",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          1,
+          "a1",
+          "bob",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          1,
+          "a1",
+          "sam",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          1,
+          "zz",
+          "sam",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          2,
+          "a1",
+          "sam",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "ann",
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          100,
+          "a1"
+        ],
+        "e": ""
+      },
+      {
+        "m": "highest_bid",
+        "a": [
+          "a1"
+        ],
+        "e": "ann:40"
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          100,
+          "a1",
+          "sam",
+          10
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          100,
+          "a2",
+          "sam",
+          10,
+          200
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          101,
+          "a2",
+          "sam",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          102,
+          "a2",
+          "ann",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          200,
+          "a2"
+        ],
+        "e": "ann:30"
+      }
+    ]
+  },
+  {
+    "id": "l3-snipe",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 100
+      },
+      {
+        "m": "bid",
+        "a": [
+          90,
+          "a1",
+          "ann",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 100
+      },
+      {
+        "m": "bid",
+        "a": [
+          95,
+          "a1",
+          "bob",
+          11
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 100
+      },
+      {
+        "m": "bid",
+        "a": [
+          96,
+          "a1",
+          "ann",
+          12
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 101
+      },
+      {
+        "m": "bid",
+        "a": [
+          100,
+          "a1",
+          "bob",
+          13
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 105
+      },
+      {
+        "m": "winner",
+        "a": [
+          100,
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "winner",
+        "a": [
+          101,
+          "a1"
+        ],
+        "e": null
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "zz"
+        ],
+        "e": null
+      }
+    ]
+  },
+  {
+    "id": "l3-snipe-failed-bid",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          18,
+          "a1",
+          "ann",
+          5
+        ],
+        "e": false
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 20
+      },
+      {
+        "m": "bid",
+        "a": [
+          18,
+          "a1",
+          "sam",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 20
+      },
+      {
+        "m": "bid",
+        "a": [
+          19,
+          "a1",
+          "ann",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 24
+      },
+      {
+        "m": "retract_bid",
+        "a": [
+          23,
+          "a1",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 24
+      },
+      {
+        "m": "winner",
+        "a": [
+          24,
+          "a1"
+        ],
+        "e": ""
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          23
+        ],
+        "e": [
+          "a1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "l3-reserve-raise",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          2,
+          "a1",
+          "sam",
+          80
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          50,
+          "a1"
+        ],
+        "e": ""
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          2,
+          "a2",
+          "sam",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a2",
+          "ann",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          50,
+          "a2"
+        ],
+        "e": "ann:20"
+      }
+    ]
+  },
+  {
+    "id": "l3-snipe-boundary",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          95,
+          "a1",
+          "ann",
+          10
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 100
+      },
+      {
+        "m": "bid",
+        "a": [
+          96,
+          "a1",
+          "bob",
+          11
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 101
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          97,
+          "a1",
+          "sam",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          101,
+          "a1"
+        ],
+        "e": "bob:11"
+      }
+    ]
+  },
+  {
+    "id": "l3-buy-now",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          1,
+          "a1",
+          "ann"
+        ],
+        "e": false
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          1,
+          "a1",
+          "bob",
+          50
+        ],
+        "e": false
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          1,
+          "a1",
+          "sam",
+          0
+        ],
+        "e": false
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a1",
+          "sam",
+          50
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "ann",
+          20
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          4,
+          "a1",
+          "sam"
+        ],
+        "e": false
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          5,
+          "a1",
+          "bob"
+        ],
+        "e": true
+      },
+      {
+        "m": "ends_at",
+        "a": [
+          "a1"
+        ],
+        "e": 5
+      },
+      {
+        "m": "winner",
+        "a": [
+          5,
+          "a1"
+        ],
+        "e": "bob:50"
+      },
+      {
+        "m": "bid_history",
+        "a": [
+          "a1"
+        ],
+        "e": [
+          "ann:20",
+          "bob:50"
+        ]
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          6,
+          "a1",
+          "cat"
+        ],
+        "e": false
+      },
+      {
+        "m": "bid",
+        "a": [
+          6,
+          "a1",
+          "cat",
+          60
+        ],
+        "e": false
+      },
+      {
+        "m": "active_auctions",
+        "a": [
+          5
+        ],
+        "e": []
+      }
+    ]
+  },
+  {
+    "id": "l3-buy-now-limits",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          1,
+          "a1",
+          "ann",
+          40
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a1",
+          "sam",
+          40
+        ],
+        "e": false
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a1",
+          "sam",
+          41
+        ],
+        "e": true
+      },
+      {
+        "m": "bid",
+        "a": [
+          3,
+          "a1",
+          "bob",
+          41
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          4,
+          "a1",
+          "cat"
+        ],
+        "e": false
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a2",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          1,
+          "a2",
+          "sam",
+          70
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          2,
+          "a2",
+          "sam",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          3,
+          "a2",
+          "ann"
+        ],
+        "e": false
+      },
+      {
+        "m": "set_reserve",
+        "a": [
+          4,
+          "a2",
+          "sam",
+          60
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          5,
+          "a2",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          5,
+          "a2"
+        ],
+        "e": "ann:60"
+      },
+      {
+        "m": "create_auction",
+        "a": [
+          6,
+          "a3",
+          "sam",
+          10,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          7,
+          "a3",
+          "sam",
+          30
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          100,
+          "a3",
+          "ann"
+        ],
+        "e": false
+      }
+    ]
+  },
+  {
+    "id": "l3-buy-now-one",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_auction",
+        "a": [
+          0,
+          "a1",
+          "sam",
+          1,
+          100
+        ],
+        "e": true
+      },
+      {
+        "m": "set_buy_now",
+        "a": [
+          1,
+          "a1",
+          "sam",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "buy_now",
+        "a": [
+          2,
+          "a1",
+          "ann"
+        ],
+        "e": true
+      },
+      {
+        "m": "winner",
+        "a": [
+          2,
+          "a1"
+        ],
+        "e": "ann:1"
+      }
+    ]
+  }
+]

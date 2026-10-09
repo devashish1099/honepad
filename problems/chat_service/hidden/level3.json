@@ -1,0 +1,197 @@
+[
+  {
+    "id": "l3-hidden",
+    "level": 3,
+    "calls": [
+      {
+        "m": "create_channel",
+        "a": [
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "create_channel",
+        "a": [
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "bob",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "cat",
+          "dev"
+        ],
+        "e": true
+      },
+      {
+        "m": "join",
+        "a": [
+          "ann",
+          "ops"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "a"
+        ],
+        "e": "m1"
+      },
+      {
+        "m": "post",
+        "a": [
+          "cat",
+          "dev",
+          "@ann b"
+        ],
+        "e": "m2"
+      },
+      {
+        "m": "edit",
+        "a": [
+          "cat",
+          "m2",
+          "@ann  b2"
+        ],
+        "e": true
+      },
+      {
+        "m": "post",
+        "a": [
+          "bob",
+          "dev",
+          "@ann"
+        ],
+        "e": "m3"
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "bob",
+          "m1"
+        ],
+        "e": true
+      },
+      {
+        "m": "unread",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "ann"
+        ],
+        "e": [
+          "m2",
+          "m3"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          2
+        ],
+        "e": [
+          "cat:@ann  b2 (edited)",
+          "bob:@ann"
+        ]
+      },
+      {
+        "m": "edit",
+        "a": [
+          "bob",
+          "m1",
+          "back"
+        ],
+        "e": false
+      },
+      {
+        "m": "mark_read",
+        "a": [
+          "ann",
+          "dev"
+        ],
+        "e": 2
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "cat",
+          "m2"
+        ],
+        "e": true
+      },
+      {
+        "m": "mentions",
+        "a": [
+          "ann"
+        ],
+        "e": [
+          "m3"
+        ]
+      },
+      {
+        "m": "history",
+        "a": [
+          "dev",
+          5
+        ],
+        "e": [
+          "bob:@ann"
+        ]
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": [
+          "bob(1)"
+        ]
+      },
+      {
+        "m": "delete_message",
+        "a": [
+          "bob",
+          "m3"
+        ],
+        "e": true
+      },
+      {
+        "m": "most_active",
+        "a": [
+          "dev",
+          3
+        ],
+        "e": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,207 @@
+[
+  {
+    "id": "l3-hidden",
+    "level": 3,
+    "calls": [
+      {
+        "m": "add_job",
+        "a": [
+          "a",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "b",
+          3
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "c",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "d",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "b",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "c",
+          "a"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "b"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_dependency",
+        "a": [
+          "d",
+          "c"
+        ],
+        "e": true
+      },
+      {
+        "m": "add_job",
+        "a": [
+          "x",
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "set_priority",
+        "a": [
+          "x",
+          1
+        ],
+        "e": true
+      },
+      {
+        "m": "set_workers",
+        "a": [
+          2
+        ],
+        "e": true
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "x"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "fail",
+        "a": [
+          "x"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          0
+        ],
+        "e": []
+      },
+      {
+        "m": "status",
+        "a": [
+          "x"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          1
+        ],
+        "e": []
+      },
+      {
+        "m": "fail",
+        "a": [
+          "x"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": "retry"
+      },
+      {
+        "m": "run_until",
+        "a": [
+          4
+        ],
+        "e": [
+          "a",
+          "x",
+          "c"
+        ]
+      },
+      {
+        "m": "status",
+        "a": [
+          "a"
+        ],
+        "e": "done"
+      },
+      {
+        "m": "fail",
+        "a": [
+          "a"
+        ],
+        "e": null
+      },
+      {
+        "m": "status",
+        "a": [
+          "b"
+        ],
+        "e": "running"
+      },
+      {
+        "m": "status",
+        "a": [
+          "d"
+        ],
+        "e": "pending"
+      },
+      {
+        "m": "critical_path",
+        "a": [],
+        "e": 7
+      },
+      {
+        "m": "ready_jobs",
+        "a": [],
+        "e": []
+      }
+    ]
+  }
+]
