@@ -92,13 +92,22 @@ def _session() -> dict[str, Any] | None:
         return None
 
 
+def _tier(score: int | None) -> str:
+    """Label for the difficulty score bench/difficulty.py writes to the catalog."""
+    if score is None:
+        return ""
+    return "Easy" if score < 25 else "Medium" if score < 60 else "Hard"
+
+
 def state() -> dict[str, Any]:
     session = _session()
     if session is not None and session.get("cleared") and not is_ended(session):
         # Cleared before clearing stopped the clock: stop it now.
         end_attempt(session)
     desks = (session or {}).get("desks") or {}
-    originals = set(load_catalog().get("original_problems", []))
+    catalog = load_catalog()
+    originals = set(catalog.get("original_problems", []))
+    scores = catalog.get("difficulty") or {}
     rows = []
     for pid in problems():
         desk = desks.get(pid) or {}
@@ -111,6 +120,8 @@ def state() -> dict[str, Any]:
                 "cleared": bool(desk.get("cleared")),
                 "ended": desk.get("ended_at") is not None,
                 "original": pid in originals,
+                "difficulty": scores.get(pid),
+                "tier": _tier(scores.get(pid)),
             }
         )
     active = None

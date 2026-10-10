@@ -653,5 +653,31 @@
       "ci": true,
       "adapter": "bash"
     }
-  ]
+  ],
+  "difficulty": {
+    "bank_system": 50,
+    "in_memory_database": 50,
+    "file_storage": 62,
+    "workers": 41,
+    "inventory": 9,
+    "rate_limiter": 3,
+    "gpu_scheduler": 13,
+    "load_balancer": 17,
+    "pubsub": 6,
+    "text_editor": 17,
+    "library": 45,
+    "parking_garage": 50,
+    "task_board": 24,
+    "versioned_kv": 38,
+    "order_book": 86,
+    "hotel_booking": 77,
+    "order_matching": 97,
+    "auction_house": 71,
+    "chat_service": 77,
+    "job_dag": 80,
+    "kv_transactions": 57,
+    "mini_git": 63,
+    "spreadsheet": 89,
+    "tiered_cache": 69
+  }
 }

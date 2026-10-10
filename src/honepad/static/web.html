@@ -282,16 +282,19 @@ async function refreshState() {
   const s = st.session;
   left = s ? s.left : 0;
   const pSel = $("problem");
-  const firstOpen = st.problems.find((p) => p.original && !p.cleared) || st.problems[0];
+  // Easiest first inside each group; problems without a score go last.
+  const byDifficulty = st.problems.slice().sort((a, b) => (a.difficulty ?? 999) - (b.difficulty ?? 999));
+  const firstOpen = byDifficulty.find((p) => p.original && !p.cleared) || byDifficulty[0];
   const keep = pSel.value || (s && s.problem) || firstOpen.id;
   const opt = (p) => {
     const mark = p.cleared ? " ✓" : p.unlocked ? ` (L${p.unlocked}/${p.levels})` : "";
-    return `<option value="${p.id}">${p.original ? "★ " : ""}${p.id}${mark}</option>`;
+    const tier = p.tier ? ` · ${p.tier}` : "";
+    return `<option value="${p.id}" title="difficulty ${p.difficulty ?? "?"}/100">${p.original ? "★ " : ""}${p.id}${tier}${mark}</option>`;
   };
   pSel.innerHTML =
-    `<optgroup label="Originals: finish these first (${st.originals_done}/${st.originals_total} done)">` +
-    st.problems.filter((p) => p.original).map(opt).join("") + "</optgroup>" +
-    `<optgroup label="More practice">` + st.problems.filter((p) => !p.original).map(opt).join("") + "</optgroup>";
+    `<optgroup label="Originals: finish these first, easiest first (${st.originals_done}/${st.originals_total} done)">` +
+    byDifficulty.filter((p) => p.original).map(opt).join("") + "</optgroup>" +
+    `<optgroup label="More practice (easiest first)">` + byDifficulty.filter((p) => !p.original).map(opt).join("") + "</optgroup>";
   pSel.value = st.problems.some((p) => p.id === keep) ? keep : firstOpen.id;
   const lSel = $("lang"), lkeep = lSel.value || (s && s.lang) || "java";
   lSel.innerHTML = st.langs.map((l) => `<option value="${l}">${l}</option>`).join("");

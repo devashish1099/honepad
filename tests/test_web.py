@@ -236,3 +236,11 @@ def test_final_submit_opens_every_level_and_the_solution(web) -> None:
     text = json.loads(_call(web, "POST", "/api/review", {})[1])["markdown"]
     assert "final submit" in text
     assert "hidden cases withheld" not in text
+
+
+def test_state_scores_every_problem_for_the_difficulty_order(web) -> None:
+    rows = json.loads(_call(web, "GET", "/api/state")[1])["problems"]
+    assert all(isinstance(row["difficulty"], int) for row in rows)
+    assert {row["tier"] for row in rows} == {"Easy", "Medium", "Hard"}
+    tiers = {row["id"]: row["tier"] for row in rows}
+    assert tiers["rate_limiter"] == "Easy" and tiers["order_matching"] == "Hard"
