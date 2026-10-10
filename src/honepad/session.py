@@ -91,7 +91,11 @@ def extra_work_note(problem: str, lang_id: str) -> str | None:
 
 
 def mark_cleared(session: dict[str, Any]) -> dict[str, Any]:
+    """Every level passed. That ends the attempt too, so the clock stops here."""
     session["cleared"] = True
+    if session.get("ended_at") is None:
+        paused = session.pop("paused_at", None)
+        session["ended_at"] = int(paused) if paused is not None else int(time.time())
     save_session(session)
     return session
 
@@ -749,6 +753,11 @@ def lock_to_level(session: dict[str, Any], level: int) -> dict[str, Any]:
         raise ValueError(f"level {level} > max {top}")
     session["unlocked"] = level
     session["cleared"] = False
+    ended = session.pop("ended_at", None)
+    if ended is not None:
+        # Back to work: the clock picks up where it stopped, like a resume.
+        gap = max(0, int(time.time()) - int(ended))
+        session["started_at"] = int(session["started_at"]) + gap
     save_session(session)
     return session
 

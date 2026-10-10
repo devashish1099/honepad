@@ -513,6 +513,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             and kind == "work"
             and getattr(args, "unlock", False)
             and is_ended(session)
+            and not session.get("cleared")
         ):
             print(status_note(_ENDED_NOTE))
             print(f"NEXT: {invocation()} start {args.problem} {lang} --reset")

@@ -55,9 +55,9 @@
   #spec pre code { background: none; padding: 0; }
   #spec ul { padding-left: 20px; }
   .right { display: grid; grid-template-rows: auto 1fr minmax(120px, 34%); min-height: 0; }
-  .toolbar { display: flex; gap: 8px; align-items: center; padding: 6px 10px;
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 6px 10px;
     border-bottom: 1px solid var(--line); background: var(--panel); }
-  .path { color: var(--muted); font: 12px var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .path { min-width: 0; max-width: 100%; color: var(--muted); font: 12px var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .dirty { color: var(--warn); font-size: 12px; }
   #editorWrap { position: relative; min-height: 0; }
   .CodeMirror, #fallback { position: absolute; inset: 0; height: 100%; font: 13px/1.5 var(--mono); }
@@ -308,7 +308,11 @@ async function refreshState() {
   setReadOnly(paused || !s);
   $("codeTabs").hidden = !over;
   if (!over) showCode("code");
-  if (lastOver !== undefined && over !== lastOver && s) { solLoaded = false; loadSpec(specLevel); renderTests(); }
+  if (lastOver !== undefined && over !== lastOver && s) {
+    solLoaded = false; loadSpec(specLevel); renderTests();
+    if (over) $("out").insertAdjacentHTML("beforeend", '\n\n<span class="pass">Attempt finished.</span> ' +
+      "Open Solution ★ in the toolbar to compare, Tests → All levels for the hidden cases, and Review for feedback.");
+  }
   lastOver = over;
   refreshButtons();
   drawClock();
@@ -545,6 +549,7 @@ async function act(kind, body, label) {
   show(label + " ...");
   try {
     const before = st && st.session ? st.session.unlocked : 0;
+    const wasCleared = !!(st && st.session && st.session.cleared);
     const res = await api("POST", "/api/" + kind, body || {});
     show(res.error ? "FAIL: " + res.error : res.output);
     const graded = kind === "run" || kind === "submit" || kind === "finish";
@@ -562,7 +567,7 @@ async function act(kind, body, label) {
       else if (kind === "finish" || !res.ok || !res.report) showTab("out");
     }
     if (kind === "finish") flash("Attempt finished. Every level, the hidden tests and the solution are open");
-    else if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓ Press Review for feedback");
+    else if (graded && !wasCleared && st.session && st.session.cleared) flash("Problem cleared ✓ Solution ★ is in the toolbar");
   } catch (e) {
     show("FAIL: " + e);
   } finally {

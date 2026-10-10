@@ -101,3 +101,26 @@ def test_cli_finish_without_session_fails(monkeypatch, tmp_path: Path, capsys) -
     monkeypatch.setenv("HONEPAD_SESSION", str(tmp_path / "missing.json"))
     assert main(["finish"]) == 1
     assert "FAIL: no session" in capsys.readouterr().out
+
+
+def test_clearing_every_level_stops_the_clock(monkeypatch, tmp_path: Path) -> None:
+    from honepad.session import lock_to_level, mark_cleared
+
+    monkeypatch.setenv("HONEPAD_SESSION", str(tmp_path / "session.json"))
+    session = {"problem": "bank_system", "lang": "python3", "started_at": int(time.time())}
+    session.update(minutes=90, unlocked=4)
+    mark_cleared(session)
+    assert is_ended(session) and attempt_over(session)
+    # Stepping back a level reopens the attempt.
+    lock_to_level(session, 3)
+    assert not is_ended(session) and not attempt_over(session)
+
+
+def test_web_state_stops_the_clock_of_an_already_cleared_attempt(monkeypatch, tmp_path) -> None:
+    from honepad.web import state
+
+    path = tmp_path / "session.json"
+    monkeypatch.setenv("HONEPAD_SESSION", str(path))
+    _write_session(path, unlocked=4, cleared=True)
+    assert state()["session"]["over"] is True
+    assert is_ended(load_session(path))

@@ -31,6 +31,7 @@ from honepad.session import (
     _replace_text,
     attempt_over,
     clock_left,
+    end_attempt,
     is_ended,
     is_paused,
     load_session,
@@ -93,6 +94,9 @@ def _session() -> dict[str, Any] | None:
 
 def state() -> dict[str, Any]:
     session = _session()
+    if session is not None and session.get("cleared") and not is_ended(session):
+        # Cleared before clearing stopped the clock: stop it now.
+        end_attempt(session)
     desks = (session or {}).get("desks") or {}
     originals = set(load_catalog().get("original_problems", []))
     rows = []
