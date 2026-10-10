@@ -37,7 +37,7 @@ honepad = "honepad.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-honepad = ["py.typed", "_data/**"]
+honepad = ["py.typed", "_data/**", "static/*"]
 
 [tool.ruff]
 line-length = 100

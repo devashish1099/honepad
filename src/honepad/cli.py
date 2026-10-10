@@ -953,6 +953,16 @@ def cmd_resume(_args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_web(args: argparse.Namespace) -> int:
+    from honepad.web import serve
+
+    try:
+        return serve(port=args.port, open_browser=not args.no_open)
+    except OSError as exc:
+        print_fail(exc)
+        return 1
+
+
 def cmd_cases(args: argparse.Namespace) -> int:
     try:
         _require_problem(args.problem)
@@ -1072,6 +1082,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     resume = sub.add_parser("resume", help="restart a paused session clock")
     resume.set_defaults(func=cmd_resume)
+
+    web = sub.add_parser("web", help="practise in the browser: spec, editor, run, submit, pause")
+    web.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free)")
+    web.add_argument("--no-open", action="store_true", help="print the link without opening it")
+    web.set_defaults(func=cmd_web)
 
     debrief = sub.add_parser(
         "debrief",

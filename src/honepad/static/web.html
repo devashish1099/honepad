@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>honepad</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --line: #dfe3e8; --text: #1d2330; --muted: #677085;
+    --accent: #2563eb; --accent-text: #ffffff; --ok: #15803d; --bad: #b91c1c; --warn: #b45309;
+    --code-bg: #f0f2f5; --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141a; --panel: #1a1d25; --line: #2b303b; --text: #e6e8ee; --muted: #9aa3b5;
+      --accent: #4f8cff; --accent-text: #0b0d12; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+      --code-bg: #232733;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+    padding: 8px 14px; background: var(--panel); border-bottom: 1px solid var(--line);
+  }
+  .brand { font-weight: 700; letter-spacing: .3px; margin-right: 6px; }
+  select, button {
+    font: inherit; color: var(--text); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px;
+  }
+  button { cursor: pointer; }
+  button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .spacer { flex: 1; }
+  .level { font-weight: 600; }
+  .dots span { display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--line); margin-right: 3px; }
+  .dots span.on { background: var(--accent); }
+  .clock { font: 700 20px var(--mono); min-width: 96px; text-align: right; }
+  .clock.low { color: var(--warn); } .clock.out { color: var(--bad); }
+  .clock.paused { color: var(--muted); }
+  main { flex: 1; display: grid; grid-template-columns: minmax(280px, 38%) 1fr; min-height: 0; }
+  #spec { overflow: auto; padding: 14px 18px; border-right: 1px solid var(--line); background: var(--panel); }
+  #spec h1 { font-size: 20px; margin: 0 0 8px; } #spec h2 { font-size: 16px; margin: 18px 0 6px; }
+  #spec code { font-family: var(--mono); background: var(--code-bg); padding: 1px 4px; border-radius: 4px; }
+  #spec pre { background: var(--code-bg); padding: 10px; border-radius: 6px; overflow: auto; }
+  #spec pre code { background: none; padding: 0; }
+  #spec ul { padding-left: 20px; }
+  .right { display: grid; grid-template-rows: auto 1fr minmax(120px, 34%); min-height: 0; }
+  .toolbar { display: flex; gap: 8px; align-items: center; padding: 6px 10px;
+    border-bottom: 1px solid var(--line); background: var(--panel); }
+  .path { color: var(--muted); font: 12px var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dirty { color: var(--warn); font-size: 12px; }
+  #editorWrap { position: relative; min-height: 0; }
+  .CodeMirror, #fallback { position: absolute; inset: 0; height: 100%; font: 13px/1.5 var(--mono); }
+  #fallback { width: 100%; border: 0; padding: 8px; resize: none; background: var(--panel); color: var(--text); }
+  #out { margin: 0; padding: 10px 12px; overflow: auto; font: 12.5px/1.45 var(--mono);
+    background: var(--code-bg); border-top: 1px solid var(--line); white-space: pre-wrap; }
+  #out .pass { color: var(--ok); font-weight: 700; } #out .fail { color: var(--bad); font-weight: 700; }
+  #banner { display: none; position: fixed; left: 50%; top: 64px; transform: translateX(-50%);
+    background: var(--ok); color: #fff; padding: 8px 16px; border-radius: 8px; font-weight: 600; z-index: 20; }
+  #pausedVeil { display: none; position: absolute; inset: 0; z-index: 10; background: rgba(0,0,0,.55);
+    color: #fff; font: 700 28px system-ui; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
+  #pausedVeil small { font: 400 14px system-ui; opacity: .85; }
+  .empty { color: var(--muted); padding: 30px; }
+  @media (max-width: 760px) { main { grid-template-columns: 1fr; } #spec { max-height: 40vh; } }
+</style>
+</head>
+<body>
+<header>
+  <span class="brand">honepad</span>
+  <select id="problem" title="Problem"></select>
+  <select id="lang" title="Language"></select>
+  <button id="startBtn" class="primary">Start</button>
+  <button id="resetBtn" title="Start this problem over at level 1">Restart</button>
+  <span class="spacer"></span>
+  <span class="level" id="level"></span>
+  <span class="dots" id="dots"></span>
+  <span class="clock" id="clock">--:--</span>
+  <button id="pauseBtn" disabled>Pause</button>
+</header>
+<div id="banner"></div>
+<main>
+  <section id="spec"><div class="empty">Pick a problem and press Start.</div></section>
+  <section class="right">
+    <div class="toolbar">
+      <button id="runBtn" disabled>Run <small>(Ctrl+Enter)</small></button>
+      <button id="submitBtn" class="primary" disabled>Submit</button>
+      <button id="saveBtn" disabled>Save <small>(Ctrl+S)</small></button>
+      <span class="dirty" id="dirty"></span>
+      <span class="spacer"></span>
+      <span class="path" id="path"></span>
+    </div>
+    <div id="editorWrap">
+      <textarea id="fallback" spellcheck="false" placeholder="Start a problem to load your work file."></textarea>
+      <div id="pausedVeil">PAUSED<small>Run and submit wait until you resume.</small></div>
+    </div>
+    <pre id="out">Run output shows here.</pre>
+  </section>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script>
+"use strict";
+const TOKEN = "__HONEPAD_TOKEN__";
+const $ = (id) => document.getElementById(id);
+let st = null, left = 0, savedText = "", busy = false, cm = null;
+
+async function api(method, path, body) {
+  const res = await fetch(path, {
+    method, headers: { "X-Honepad-Token": TOKEN, "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  return res.json();
+}
+
+// ---- editor: CodeMirror when the CDN loaded, a textarea otherwise
+const ta = $("fallback");
+if (window.CodeMirror) {
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  cm = CodeMirror.fromTextArea(ta, {
+    mode: "text/x-java", lineNumbers: true, indentUnit: 4, tabSize: 4, indentWithTabs: false,
+    matchBrackets: true, autoCloseBrackets: true, theme: dark ? "material-darker" : "default",
+    extraKeys: { Tab: (c) => c.replaceSelection("    ") },
+  });
+  cm.on("change", markDirty);
+} else {
+  ta.addEventListener("input", markDirty);
+  ta.addEventListener("keydown", (e) => {
+    if (e.key === "Tab") { e.preventDefault(); document.execCommand("insertText", false, "    "); }
+  });
+}
+const getCode = () => (cm ? cm.getValue() : ta.value);
+function setCode(text, lang) {
+  if (cm) { cm.setOption("mode", lang === "python3" ? "python" : "text/x-java"); cm.setValue(text); cm.clearHistory(); }
+  else ta.value = text;
+  savedText = text; markDirty();
+}
+function setReadOnly(on) { if (cm) cm.setOption("readOnly", on); else ta.readOnly = on; }
+function markDirty() { $("dirty").textContent = getCode() !== savedText ? "unsaved" : ""; }
+
+// ---- spec markdown: headings, lists, fenced code, inline code, bold
+function esc(s) { return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function inline(s) {
+  return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+}
+function md(src) {
+  const out = []; let para = [], list = null, code = null;
+  const flushPara = () => { if (para.length) { out.push("<p>" + inline(para.join(" ")) + "</p>"); para = []; } };
+  const flushList = () => { if (list) { out.push("<ul>" + list.map((i) => "<li>" + inline(i) + "</li>").join("") + "</ul>"); list = null; } };
+  for (const line of src.split("\n")) {
+    if (code !== null) {
+      if (line.startsWith("```")) { out.push("<pre><code>" + esc(code.join("\n")) + "</code></pre>"); code = null; }
+      else code.push(line);
+      continue;
+    }
+    if (line.startsWith("```")) { flushPara(); flushList(); code = []; continue; }
+    const h = line.match(/^(#{1,3})\s+(.*)$/);
+    if (h) { flushPara(); flushList(); out.push(`<h${h[1].length}>${inline(h[2])}</h${h[1].length}>`); continue; }
+    const li = line.match(/^\s*[-*]\s+(.*)$/);
+    if (li) { flushPara(); (list ||= []).push(li[1]); continue; }
+    if (list && /^\s+\S/.test(line)) { list[list.length - 1] += " " + line.trim(); continue; }
+    if (!line.trim()) { flushPara(); flushList(); continue; }
+    flushList(); para.push(line.trim());
+  }
+  flushPara(); flushList();
+  return out.join("\n");
+}
+
+// ---- clock
+function fmt(s) {
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  const mm = String(m).padStart(2, "0"), ss = String(x).padStart(2, "0");
+  return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
+}
+function drawClock() {
+  const c = $("clock");
+  if (!st || !st.session) { c.textContent = "--:--"; c.className = "clock"; return; }
+  const s = st.session;
+  c.textContent = (s.paused ? "PAUSED " : "") + fmt(left);
+  c.className = "clock" + (s.paused ? " paused" : left === 0 ? " out" : left < 600 ? " low" : "");
+}
+setInterval(() => {
+  if (st && st.session && !st.session.paused && left > 0) { left -= 1; drawClock(); }
+}, 1000);
+setInterval(() => { if (!busy) refreshState(); }, 15000);
+
+// ---- state
+async function refreshState() {
+  st = await api("GET", "/api/state");
+  const s = st.session;
+  left = s ? s.left : 0;
+  const pSel = $("problem");
+  const keep = pSel.value || (s && s.problem);
+  pSel.innerHTML = st.problems.map((p) => {
+    const mark = p.cleared ? " ✓" : p.unlocked ? ` (L${p.unlocked}/${p.levels})` : "";
+    return `<option value="${p.id}">${p.id}${mark}</option>`;
+  }).join("");
+  pSel.value = keep && st.problems.some((p) => p.id === keep) ? keep : st.problems[0].id;
+  const lSel = $("lang"), lkeep = lSel.value || (s && s.lang) || "java";
+  lSel.innerHTML = st.langs.map((l) => `<option value="${l}">${l}</option>`).join("");
+  lSel.value = st.langs.includes(lkeep) ? lkeep : st.langs[0];
+  $("level").textContent = s ? `${s.problem} · LEVEL ${s.unlocked}/${s.levels}` : "no session";
+  $("dots").innerHTML = s ? Array.from({ length: s.levels }, (_, i) => `<span class="${i < s.unlocked ? "on" : ""}"></span>`).join("") : "";
+  const paused = !!(s && s.paused);
+  $("pauseBtn").disabled = !s || (!paused && left === 0);
+  $("pauseBtn").textContent = paused ? "Resume" : "Pause";
+  for (const id of ["runBtn", "submitBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
+  $("pausedVeil").style.display = paused ? "flex" : "none";
+  setReadOnly(paused || !s);
+  drawClock();
+  return st;
+}
+
+async function loadDesk() {
+  const spec = await api("GET", "/api/spec");
+  $("spec").innerHTML = spec.markdown ? md(spec.markdown) : `<div class="empty">${esc(spec.error || "")}</div>`;
+  const work = await api("GET", "/api/work");
+  if (work.code !== undefined) { setCode(work.code, st.session && st.session.lang); $("path").textContent = work.path; }
+  else { setCode("", null); $("path").textContent = work.error || ""; }
+  $("spec").scrollTop = 0;
+}
+
+function show(text) {
+  const html = esc(text || "")
+    .replace(/^(PASS\b.*|OK\b.*|UNLOCK.*|DONE:.*)$/gm, '<span class="pass">$1</span>')
+    .replace(/^(FAIL\b.*|PAUSED:.*|TIME UP.*|LOCKED.*)$/gm, '<span class="fail">$1</span>');
+  $("out").innerHTML = html || "(no output)";
+  $("out").scrollTop = 0;
+}
+function flash(msg) {
+  const b = $("banner"); b.textContent = msg; b.style.display = "block";
+  setTimeout(() => (b.style.display = "none"), 2600);
+}
+
+async function act(kind, body, label) {
+  if (busy) return;
+  busy = true; refreshButtons();
+  show(label + " ...");
+  try {
+    const before = st && st.session ? st.session.unlocked : 0;
+    const res = await api("POST", "/api/" + kind, body || {});
+    show(res.error ? "FAIL: " + res.error : res.output);
+    if (kind === "run" || kind === "submit") { if (!res.error) { savedText = body.code; markDirty(); } }
+    await refreshState();
+    const now = st.session ? st.session.unlocked : 0;
+    if (kind === "start") await loadDesk();
+    if (kind === "submit" && now > before) { flash(`Level ${now} unlocked`); await loadDesk(); }
+    if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓");
+  } catch (e) {
+    show("FAIL: " + e);
+  } finally {
+    busy = false; refreshButtons();
+  }
+}
+function refreshButtons() {
+  const s = st && st.session, paused = !!(s && s.paused);
+  for (const id of ["runBtn", "submitBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
+  $("startBtn").disabled = busy; $("resetBtn").disabled = busy;
+}
+
+async function save() {
+  const code = getCode();
+  const res = await api("PUT", "/api/work", { code });
+  if (res.error) show("FAIL: " + res.error); else { savedText = code; markDirty(); }
+}
+
+$("startBtn").onclick = () => {
+  const problem = $("problem").value, lang = $("lang").value;
+  const s = st && st.session;
+  if (s && getCode() !== savedText && !confirm("Discard unsaved changes?")) return;
+  act("start", { problem, lang }, `Starting ${problem} (${lang})`);
+};
+$("resetBtn").onclick = () => {
+  const problem = $("problem").value, lang = $("lang").value;
+  if (!confirm(`Restart ${problem} at level 1? Your work file for it is rewritten from the stub.`)) return;
+  act("start", { problem, lang, reset: true }, `Restarting ${problem}`);
+};
+$("runBtn").onclick = () => act("run", { code: getCode() }, "Running public tests");
+$("submitBtn").onclick = () => {
+  if (!confirm("Submit? If public and hidden tests pass, the next level unlocks.")) return;
+  act("submit", { code: getCode() }, "Submitting");
+};
+$("saveBtn").onclick = save;
+$("pauseBtn").onclick = () => {
+  const paused = st && st.session && st.session.paused;
+  if (!paused && getCode() !== savedText) save();
+  act(paused ? "resume" : "pause", {}, paused ? "Resuming" : "Pausing");
+};
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === "s") { e.preventDefault(); if (!$("saveBtn").disabled) save(); }
+  if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); if (!$("runBtn").disabled) $("runBtn").click(); }
+});
+window.addEventListener("beforeunload", (e) => { if (getCode() !== savedText) { e.preventDefault(); e.returnValue = ""; } });
+
+refreshState().then((s) => { if (s.session) loadDesk(); });
+</script>
+</body>
+</html>
