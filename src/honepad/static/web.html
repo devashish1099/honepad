@@ -98,6 +98,24 @@
   #pausedVeil { display: none; position: absolute; inset: 0; z-index: 10; background: rgba(0,0,0,.55);
     color: #fff; font: 700 28px system-ui; align-items: center; justify-content: center; flex-direction: column; gap: 10px; }
   #pausedVeil small { font: 400 14px system-ui; opacity: .85; }
+  .spectabs { position: sticky; top: -14px; z-index: 2; display: flex; gap: 4px; align-items: center;
+    margin: -14px -18px 10px; padding: 8px 18px; background: var(--panel); border-bottom: 1px solid var(--line); }
+  .spectabs button { padding: 2px 10px; font-size: 13px; }
+  .spectabs button.on { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  .spectabs button.cur::after { content: " •"; }
+  #finishBtn { border-color: var(--bad); color: var(--bad); font-weight: 600; }
+  .seg { display: inline-flex; }
+  .seg button { border-radius: 0; padding: 4px 10px; }
+  .seg button:first-child { border-radius: 6px 0 0 6px; } .seg button:last-child { border-radius: 0 6px 6px 0; }
+  .seg button.on { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  #solWrap { position: absolute; inset: 0; z-index: 5; background: var(--panel); }
+  #solWrap .CodeMirror { position: absolute; inset: 0; }
+  #solNote { position: absolute; right: 14px; top: 6px; z-index: 6; font-size: 12px; color: var(--muted); }
+  .badge.hid { background: rgba(180,83,9,.18); color: var(--warn); }
+  .notice { padding: 6px 10px; border-radius: 6px; background: rgba(185,28,28,.12); margin-bottom: 6px; }
+  .notice.done { background: rgba(21,128,61,.12); }
+  #solTa { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 8px; resize: none;
+    font: 13px/1.5 var(--mono); background: var(--panel); color: var(--text); }
   .empty { color: var(--muted); padding: 30px; }
   @media (max-width: 760px) { main { grid-template-columns: 1fr; } #spec { max-height: 40vh; } }
 </style>
@@ -117,13 +135,15 @@
 </header>
 <div id="banner"></div>
 <main>
-  <section id="spec"><div class="empty">Pick a problem and press Start.</div></section>
+  <section id="spec"><div class="spectabs" id="specTabs" hidden></div><div id="specBody"><div class="empty">Pick a problem and press Start.</div></div></section>
   <section class="right">
     <div class="toolbar">
       <button id="runBtn" disabled>Run <small>(Ctrl+Enter)</small></button>
       <button id="submitBtn" class="primary" disabled>Submit</button>
+      <button id="finishBtn" disabled title="Grade once more and end the attempt. Then every level, the hidden tests and the solution open.">Final Submit</button>
       <button id="saveBtn" disabled>Save <small>(Ctrl+S)</small></button>
       <button id="reviewBtn" disabled title="Build a review pack for Claude or ChatGPT">Review</button>
+      <span class="seg" id="codeTabs" hidden><button id="tabCode" class="on">Your code</button><button id="tabSol">Solution</button></span>
       <span class="dirty" id="dirty"></span>
       <span class="spacer"></span>
       <span class="path" id="path"></span>
@@ -131,6 +151,7 @@
     <div id="editorWrap">
       <textarea id="fallback" spellcheck="false" placeholder="Start a problem to load your work file."></textarea>
       <div id="pausedVeil">PAUSED<small>Run and submit wait until you resume.</small></div>
+      <div id="solWrap" hidden><span id="solNote">reference solution · read only</span><textarea id="solTa" readonly spellcheck="false"></textarea></div>
     </div>
     <div class="bottom">
       <div class="tabs">
@@ -240,15 +261,17 @@ function drawClock() {
   const c = $("clock");
   if (!st || !st.session) { c.textContent = "--:--"; c.className = "clock"; return; }
   const s = st.session;
-  c.textContent = (s.paused ? "PAUSED " : "") + fmt(left);
-  c.className = "clock" + (s.paused ? " paused" : left === 0 ? " out" : left < 600 ? " low" : "");
+  c.textContent = (s.ended ? "FINISHED " : s.paused ? "PAUSED " : "") + fmt(left);
+  c.className = "clock" + (s.paused || s.ended ? " paused" : left === 0 ? " out" : left < 600 ? " low" : "");
 }
 setInterval(() => {
-  if (st && st.session && !st.session.paused && left > 0) {
+  if (st && st.session && !st.session.paused && !st.session.ended && left > 0) {
     left -= 1; drawClock();
-    if (left === 0) { refreshButtons(); flash("Time is up. Press Review for feedback"); }
+    if (left === 0) { refreshState(); flash("Time is up. Every level and the solution are open now"); }
   }
 }, 1000);
+// Finished: final submit, every level cleared, or the clock ran out.
+const isOver = () => !!(st && st.session && (st.session.over || left === 0));
 setInterval(() => { if (!busy) refreshState(); }, 15000);
 
 // ---- state
@@ -271,20 +294,75 @@ async function refreshState() {
   const lSel = $("lang"), lkeep = lSel.value || (s && s.lang) || "java";
   lSel.innerHTML = st.langs.map((l) => `<option value="${l}">${l}</option>`).join("");
   lSel.value = st.langs.includes(lkeep) ? lkeep : st.langs[0];
-  $("level").textContent = s ? `${s.problem} · LEVEL ${s.unlocked}/${s.levels}` : "no session";
+  const over = isOver();
+  $("level").textContent = !s ? "no session"
+    : over ? `${s.problem} · FINISHED · ${s.cleared ? "all levels cleared" : `reached L${s.unlocked}/${s.levels}`}`
+    : `${s.problem} · LEVEL ${s.unlocked}/${s.levels}`;
   $("dots").innerHTML = s ? Array.from({ length: s.levels }, (_, i) => `<span class="${i < s.unlocked ? "on" : ""}"></span>`).join("") : "";
   const paused = !!(s && s.paused);
-  $("pauseBtn").disabled = !s || (!paused && left === 0);
+  $("pauseBtn").disabled = !s || (!paused && over);
   $("pauseBtn").textContent = paused ? "Resume" : "Pause";
   $("pausedVeil").style.display = paused ? "flex" : "none";
   setReadOnly(paused || !s);
+  $("codeTabs").hidden = !over;
+  if (!over) showCode("code");
+  if (lastOver !== undefined && over !== lastOver && s) { loadSpec(specLevel); renderTests(); }
+  lastOver = over;
   refreshButtons();
   drawClock();
   return st;
 }
 
+// ---- spec: one tab per level; later levels open once the attempt is over
+let specLevel = 0, lastOver;
+async function loadSpec(level) {
+  const spec = await api("GET", "/api/spec" + (level ? "?level=" + level : ""));
+  if (spec.error && level) return loadSpec(0);
+  $("specBody").innerHTML = spec.markdown ? md(spec.markdown) : `<div class="empty">${esc(spec.error || "")}</div>`;
+  const tabs = $("specTabs");
+  tabs.hidden = !spec.levels;
+  if (spec.levels) {
+    specLevel = spec.level === spec.unlocked ? 0 : spec.level;
+    tabs.innerHTML = '<span class="muted">Spec</span>' + Array.from({ length: spec.levels }, (_, i) => {
+      const n = i + 1, locked = n > spec.visible;
+      const cls = [n === spec.level ? "on" : "", n === spec.unlocked ? "cur" : ""].join(" ").trim();
+      const title = locked ? "Locked until you reach it or finish the attempt" : n === spec.unlocked ? "Your current level" : "";
+      return `<button data-level="${n}" class="${cls}"${locked ? " disabled" : ""} title="${title}">L${n}${locked ? " 🔒" : ""}</button>`;
+    }).join("");
+    tabs.querySelectorAll("button").forEach((b) => (b.onclick = () => { loadSpec(+b.dataset.level); $("spec").scrollTop = 0; }));
+  }
+}
+
+// ---- solution view (read only, after the attempt)
+let solCm = null, solLoaded = false;
+async function showCode(which) {
+  const sol = which === "sol";
+  $("tabCode").classList.toggle("on", !sol);
+  $("tabSol").classList.toggle("on", sol);
+  $("solWrap").hidden = !sol;
+  if (!sol) { if (cm) cm.refresh(); return; }
+  if (!solLoaded) {
+    solLoaded = true;
+    const res = await api("GET", "/api/solution");
+    const text = res.code !== undefined ? res.code
+      : res.missing ? "No reference solution for this language." : "Unavailable: " + (res.error || "unknown error");
+    if (window.CodeMirror) {
+      if (!solCm) solCm = CodeMirror.fromTextArea($("solTa"), {
+        readOnly: true, lineNumbers: true, theme: cm ? cm.getOption("theme") : "default",
+      });
+      solCm.setOption("mode", res.code === undefined ? null : st.session.lang === "python3" ? "python" : "text/x-java");
+      solCm.setValue(text);
+    } else $("solTa").value = text;
+  }
+  if (solCm) solCm.refresh();
+}
+$("tabCode").onclick = () => showCode("code");
+$("tabSol").onclick = () => showCode("sol");
+
 // ---- tests panel
-let testsData = null, onlyFailing = false;
+let testsData = null, onlyFailing = false, testsStale = false;
+// "All levels" view, after the attempt: every public and hidden case.
+let testsScope = "level", allData = null, allReport = null, allError = "", levelFilter = 0;
 function showTab(name) {
   $("tabOut").classList.toggle("on", name === "out");
   $("tabTests").classList.toggle("on", name === "tests");
@@ -296,24 +374,65 @@ $("tabTests").onclick = () => showTab("tests");
 
 async function loadCases() {
   testsData = await api("GET", "/api/cases");
+  if (testsScope === "all" && isOver()) allData = await api("GET", "/api/cases?scope=all");
   renderTests();
+}
+async function setScope(scope) {
+  testsScope = scope;
+  if (scope === "all" && !allData) allData = await api("GET", "/api/cases?scope=all");
+  renderTests();
+}
+async function runAll() {
+  if (busy) return;
+  if (getCode() !== savedText) await save();
+  busy = true; refreshButtons(); show("Running every public and hidden case for every level ...");
+  try {
+    const res = await api("POST", "/api/check-all", {});
+    if (res.error) { allReport = null; allError = res.error; show("FAIL: " + res.error); showTab("out"); }
+    else {
+      allReport = res.report; allError = "";
+      show(`${res.ok ? "PASS" : "FAIL"}: ${res.report.passed}/${res.report.total} cases pass across every level (public + hidden)`);
+    }
+  } finally {
+    busy = false; refreshButtons(); renderTests();
+  }
 }
 const jv = (v) => JSON.stringify(v);
 function gotText(actual) {
   return typeof actual === "string" && actual.startsWith("exc:") ? "threw " + actual.slice(4) : "returned " + jv(actual);
 }
 function renderTests() {
-  const box = $("tests"), d = testsData;
-  if (!d || d.error) { box.innerHTML = `<div class="muted">${esc((d && d.error) || "No session.")}</div>`; return; }
-  const rep = d.report && d.report.level === d.level ? d.report : null;
+  const box = $("tests"), over = isOver(), all = over && testsScope === "all";
+  const d = all ? allData : testsData;
+  const scopeBar = over
+    ? `<span class="seg"><button data-scope="level"${all ? "" : ' class="on"'}>Unlocked level</button>` +
+      `<button data-scope="all"${all ? ' class="on"' : ""}>All levels</button></span>`
+    : "";
+  const wire = () => box.querySelectorAll("[data-scope]").forEach((b) => (b.onclick = () => setScope(b.dataset.scope)));
+  if (!d || d.error) {
+    box.innerHTML = `<div class="tsum">${scopeBar}</div><div class="muted">${esc((d && d.error) || "No session.")}</div>`;
+    wire(); return;
+  }
+  const rep = all ? allReport : d.report && d.report.level === d.level && !testsStale ? d.report : null;
   const fails = new Map(rep ? rep.failed.map((f) => [f.case, f]) : []);
-  $("testsDot").style.display = fails.size ? "inline-block" : "none";
+  if (!all) $("testsDot").style.display = fails.size || testsStale ? "inline-block" : "none";
   let cases = d.cases.slice();
+  if (all && levelFilter) cases = cases.filter((c) => c.level === levelFilter);
+  const shown = cases.length;
   if (rep) cases.sort((a, b) => (fails.has(b.id) ? 1 : 0) - (fails.has(a.id) ? 1 : 0));
   if (onlyFailing && rep) cases = cases.filter((c) => fails.has(c.id));
+  const where = all ? (levelFilter ? `level ${levelFilter}` : `all ${d.level} levels`) : `level ${d.level}`;
   const head = rep
-    ? `<strong class="${fails.size ? "bad" : "ok"}">${rep.passed}/${rep.total} passing</strong> · level ${d.level}`
-    : `<strong>${d.cases.length} cases</strong> · level ${d.level} · <span class="muted">press Run to check them</span>`;
+    ? `<strong class="${fails.size ? "bad" : "ok"}">${rep.passed}/${rep.total} passing</strong> · ${where}`
+    : `<strong>${shown} cases</strong> · ${where} · <span class="muted">press ${all ? "Run all levels" : "Run"} to check them</span>`;
+  const extra = all
+    ? `<select id="lvlFilter"><option value="0">All levels</option>` +
+      Array.from({ length: d.level }, (_, i) => `<option value="${i + 1}"${levelFilter === i + 1 ? " selected" : ""}>Level ${i + 1}</option>`).join("") +
+      `</select><button id="runAllBtn"${busy ? " disabled" : ""}>Run all levels</button>`
+    : "";
+  let notice = "";
+  if (!all && testsStale) notice = '<div class="notice">The last run produced no test results: your code did not compile or crashed. See the <a href="#" id="toOut">Output</a> tab.</div>';
+  if (all && allError) notice = `<div class="notice">${esc(allError)}</div>`;
   const rows = cases.map((c) => {
     const f = fails.get(c.id);
     const badge = !rep ? '<span class="badge na">not run</span>'
@@ -324,14 +443,23 @@ function renderTests() {
       if (f && i > f.index) return `<div class="skip">${line}</div>`;
       return `<div>${line}</div>`;
     }).join("");
-    const where = f ? ` <span class="muted">call ${f.index + 1}: ${esc(f.method)}</span>` : "";
-    return `<details class="case"${f ? " open" : ""}><summary>${badge}<code>${esc(c.id)}</code><span class="muted">L${c.level}</span>${where}</summary><div class="calls">${calls}</div></details>`;
+    const at = f ? ` <span class="muted">call ${f.index + 1}: ${esc(f.method)}</span>` : "";
+    const hid = c.hidden ? '<span class="badge hid">hidden</span>' : "";
+    return `<details class="case"${f ? " open" : ""}><summary>${badge}<code>${esc(c.id)}</code><span class="muted">L${c.level}</span>${hid}${at}</summary><div class="calls">${calls}</div></details>`;
   }).join("");
   const debug = rep && rep.debug && rep.debug.trim() ? `<p class="muted">Debug output</p><pre>${esc(rep.debug)}</pre>` : "";
-  box.innerHTML = `<div class="tsum">${head}<span class="spacer"></span>` +
+  const foot = all ? "Public and hidden cases for every level, run against your current code."
+    : "Public cases only. Hidden cases run on Submit." + (over ? " Switch to All levels to see them." : "");
+  box.innerHTML = `<div class="tsum">${scopeBar}${head}<span class="spacer"></span>${extra}` +
     `<label><input type="checkbox" id="onlyFail"${onlyFailing ? " checked" : ""}> Show only failing</label></div>` +
-    rows + debug + `<p class="muted">Public cases only. Hidden cases run on Submit.</p>`;
+    notice + rows + debug + `<p class="muted">${foot}</p>`;
+  wire();
   $("onlyFail").onchange = (e) => { onlyFailing = e.target.checked; renderTests(); };
+  if ($("toOut")) $("toOut").onclick = (e) => { e.preventDefault(); showTab("out"); };
+  if (all) {
+    $("lvlFilter").onchange = (e) => { levelFilter = +e.target.value; renderTests(); };
+    $("runAllBtn").onclick = runAll;
+  }
 }
 
 // ---- review
@@ -339,7 +467,7 @@ let reviewMd = "";
 async function openReview() {
   const s = st && st.session;
   if (!s) return;
-  const finished = s.cleared || left === 0;
+  const finished = isOver();
   if (!finished && !confirm("Mid-test review: hidden tests are withheld until you finish. Continue?")) return;
   if (getCode() !== savedText && !s.paused) await save();
   busy = true; refreshButtons(); show("Building review (runs your code against the tests) ...");
@@ -382,13 +510,18 @@ $("claudeBtn").onclick = async () => {
 };
 
 async function loadDesk() {
-  const spec = await api("GET", "/api/spec");
-  $("spec").innerHTML = spec.markdown ? md(spec.markdown) : `<div class="empty">${esc(spec.error || "")}</div>`;
+  specLevel = 0;
+  await loadSpec(0);
   const work = await api("GET", "/api/work");
   if (work.code !== undefined) { setCode(work.code, st.session && st.session.lang); $("path").textContent = work.path; }
   else { setCode("", null); $("path").textContent = work.error || ""; }
   $("spec").scrollTop = 0;
   await loadCases();
+}
+// A different problem or a restart: forget everything tied to the old attempt.
+function resetAttemptView() {
+  testsStale = false; testsScope = "level"; allData = null; allReport = null; allError = ""; levelFilter = 0;
+  solLoaded = false; showCode("code");
 }
 
 function show(text) {
@@ -411,16 +544,22 @@ async function act(kind, body, label) {
     const before = st && st.session ? st.session.unlocked : 0;
     const res = await api("POST", "/api/" + kind, body || {});
     show(res.error ? "FAIL: " + res.error : res.output);
-    if (kind === "run" || kind === "submit") { if (!res.error) { savedText = body.code; markDirty(); } }
+    const graded = kind === "run" || kind === "submit" || kind === "finish";
+    if (graded && !res.error) { savedText = body.code; markDirty(); }
+    if (kind === "start") resetAttemptView();
     await refreshState();
     const now = st.session ? st.session.unlocked : 0;
     if (kind === "start") await loadDesk();
-    if (kind === "submit" && now > before) { flash(`Level ${now} unlocked`); await loadDesk(); }
-    else if ((kind === "run" || kind === "submit") && res.report) {
-      await loadCases();
-      if (res.report.failed.length) showTab("tests");
+    if (graded) {
+      // No report means nothing ran: a compile error or a crash. The reason is in Output.
+      testsStale = !res.error && !res.report;
+      if (now > before) { flash(`Level ${now} unlocked`); await loadDesk(); }
+      else await loadCases();
+      if (kind !== "finish" && res.report && res.report.failed.length) showTab("tests");
+      else if (kind === "finish" || !res.ok || !res.report) showTab("out");
     }
-    if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓ Press Review for feedback");
+    if (kind === "finish") flash("Attempt finished. Every level, the hidden tests and the solution are open");
+    else if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓ Press Review for feedback");
   } catch (e) {
     show("FAIL: " + e);
   } finally {
@@ -429,9 +568,12 @@ async function act(kind, body, label) {
 }
 function refreshButtons() {
   const s = st && st.session, paused = !!(s && s.paused);
-  for (const id of ["runBtn", "submitBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
+  const finished = isOver();
+  for (const id of ["runBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
+  $("submitBtn").disabled = !s || paused || busy || finished;
+  $("finishBtn").disabled = !s || busy || finished;
   $("startBtn").disabled = busy; $("resetBtn").disabled = busy;
-  const finished = !!(s && (s.cleared || left === 0));
+  if ($("runAllBtn")) $("runAllBtn").disabled = busy;
   $("reviewBtn").disabled = !s || busy;
   $("reviewBtn").classList.toggle("ready", finished);
   $("reviewBtn").textContent = finished ? "Review my attempt ★" : "Review";
@@ -458,6 +600,12 @@ $("runBtn").onclick = () => act("run", { code: getCode() }, "Running public test
 $("submitBtn").onclick = () => {
   if (!confirm("Submit? If public and hidden tests pass, the next level unlocks.")) return;
   act("submit", { code: getCode() }, "Submitting");
+};
+$("finishBtn").onclick = () => {
+  if (!confirm("Final submit grades your code one last time and ends the attempt.\n\n" +
+    "After that you can read every level, see the hidden tests and the reference solution. " +
+    "Restart the problem to try again.\n\nContinue?")) return;
+  act("finish", { code: getCode() }, "Final submit");
 };
 $("saveBtn").onclick = save;
 $("pauseBtn").onclick = () => {

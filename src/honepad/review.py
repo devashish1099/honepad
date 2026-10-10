@@ -2,7 +2,7 @@
 
 The file is written for a human-in-the-loop review in claude.ai or ChatGPT,
 or for `claude -p` from the web UI. Hidden traces are only spelled out once
-the attempt is over (cleared or out of time).
+the attempt is over (final submit, cleared, or out of time).
 """
 
 from __future__ import annotations
@@ -16,7 +16,15 @@ from typing import Any
 
 from honepad.catalog import language
 from honepad.runner import run
-from honepad.session import clock_left, is_paused, max_level, session_path, work_src
+from honepad.session import (
+    attempt_over,
+    clock_left,
+    is_ended,
+    is_paused,
+    max_level,
+    session_path,
+    work_src,
+)
 from honepad.term import HONEPAD_ERRORS
 from honepad.traces import load_cases, load_hidden_cases, method_name, problem_dir
 
@@ -126,7 +134,7 @@ def build_review(session: dict[str, Any], now: int | None = None) -> tuple[str, 
     left = clock_left(session, now)
     used = minutes * 60 - left
     cleared = bool(session.get("cleared"))
-    finished = cleared or left == 0
+    finished = attempt_over(session, now)
     row = language(lang)
     naming = str(row["naming"])
     fence = "python" if row["ext"] == "py" else str(row["ext"])
@@ -139,6 +147,7 @@ def build_review(session: dict[str, Any], now: int | None = None) -> tuple[str, 
         + (" (clock ran out)" if left == 0 and not cleared else ""),
         "- Status: "
         + ("finished" if finished else "in progress")
+        + (" (final submit)" if is_ended(session) else "")
         + (", clock paused" if is_paused(session) else ""),
     ]
     if naming != "snake":

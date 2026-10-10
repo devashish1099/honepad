@@ -1,4 +1,5 @@
-"""Local browser UI: pick a problem, read the spec, edit, run, submit, pause.
+"""Local browser UI: pick a problem, read the spec, edit, run, submit, pause,
+finish, then look back over every level and the reference solution.
 
 Every action shells out to the same CLI the terminal uses, so grading,
 unlocks, hidden traces and the pause rule behave identically. The server
@@ -23,11 +24,14 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-from honepad import review
-from honepad.catalog import language, load_catalog, problems
+from honepad import packspec, review
+from honepad.catalog import language, load_catalog, problems, repo_root
+from honepad.runner import run, spec_src
 from honepad.session import (
     _replace_text,
+    attempt_over,
     clock_left,
+    is_ended,
     is_paused,
     load_session,
     max_level,
@@ -35,7 +39,7 @@ from honepad.session import (
     work_src,
 )
 from honepad.term import HONEPAD_ERRORS
-from honepad.traces import load_cases, method_name, problem_dir
+from honepad.traces import load_cases, load_hidden_cases, method_name, problem_dir
 
 MAX_BODY = 1_000_000
 ACTION_TIMEOUT_S = 600
@@ -43,6 +47,7 @@ _ANSI = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]|\x1b\]8;;[^\x1b]*\x1b\\")
 _PAGE = Path(__file__).resolve().parent / "static" / "web.html"
 # Last public-trace report per (problem, lang), so the Tests tab survives a reload.
 _LAST_REPORTS: dict[tuple[str, str, str], dict[str, Any]] = {}
+_NOT_OVER = {"error": "finish the attempt first (Final Submit)"}
 
 
 def _report_key(problem: str, lang: str) -> tuple[str, str, str]:
@@ -100,6 +105,7 @@ def state() -> dict[str, Any]:
                 "unlocked": int(desk.get("unlocked", 0)),
                 "lang": desk.get("lang"),
                 "cleared": bool(desk.get("cleared")),
+                "ended": desk.get("ended_at") is not None,
                 "original": pid in originals,
             }
         )
@@ -114,6 +120,8 @@ def state() -> dict[str, Any]:
             "left": clock_left(session),
             "paused": is_paused(session),
             "cleared": bool(session.get("cleared")),
+            "ended": is_ended(session),
+            "over": attempt_over(session),
             "last_run": session.get("last_run"),
         }
     return {
@@ -126,26 +134,86 @@ def state() -> dict[str, Any]:
     }
 
 
-def cases_view() -> dict[str, Any]:
-    """Public traces through the unlocked level, in the user's method naming."""
+def _view_case(case: dict[str, Any], naming: str, hidden: bool = False) -> dict[str, Any]:
+    return {
+        "id": str(case["id"]),
+        "level": int(case.get("level", 0)),
+        "hidden": hidden,
+        "calls": [
+            {"m": method_name(str(c["m"]), naming), "a": c["a"], "e": c["e"]} for c in case["calls"]
+        ],
+    }
+
+
+def _every_case(problem: str) -> list[tuple[dict[str, Any], bool]]:
+    top = max_level(problem)
+    return [(c, False) for c in load_cases(problem, top)] + [
+        (c, True) for c in load_hidden_cases(problem, top)
+    ]
+
+
+def cases_view(scope: str = "level") -> dict[str, Any]:
+    """Public traces through the unlocked level, in the user's method naming.
+    scope=all (only once the attempt is over): every level, hidden cases too."""
     session = _session()
     if session is None:
         return {"error": "no session"}
     problem, lang = str(session["problem"]), str(session["lang"])
-    level = int(session["unlocked"])
     naming = str(language(lang)["naming"])
-    cases = [
-        {
-            "id": str(case["id"]),
-            "level": int(case.get("level", 0)),
-            "calls": [
-                {"m": method_name(str(c["m"]), naming), "a": c["a"], "e": c["e"]}
-                for c in case["calls"]
-            ],
-        }
-        for case in load_cases(problem, level)
-    ]
-    return {"level": level, "cases": cases, "report": _LAST_REPORTS.get(_report_key(problem, lang))}
+    if scope == "all":
+        if not attempt_over(session):
+            return dict(_NOT_OVER)
+        cases = [_view_case(c, naming, hidden) for c, hidden in _every_case(problem)]
+        return {"scope": "all", "level": max_level(problem), "cases": cases}
+    level = int(session["unlocked"])
+    cases = [_view_case(case, naming) for case in load_cases(problem, level)]
+    return {
+        "scope": "level",
+        "level": level,
+        "cases": cases,
+        "report": _LAST_REPORTS.get(_report_key(problem, lang)),
+    }
+
+
+def check_all() -> dict[str, Any]:
+    """Run the work code against every public and hidden case of every level."""
+    from honepad.cli import report_dict
+
+    session = _session()
+    if session is None:
+        return {"error": "no session"}
+    if not attempt_over(session):
+        return dict(_NOT_OVER)
+    problem, lang = str(session["problem"]), str(session["lang"])
+    cases = [case for case, _hidden in _every_case(problem)]
+    try:
+        report = run(problem, lang, max_level(problem), kind="work", cases=cases)
+    except HONEPAD_ERRORS + (NotImplementedError,) as exc:
+        return {"error": str(exc)}
+    return {"ok": not report.failed, "report": report_dict(report, lang)}
+
+
+def solution_view() -> dict[str, Any]:
+    """The reference solution, once the attempt is over."""
+    session = _session()
+    if session is None:
+        return {"error": "no session"}
+    if not attempt_over(session):
+        return dict(_NOT_OVER)
+    problem, lang = str(session["problem"]), str(session["lang"])
+    path: Path | None = None
+    try:
+        spec = packspec.run_spec(lang)
+        if spec is not None:
+            path = spec_src(lang, problem, "solution", spec)
+        else:
+            found = sorted((repo_root() / "langs" / lang / "problems" / problem).glob("solution.*"))
+            path = found[0] if found else None
+    except HONEPAD_ERRORS:
+        path = None
+    if path is None or not path.is_file() or path.is_symlink():
+        return {"missing": True}
+    return {"path": str(path), "code": path.read_text(encoding="utf-8")}
 
 
 def make_review(ask_claude: bool = False) -> dict[str, Any]:
@@ -160,15 +228,28 @@ def make_review(ask_claude: bool = False) -> dict[str, Any]:
     return result
 
 
-def spec_text() -> dict[str, Any]:
+def spec_text(level: int | None = None) -> dict[str, Any]:
+    """One level's spec. Levels past the unlocked one open once the attempt is over."""
     session = _session()
     if session is None:
         return {"error": "no session"}
-    level = int(session["unlocked"])
-    path = problem_dir(str(session["problem"])) / "spec" / f"level{level}.md"
+    problem = str(session["problem"])
+    unlocked = int(session["unlocked"])
+    top = max_level(problem)
+    visible = top if attempt_over(session) else unlocked
+    level = unlocked if level is None else level
+    if not 1 <= level <= visible:
+        return {"error": f"level {level} is locked", "visible": visible, "levels": top}
+    path = problem_dir(problem) / "spec" / f"level{level}.md"
     if not path.is_file():
         return {"error": f"missing spec level {level}"}
-    return {"level": level, "markdown": path.read_text(encoding="utf-8")}
+    return {
+        "level": level,
+        "unlocked": unlocked,
+        "visible": visible,
+        "levels": top,
+        "markdown": path.read_text(encoding="utf-8"),
+    }
 
 
 def _work_path(session: dict[str, Any]) -> Path:
@@ -216,6 +297,8 @@ def _action(kind: str, body: dict[str, Any]) -> dict[str, Any]:
     if kind in {"pause", "resume"}:
         code, out = _cli(kind)
         return {"ok": code == 0, "output": out}
+    if kind == "check-all":
+        return check_all()
     session = _session()
     if session is None:
         return {"error": "no session"}
@@ -229,6 +312,8 @@ def _action(kind: str, body: dict[str, Any]) -> dict[str, Any]:
         extra = ["--report-json", str(report_path)]
         if kind == "run":
             code, out = _cli("run", problem, "--lang", lang, "--kind", "work", *extra)
+        elif kind == "finish":
+            code, out = _cli("finish", *extra)
         else:
             code, out = _cli(
                 "submit", problem, "--lang", lang, "--kind", "work", "--confirm", "y", *extra
@@ -324,14 +409,18 @@ class _Handler(BaseHTTPRequestHandler):
         if not self._guard():
             return
         try:
+            query = parse_qs(url.query)
             if url.path == "/api/state":
                 self._json(200, state())
             elif url.path == "/api/spec":
-                self._json(200, spec_text())
+                raw = (query.get("level") or [""])[0]
+                self._json(200, spec_text(int(raw) if raw.isdigit() else None))
             elif url.path == "/api/work":
                 self._json(200, read_work())
             elif url.path == "/api/cases":
-                self._json(200, cases_view())
+                self._json(200, cases_view((query.get("scope") or ["level"])[0]))
+            elif url.path == "/api/solution":
+                self._json(200, solution_view())
             else:
                 self._json(404, {"error": "not found"})
         except HONEPAD_ERRORS as exc:
@@ -355,7 +444,8 @@ class _Handler(BaseHTTPRequestHandler):
         if not self._guard():
             return
         kind = urlparse(self.path).path.removeprefix("/api/")
-        if kind not in {"start", "run", "submit", "pause", "resume", "review", "review/claude"}:
+        actions = {"start", "run", "submit", "finish", "check-all", "pause", "resume"}
+        if kind not in actions | {"review", "review/claude"}:
             self._json(404, {"error": "not found"})
             return
         body = self._body()

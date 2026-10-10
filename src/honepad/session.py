@@ -200,15 +200,41 @@ def is_paused(session: dict[str, Any]) -> bool:
 
 
 def clock_left(session: dict[str, Any], now: int | None = None) -> int:
-    """Seconds left on the session clock. A paused clock reads as of its pause."""
-    paused = session.get("paused_at")
-    at = int(paused) if paused is not None else now
+    """Seconds left on the session clock. A paused or finished clock reads as of
+    that moment."""
+    frozen = session.get("ended_at")
+    if frozen is None:
+        frozen = session.get("paused_at")
+    at = int(frozen) if frozen is not None else now
     return remaining_s(int(session["started_at"]), int(session["minutes"]), now=at)
 
 
+def is_ended(session: dict[str, Any]) -> bool:
+    return session.get("ended_at") is not None
+
+
+def attempt_over(session: dict[str, Any], now: int | None = None) -> bool:
+    """Final submit pressed, every level cleared, or the clock ran out."""
+    return is_ended(session) or bool(session.get("cleared")) or clock_left(session, now) == 0
+
+
+def end_attempt(session: dict[str, Any], now: int | None = None) -> bool:
+    """Final submit: stop the clock for good. A paused clock ends at its pause.
+    False if the attempt was already ended."""
+    if is_ended(session):
+        return False
+    paused = session.pop("paused_at", None)
+    if paused is not None:
+        session["ended_at"] = int(paused)
+    else:
+        session["ended_at"] = int(time.time()) if now is None else now
+    save_session(session)
+    return True
+
+
 def pause_clock(session: dict[str, Any], now: int | None = None) -> bool:
-    """Freeze the clock. False if it is already paused or already at 0."""
-    if is_paused(session) or clock_left(session, now) == 0:
+    """Freeze the clock. False if it is already paused, ended or already at 0."""
+    if is_paused(session) or is_ended(session) or clock_left(session, now) == 0:
         return False
     session["paused_at"] = int(time.time()) if now is None else now
     save_session(session)
@@ -227,11 +253,11 @@ def resume_clock(session: dict[str, Any], now: int | None = None) -> bool:
     return True
 
 
-def _parse_paused(raw: Any) -> int | None:
+def _parse_paused(raw: Any, field: str = "paused_at") -> int | None:
     if raw is None:
         return None
     try:
-        value = _strict_int(raw, "paused_at")
+        value = _strict_int(raw, field)
     except (TypeError, ValueError, OverflowError):
         return None
     return value if value >= 0 else None
@@ -302,6 +328,9 @@ def load_session(
     paused_at = _parse_paused(payload.get("paused_at"))
     if paused_at is not None:
         loaded["paused_at"] = paused_at
+    ended_at = _parse_paused(payload.get("ended_at"), "ended_at")
+    if ended_at is not None:
+        loaded["ended_at"] = ended_at
     last_run = _parse_last_run(payload.get("last_run"))
     if last_run is not None:
         loaded["last_run"] = last_run
@@ -418,6 +447,9 @@ def _desk_snapshot(session: dict[str, Any]) -> dict[str, Any]:
     paused_at = _parse_paused(session.get("paused_at"))
     if paused_at is not None:
         snap["paused_at"] = paused_at
+    ended_at = _parse_paused(session.get("ended_at"), "ended_at")
+    if ended_at is not None:
+        snap["ended_at"] = ended_at
     last_run = _parse_last_run(session.get("last_run"))
     if last_run is not None:
         snap["last_run"] = last_run
@@ -458,6 +490,9 @@ def _parse_desks(raw: Any) -> dict[str, dict[str, Any]]:
         paused_at = _parse_paused(row.get("paused_at"))
         if paused_at is not None:
             item["paused_at"] = paused_at
+        ended_at = _parse_paused(row.get("ended_at"), "ended_at")
+        if ended_at is not None:
+            item["ended_at"] = ended_at
         last_run = _parse_last_run(row.get("last_run"))
         if last_run is not None:
             item["last_run"] = last_run
@@ -477,6 +512,9 @@ def _session_from_desk(problem: str, saved: dict[str, Any]) -> dict[str, Any]:
     paused_at = _parse_paused(saved.get("paused_at"))
     if paused_at is not None:
         session["paused_at"] = paused_at
+    ended_at = _parse_paused(saved.get("ended_at"), "ended_at")
+    if ended_at is not None:
+        session["ended_at"] = ended_at
     last_run = _parse_last_run(saved.get("last_run"))
     if last_run is not None:
         session["last_run"] = last_run
@@ -531,6 +569,9 @@ def save_session(session: dict[str, Any], path: Path | None = None) -> Path:
     paused_at = _parse_paused(session.get("paused_at"))
     if paused_at is not None:
         payload["paused_at"] = paused_at
+    ended_at = _parse_paused(session.get("ended_at"), "ended_at")
+    if ended_at is not None:
+        payload["ended_at"] = ended_at
     last_run = _parse_last_run(session.get("last_run"))
     if last_run is not None:
         payload["last_run"] = last_run
@@ -566,6 +607,7 @@ def _apply_saved_clock(session: dict[str, Any]) -> bool:
         return False
     session["started_at"] = int(time.time())
     session.pop("paused_at", None)
+    session.pop("ended_at", None)
     return True
 
 
@@ -626,6 +668,7 @@ def ensure_session(
             if str(session["lang"]) != lang:
                 session["cleared"] = False
                 session.pop("last_run", None)
+                session.pop("ended_at", None)
             session["lang"] = lang
             fresh = False
             restarted = _apply_saved_clock(session)
@@ -642,6 +685,7 @@ def ensure_session(
     if current["lang"] != lang:
         current["cleared"] = False
         current.pop("last_run", None)
+        current.pop("ended_at", None)
     current["lang"] = lang
     left = clock_left(current)
     restarted = False
@@ -653,6 +697,7 @@ def ensure_session(
         if minutes is not None:
             current["minutes"] = require_minutes(minutes)
         current.pop("paused_at", None)
+        current.pop("ended_at", None)
         restarted = True
     elif minutes is not None and int(current["minutes"]) != minutes:
         current["minutes"] = require_minutes(minutes)
@@ -660,6 +705,7 @@ def ensure_session(
         if clock_left(current) == 0:
             current["started_at"] = int(time.time())
             current.pop("paused_at", None)
+            current.pop("ended_at", None)
     save_session(current)
     current["clock_restarted"] = restarted
     current["desk_fresh"] = False

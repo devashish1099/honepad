@@ -24,10 +24,12 @@ from honepad.session import (
     RetiredLanguage,
     clock_left,
     drop_level,
+    end_attempt,
     ensure_session,
     ensure_work_copy,
     extra_work_note,
     format_debrief,
+    is_ended,
     is_paused,
     load_session,
     mark_cleared,
@@ -505,6 +507,16 @@ def cmd_run(args: argparse.Namespace) -> int:
             print(status_fail("PAUSED: clock is stopped. Run and submit wait for resume."))
             print(f"NEXT: {invocation()} resume")
             return 1
+        if (
+            same
+            and session is not None
+            and kind == "work"
+            and getattr(args, "unlock", False)
+            and is_ended(session)
+        ):
+            print(status_note(_ENDED_NOTE))
+            print(f"NEXT: {invocation()} start {args.problem} {lang} --reset")
+            return 1
         left = 0
         if session is not None and same:
             left = clock_left(session)
@@ -750,8 +762,13 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 def _write_report_json(path: Path, report: Any, lang: str) -> None:
     """Every public failure, for UIs that show more than the first one."""
+    payload = report_dict(report, lang)
+    path.write_text(json.dumps(payload, default=repr) + "\n", encoding="utf-8")
+
+
+def report_dict(report: Any, lang: str) -> dict[str, Any]:
     naming = str(language(lang)["naming"])
-    payload = {
+    return {
         "problem": report.problem,
         "lang": report.lang,
         "level": report.level,
@@ -770,7 +787,6 @@ def _write_report_json(path: Path, report: Any, lang: str) -> None:
             for fail in report.failed
         ],
     }
-    path.write_text(json.dumps(payload, default=repr) + "\n", encoding="utf-8")
 
 
 def _raised_type(actual: Any) -> str | None:
@@ -915,6 +931,9 @@ def cmd_timer(args: argparse.Namespace) -> int:
         return 1
     if session is not None:
         left = clock_left(session)
+        if is_ended(session):
+            print(f"FINISHED: timer {minutes}m remaining_s={left}")
+            return 0
         if is_paused(session):
             print(f"PAUSED: timer {minutes}m remaining_s={left}")
             print(f"NEXT: {invocation()} resume")
@@ -931,7 +950,12 @@ def cmd_timer(args: argparse.Namespace) -> int:
 
 def _clock_text(session: dict[str, Any], left: int, minutes: int) -> str:
     clock = format_clock(left, span_s=minutes * 60)
+    if is_ended(session):
+        return f"FINISHED {clock}"
     return f"PAUSED {clock}" if is_paused(session) else clock
+
+
+_ENDED_NOTE = "DONE: attempt finished (final submit). Restart the problem to try again."
 
 
 def cmd_pause(_args: argparse.Namespace) -> int:
@@ -942,6 +966,9 @@ def cmd_pause(_args: argparse.Namespace) -> int:
             print(f"NEXT: {invocation()} start")
             return 1
         minutes = int(session["minutes"])
+        if is_ended(session):
+            print(status_note(_ENDED_NOTE))
+            return 1
         if is_paused(session):
             print(
                 status_note(
@@ -959,6 +986,47 @@ def cmd_pause(_args: argparse.Namespace) -> int:
     left = clock_left(session)
     print(status_ok(f"OK: paused with {format_clock(left, span_s=minutes * 60)} left"))
     print(f"NEXT: {invocation()} resume")
+    return 0
+
+
+def cmd_finish(args: argparse.Namespace) -> int:
+    """Final submit: grade the work one last time, then end the attempt."""
+    try:
+        session = load_session()
+        if session is None:
+            print(status_fail("FAIL: no session"))
+            print(f"NEXT: {invocation()} start")
+            return 1
+        if is_ended(session):
+            print(status_note("NOTE: attempt already finished"))
+            return 0
+        problem, lang = str(session["problem"]), str(session["lang"])
+        resume_clock(session)
+        if not session.get("cleared") and clock_left(session) > 0:
+            cmd_run(
+                argparse.Namespace(
+                    problem=problem,
+                    lang=lang,
+                    level=None,
+                    kind="work",
+                    unlock=True,
+                    report_json=getattr(args, "report_json", None),
+                )
+            )
+        session = load_session()
+        if session is None:
+            print(status_fail("FAIL: session vanished during the final submit"))
+            return 1
+        end_attempt(session)
+    except HONEPAD_ERRORS as exc:
+        print_fail(exc)
+        return 1
+    top = max_level(problem)
+    unlocked = int(session["unlocked"])
+    state = "all levels cleared" if session.get("cleared") else f"reached LEVEL {unlocked} of {top}"
+    used = int(session["minutes"]) * 60 - clock_left(session)
+    print(status_ok(f"DONE: attempt finished, {state}, {used // 60}m {used % 60}s used"))
+    print("NOTE: every level, the hidden tests and the reference solution are open now")
     return 0
 
 
@@ -1112,6 +1180,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     resume = sub.add_parser("resume", help="restart a paused session clock")
     resume.set_defaults(func=cmd_resume)
+
+    finish = sub.add_parser("finish", help="final submit: grade once more and end the attempt")
+    finish.add_argument("--report-json", default=None, help=argparse.SUPPRESS)
+    finish.set_defaults(func=cmd_finish)
 
     web = sub.add_parser("web", help="practise in the browser: spec, editor, run, submit, pause")
     web.add_argument("--port", type=int, default=0, help="port on 127.0.0.1 (default: any free)")

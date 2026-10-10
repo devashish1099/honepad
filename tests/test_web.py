@@ -182,3 +182,57 @@ def test_review_claude_reports_missing_cli(web, monkeypatch) -> None:
     monkeypatch.setattr("honepad.review.shutil.which", lambda name: None)
     res = json.loads(_call(web, "POST", "/api/review/claude", {})[1])
     assert "not on PATH" in res["error"]
+
+
+def _start(web, lang: str = "python3") -> None:
+    res = json.loads(_call(web, "POST", "/api/start", {"problem": "bank_system", "lang": lang})[1])
+    assert res["ok"], res
+
+
+def test_earlier_levels_open_and_later_ones_wait_for_the_end(web) -> None:
+    _start(web)
+    spec = json.loads(_call(web, "GET", "/api/spec?level=1")[1])
+    assert spec["level"] == 1 and spec["visible"] == 1 and spec["levels"] == 4
+    assert "locked" in json.loads(_call(web, "GET", "/api/spec?level=2")[1])["error"]
+    for path in ("/api/solution", "/api/cases?scope=all"):
+        assert "finish the attempt first" in json.loads(_call(web, "GET", path)[1])["error"]
+    res = json.loads(_call(web, "POST", "/api/check-all", {})[1])
+    assert "finish the attempt first" in res["error"]
+
+
+def test_broken_code_run_has_no_report(web) -> None:
+    _start(web)
+    ran = json.loads(_call(web, "POST", "/api/run", {"code": "class Simulation(:\n"})[1])
+    assert ran["ok"] is False
+    assert ran["report"] is None
+    assert "FAIL" in ran["output"]
+
+
+def test_final_submit_opens_every_level_and_the_solution(web) -> None:
+    _start(web)
+    fin = json.loads(_call(web, "POST", "/api/finish", {})[1])
+    assert fin["ok"], fin["output"]
+    assert "DONE: attempt finished" in fin["output"]
+    assert fin["report"]["failed"]
+    session = json.loads(_call(web, "GET", "/api/state")[1])["session"]
+    assert session["ended"] is True and session["over"] is True
+
+    assert "level 4" in json.loads(_call(web, "GET", "/api/spec?level=4")[1])["markdown"].lower()
+    cases = json.loads(_call(web, "GET", "/api/cases?scope=all")[1])["cases"]
+    assert {c["level"] for c in cases} == {1, 2, 3, 4}
+    assert any(c["hidden"] for c in cases) and any(c["id"].startswith("hid-l1") for c in cases)
+    sol = json.loads(_call(web, "GET", "/api/solution")[1])
+    assert sol["path"].endswith("solution.py") and "class Simulation" in sol["code"]
+
+    checked = json.loads(_call(web, "POST", "/api/check-all", {})[1])
+    assert checked["ok"] is False
+    assert checked["report"]["total"] == len(cases)
+    failed = {f["case"] for f in checked["report"]["failed"]}
+    assert any(case.startswith("hid-") for case in failed)
+    assert any(case.startswith(("l4-", "hid-l4")) for case in failed)
+
+    sub = json.loads(_call(web, "POST", "/api/submit", {})[1])
+    assert not sub["ok"] and "attempt finished" in sub["output"]
+    text = json.loads(_call(web, "POST", "/api/review", {})[1])["markdown"]
+    assert "final submit" in text
+    assert "hidden cases withheld" not in text
