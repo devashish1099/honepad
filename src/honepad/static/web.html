@@ -20,6 +20,7 @@
     }
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html, body { height: 100%; margin: 0; }
   body {
     background: var(--bg); color: var(--text);
@@ -108,6 +109,7 @@
   .seg button { border-radius: 0; padding: 4px 10px; }
   .seg button:first-child { border-radius: 6px 0 0 6px; } .seg button:last-child { border-radius: 0 6px 6px 0; }
   .seg button.on { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  #tabSol:not(.on) { color: var(--ok); border-color: var(--ok); font-weight: 600; }
   #solWrap { position: absolute; inset: 0; z-index: 5; background: var(--panel); }
   #solWrap .CodeMirror { position: absolute; inset: 0; }
   #solNote { position: absolute; right: 14px; top: 6px; z-index: 6; font-size: 12px; color: var(--muted); }
@@ -143,7 +145,7 @@
       <button id="finishBtn" disabled title="Grade once more and end the attempt. Then every level, the hidden tests and the solution open.">Final Submit</button>
       <button id="saveBtn" disabled>Save <small>(Ctrl+S)</small></button>
       <button id="reviewBtn" disabled title="Build a review pack for Claude or ChatGPT">Review</button>
-      <span class="seg" id="codeTabs" hidden><button id="tabCode" class="on">Your code</button><button id="tabSol">Solution</button></span>
+      <span class="seg" id="codeTabs" hidden><button id="tabCode" class="on">Your code</button><button id="tabSol">Solution ★</button></span>
       <span class="dirty" id="dirty"></span>
       <span class="spacer"></span>
       <span class="path" id="path"></span>
@@ -306,7 +308,7 @@ async function refreshState() {
   setReadOnly(paused || !s);
   $("codeTabs").hidden = !over;
   if (!over) showCode("code");
-  if (lastOver !== undefined && over !== lastOver && s) { loadSpec(specLevel); renderTests(); }
+  if (lastOver !== undefined && over !== lastOver && s) { solLoaded = false; loadSpec(specLevel); renderTests(); }
   lastOver = over;
   refreshButtons();
   drawClock();
@@ -342,8 +344,9 @@ async function showCode(which) {
   $("solWrap").hidden = !sol;
   if (!sol) { if (cm) cm.refresh(); return; }
   if (!solLoaded) {
-    solLoaded = true;
     const res = await api("GET", "/api/solution");
+    // Only keep a real answer; an error (e.g. not finished yet) is asked again next time.
+    solLoaded = res.code !== undefined || !!res.missing;
     const text = res.code !== undefined ? res.code
       : res.missing ? "No reference solution for this language." : "Unavailable: " + (res.error || "unknown error");
     if (window.CodeMirror) {
