@@ -61,9 +61,38 @@
   #editorWrap { position: relative; min-height: 0; }
   .CodeMirror, #fallback { position: absolute; inset: 0; height: 100%; font: 13px/1.5 var(--mono); }
   #fallback { width: 100%; border: 0; padding: 8px; resize: none; background: var(--panel); color: var(--text); }
-  #out { margin: 0; padding: 10px 12px; overflow: auto; font: 12.5px/1.45 var(--mono);
-    background: var(--code-bg); border-top: 1px solid var(--line); white-space: pre-wrap; }
-  #out .pass { color: var(--ok); font-weight: 700; } #out .fail { color: var(--bad); font-weight: 700; }
+  .bottom { display: grid; grid-template-rows: auto 1fr; min-height: 0; border-top: 1px solid var(--line);
+    background: var(--code-bg); }
+  .tabs { display: flex; gap: 2px; padding: 4px 8px 0; background: var(--panel); border-bottom: 1px solid var(--line); }
+  .tabs button { border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: none; padding: 5px 12px; }
+  .tabs button.on { border-bottom-color: var(--accent); font-weight: 600; }
+  .tabs .reddot { display: none; width: 7px; height: 7px; border-radius: 50%; background: var(--bad);
+    margin-left: 5px; vertical-align: middle; }
+  .pane { overflow: auto; min-height: 0; }
+  #out { margin: 0; padding: 10px 12px; font: 12.5px/1.45 var(--mono); white-space: pre-wrap; }
+  #out .pass, .ok { color: var(--ok); font-weight: 700; } #out .fail, .bad { color: var(--bad); font-weight: 700; }
+  #tests { padding: 8px 12px; font-size: 13px; }
+  .tsum { display: flex; gap: 12px; align-items: center; margin-bottom: 6px; }
+  .case { border: 1px solid var(--line); border-radius: 6px; margin: 4px 0; background: var(--panel); }
+  .case > summary { cursor: pointer; padding: 4px 8px; list-style: none; display: flex; gap: 8px; align-items: center; }
+  .case > summary::-webkit-details-marker { display: none; }
+  .badge { font: 700 11px var(--mono); padding: 1px 6px; border-radius: 10px; }
+  .badge.ok { background: rgba(21,128,61,.15); } .badge.bad { background: rgba(185,28,28,.15); }
+  .badge.na { color: var(--muted); background: var(--code-bg); font-weight: 400; }
+  .calls { margin: 0 0 6px; padding: 0 8px 6px 30px; font: 12.5px/1.6 var(--mono); }
+  .calls div.hit { background: rgba(185,28,28,.12); border-radius: 4px; padding: 2px 4px; }
+  .calls div.skip { opacity: .4; }
+  .muted { color: var(--muted); }
+  #reviewBtn.ready { background: var(--ok); color: #fff; border-color: var(--ok); }
+  dialog { width: min(900px, 94vw); max-height: 88vh; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); color: var(--text); padding: 0; }
+  dialog::backdrop { background: rgba(0,0,0,.5); }
+  .dlg-head { display: flex; gap: 8px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .dlg-body { padding: 12px 16px; overflow: auto; max-height: calc(88vh - 60px); }
+  .dlg-body pre { background: var(--code-bg); padding: 10px; border-radius: 6px; overflow: auto; font: 12px/1.45 var(--mono); }
+  .dlg-body code { font-family: var(--mono); }
+  #claudeOut h1, #claudeOut h2, #claudeOut h3 { font-size: 15px; margin: 14px 0 4px; }
+  optgroup { font-style: normal; font-weight: 700; }
   #banner { display: none; position: fixed; left: 50%; top: 64px; transform: translateX(-50%);
     background: var(--ok); color: #fff; padding: 8px 16px; border-radius: 8px; font-weight: 600; z-index: 20; }
   #pausedVeil { display: none; position: absolute; inset: 0; z-index: 10; background: rgba(0,0,0,.55);
@@ -94,6 +123,7 @@
       <button id="runBtn" disabled>Run <small>(Ctrl+Enter)</small></button>
       <button id="submitBtn" class="primary" disabled>Submit</button>
       <button id="saveBtn" disabled>Save <small>(Ctrl+S)</small></button>
+      <button id="reviewBtn" disabled title="Build a review pack for Claude or ChatGPT">Review</button>
       <span class="dirty" id="dirty"></span>
       <span class="spacer"></span>
       <span class="path" id="path"></span>
@@ -102,9 +132,32 @@
       <textarea id="fallback" spellcheck="false" placeholder="Start a problem to load your work file."></textarea>
       <div id="pausedVeil">PAUSED<small>Run and submit wait until you resume.</small></div>
     </div>
-    <pre id="out">Run output shows here.</pre>
+    <div class="bottom">
+      <div class="tabs">
+        <button id="tabOut" class="on">Output</button>
+        <button id="tabTests">Tests<span class="reddot" id="testsDot"></span></button>
+      </div>
+      <div class="pane" id="paneOut"><pre id="out">Run output shows here.</pre></div>
+      <div class="pane" id="paneTests" hidden><div id="tests"><div class="muted">Start a problem to see its test cases.</div></div></div>
+    </div>
   </section>
 </main>
+<dialog id="reviewDlg">
+  <div class="dlg-head">
+    <strong>Review</strong>
+    <span class="muted" id="reviewNote"></span>
+    <span class="spacer"></span>
+    <button id="dlBtn">Download .md</button>
+    <button id="copyBtn">Copy</button>
+    <button id="claudeBtn" class="primary" hidden>Ask Claude Code</button>
+    <button id="closeDlg">Close</button>
+  </div>
+  <div class="dlg-body">
+    <div id="claudeOut"></div>
+    <p class="muted" id="reviewPath"></p>
+    <details id="packWrap"><summary>Review file (paste this into claude.ai or ChatGPT)</summary><pre id="reviewPack"></pre></details>
+  </div>
+</dialog>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
@@ -191,7 +244,10 @@ function drawClock() {
   c.className = "clock" + (s.paused ? " paused" : left === 0 ? " out" : left < 600 ? " low" : "");
 }
 setInterval(() => {
-  if (st && st.session && !st.session.paused && left > 0) { left -= 1; drawClock(); }
+  if (st && st.session && !st.session.paused && left > 0) {
+    left -= 1; drawClock();
+    if (left === 0) { refreshButtons(); flash("Time is up. Press Review for feedback"); }
+  }
 }, 1000);
 setInterval(() => { if (!busy) refreshState(); }, 15000);
 
@@ -201,12 +257,17 @@ async function refreshState() {
   const s = st.session;
   left = s ? s.left : 0;
   const pSel = $("problem");
-  const keep = pSel.value || (s && s.problem);
-  pSel.innerHTML = st.problems.map((p) => {
+  const firstOpen = st.problems.find((p) => p.original && !p.cleared) || st.problems[0];
+  const keep = pSel.value || (s && s.problem) || firstOpen.id;
+  const opt = (p) => {
     const mark = p.cleared ? " ✓" : p.unlocked ? ` (L${p.unlocked}/${p.levels})` : "";
-    return `<option value="${p.id}">${p.id}${mark}</option>`;
-  }).join("");
-  pSel.value = keep && st.problems.some((p) => p.id === keep) ? keep : st.problems[0].id;
+    return `<option value="${p.id}">${p.original ? "★ " : ""}${p.id}${mark}</option>`;
+  };
+  pSel.innerHTML =
+    `<optgroup label="Originals: finish these first (${st.originals_done}/${st.originals_total} done)">` +
+    st.problems.filter((p) => p.original).map(opt).join("") + "</optgroup>" +
+    `<optgroup label="More practice">` + st.problems.filter((p) => !p.original).map(opt).join("") + "</optgroup>";
+  pSel.value = st.problems.some((p) => p.id === keep) ? keep : firstOpen.id;
   const lSel = $("lang"), lkeep = lSel.value || (s && s.lang) || "java";
   lSel.innerHTML = st.langs.map((l) => `<option value="${l}">${l}</option>`).join("");
   lSel.value = st.langs.includes(lkeep) ? lkeep : st.langs[0];
@@ -215,12 +276,110 @@ async function refreshState() {
   const paused = !!(s && s.paused);
   $("pauseBtn").disabled = !s || (!paused && left === 0);
   $("pauseBtn").textContent = paused ? "Resume" : "Pause";
-  for (const id of ["runBtn", "submitBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
   $("pausedVeil").style.display = paused ? "flex" : "none";
   setReadOnly(paused || !s);
+  refreshButtons();
   drawClock();
   return st;
 }
+
+// ---- tests panel
+let testsData = null, onlyFailing = false;
+function showTab(name) {
+  $("tabOut").classList.toggle("on", name === "out");
+  $("tabTests").classList.toggle("on", name === "tests");
+  $("paneOut").hidden = name !== "out";
+  $("paneTests").hidden = name !== "tests";
+}
+$("tabOut").onclick = () => showTab("out");
+$("tabTests").onclick = () => showTab("tests");
+
+async function loadCases() {
+  testsData = await api("GET", "/api/cases");
+  renderTests();
+}
+const jv = (v) => JSON.stringify(v);
+function gotText(actual) {
+  return typeof actual === "string" && actual.startsWith("exc:") ? "threw " + actual.slice(4) : "returned " + jv(actual);
+}
+function renderTests() {
+  const box = $("tests"), d = testsData;
+  if (!d || d.error) { box.innerHTML = `<div class="muted">${esc((d && d.error) || "No session.")}</div>`; return; }
+  const rep = d.report && d.report.level === d.level ? d.report : null;
+  const fails = new Map(rep ? rep.failed.map((f) => [f.case, f]) : []);
+  $("testsDot").style.display = fails.size ? "inline-block" : "none";
+  let cases = d.cases.slice();
+  if (rep) cases.sort((a, b) => (fails.has(b.id) ? 1 : 0) - (fails.has(a.id) ? 1 : 0));
+  if (onlyFailing && rep) cases = cases.filter((c) => fails.has(c.id));
+  const head = rep
+    ? `<strong class="${fails.size ? "bad" : "ok"}">${rep.passed}/${rep.total} passing</strong> · level ${d.level}`
+    : `<strong>${d.cases.length} cases</strong> · level ${d.level} · <span class="muted">press Run to check them</span>`;
+  const rows = cases.map((c) => {
+    const f = fails.get(c.id);
+    const badge = !rep ? '<span class="badge na">not run</span>'
+      : f ? '<span class="badge bad">✗ fail</span>' : '<span class="badge ok">✓ pass</span>';
+    const calls = c.calls.map((call, i) => {
+      const line = `${esc(call.m)}(${call.a.map((x) => esc(jv(x))).join(", ")}) → ${esc(jv(call.e))}`;
+      if (f && i === f.index) return `<div class="hit">${line}<br><span class="bad">✗ your code ${esc(gotText(f.actual))}, expected ${esc(jv(call.e))}</span></div>`;
+      if (f && i > f.index) return `<div class="skip">${line}</div>`;
+      return `<div>${line}</div>`;
+    }).join("");
+    const where = f ? ` <span class="muted">call ${f.index + 1}: ${esc(f.method)}</span>` : "";
+    return `<details class="case"${f ? " open" : ""}><summary>${badge}<code>${esc(c.id)}</code><span class="muted">L${c.level}</span>${where}</summary><div class="calls">${calls}</div></details>`;
+  }).join("");
+  const debug = rep && rep.debug && rep.debug.trim() ? `<p class="muted">Debug output</p><pre>${esc(rep.debug)}</pre>` : "";
+  box.innerHTML = `<div class="tsum">${head}<span class="spacer"></span>` +
+    `<label><input type="checkbox" id="onlyFail"${onlyFailing ? " checked" : ""}> Show only failing</label></div>` +
+    rows + debug + `<p class="muted">Public cases only. Hidden cases run on Submit.</p>`;
+  $("onlyFail").onchange = (e) => { onlyFailing = e.target.checked; renderTests(); };
+}
+
+// ---- review
+let reviewMd = "";
+async function openReview() {
+  const s = st && st.session;
+  if (!s) return;
+  const finished = s.cleared || left === 0;
+  if (!finished && !confirm("Mid-test review: hidden tests are withheld until you finish. Continue?")) return;
+  if (getCode() !== savedText && !s.paused) await save();
+  busy = true; refreshButtons(); show("Building review (runs your code against the tests) ...");
+  try {
+    const res = await api("POST", "/api/review", {});
+    if (res.error) { show("FAIL: " + res.error); return; }
+    show("OK: review file saved to " + res.path);
+    reviewMd = res.markdown;
+    $("reviewPack").textContent = res.markdown;
+    $("reviewPath").textContent = "Saved to " + res.path;
+    $("reviewNote").textContent = finished ? "attempt finished" : "mid-test (hidden cases withheld)";
+    $("claudeOut").innerHTML = "";
+    $("packWrap").open = !st.claude_available;
+    $("claudeBtn").hidden = !st.claude_available;
+    $("claudeBtn").disabled = false;
+    $("reviewDlg").showModal();
+  } finally {
+    busy = false; refreshButtons();
+  }
+}
+$("reviewBtn").onclick = openReview;
+$("closeDlg").onclick = () => $("reviewDlg").close();
+$("copyBtn").onclick = async () => {
+  try { await navigator.clipboard.writeText(reviewMd); $("copyBtn").textContent = "Copied ✓"; }
+  catch { $("packWrap").open = true; $("copyBtn").textContent = "Select the text below"; }
+  setTimeout(() => ($("copyBtn").textContent = "Copy"), 2000);
+};
+$("dlBtn").onclick = () => {
+  const s = st.session, a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([reviewMd], { type: "text/markdown" }));
+  a.download = `review-${s.problem}-${s.lang}-L${s.unlocked}.md`;
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("claudeBtn").onclick = async () => {
+  $("claudeBtn").disabled = true;
+  $("claudeOut").innerHTML = '<p class="muted">Asking Claude Code. This can take a minute or two ...</p>';
+  const res = await api("POST", "/api/review/claude", {});
+  $("claudeOut").innerHTML = res.review ? md(res.review) + "<hr>" : `<p class="bad">${esc(res.error || "no answer")}</p>`;
+  $("claudeBtn").disabled = false;
+};
 
 async function loadDesk() {
   const spec = await api("GET", "/api/spec");
@@ -229,6 +388,7 @@ async function loadDesk() {
   if (work.code !== undefined) { setCode(work.code, st.session && st.session.lang); $("path").textContent = work.path; }
   else { setCode("", null); $("path").textContent = work.error || ""; }
   $("spec").scrollTop = 0;
+  await loadCases();
 }
 
 function show(text) {
@@ -256,7 +416,11 @@ async function act(kind, body, label) {
     const now = st.session ? st.session.unlocked : 0;
     if (kind === "start") await loadDesk();
     if (kind === "submit" && now > before) { flash(`Level ${now} unlocked`); await loadDesk(); }
-    if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓");
+    else if ((kind === "run" || kind === "submit") && res.report) {
+      await loadCases();
+      if (res.report.failed.length) showTab("tests");
+    }
+    if (kind === "submit" && st.session && st.session.cleared) flash("Problem cleared ✓ Press Review for feedback");
   } catch (e) {
     show("FAIL: " + e);
   } finally {
@@ -267,6 +431,10 @@ function refreshButtons() {
   const s = st && st.session, paused = !!(s && s.paused);
   for (const id of ["runBtn", "submitBtn", "saveBtn"]) $(id).disabled = !s || paused || busy;
   $("startBtn").disabled = busy; $("resetBtn").disabled = busy;
+  const finished = !!(s && (s.cleared || left === 0));
+  $("reviewBtn").disabled = !s || busy;
+  $("reviewBtn").classList.toggle("ready", finished);
+  $("reviewBtn").textContent = finished ? "Review my attempt ★" : "Review";
 }
 
 async function save() {

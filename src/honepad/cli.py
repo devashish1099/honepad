@@ -521,6 +521,9 @@ def cmd_run(args: argparse.Namespace) -> int:
                 except HONEPAD_ERRORS as exc:
                     print_workspace_note(exc)
         report = run(args.problem, lang, level, kind=kind)
+        report_path = getattr(args, "report_json", None)
+        if report_path:
+            _write_report_json(Path(report_path), report, lang)
         if session is not None and same:
             left = clock_left(session)
             record_last_run(
@@ -743,6 +746,31 @@ def cmd_run(args: argparse.Namespace) -> int:
     if kind == "work":
         _print_work_notes(args.problem, lang, echo_work=False)
     return 0
+
+
+def _write_report_json(path: Path, report: Any, lang: str) -> None:
+    """Every public failure, for UIs that show more than the first one."""
+    naming = str(language(lang)["naming"])
+    payload = {
+        "problem": report.problem,
+        "lang": report.lang,
+        "level": report.level,
+        "passed": report.passed,
+        "total": report.passed + len(report.failed),
+        "debug": report.debug,
+        "failed": [
+            {
+                "case": fail.case,
+                "index": fail.index,
+                "method": method_name(fail.method, naming),
+                "args": fail.args,
+                "expected": fail.expected,
+                "actual": fail.actual,
+            }
+            for fail in report.failed
+        ],
+    }
+    path.write_text(json.dumps(payload, default=repr) + "\n", encoding="utf-8")
 
 
 def _raised_type(actual: Any) -> str | None:
@@ -1046,6 +1074,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_p.add_argument("--lang", default=None)
     run_p.add_argument("--level", type=int, default=None)
     run_p.add_argument("--kind", choices=("solution", "stub", "work"), default=None)
+    run_p.add_argument("--report-json", default=None, help=argparse.SUPPRESS)
     run_p.add_argument(
         "--submit",
         action="store_true",
@@ -1066,6 +1095,7 @@ def build_parser() -> argparse.ArgumentParser:
     submit.add_argument("--lang", default=None)
     submit.add_argument("--level", type=int, default=None)
     submit.add_argument("--kind", choices=("solution", "stub", "work"), default=None)
+    submit.add_argument("--report-json", default=None, help=argparse.SUPPRESS)
     submit.add_argument(
         "--confirm",
         default=None,

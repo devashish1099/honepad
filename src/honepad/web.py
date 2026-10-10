@@ -15,6 +15,7 @@ import secrets
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -22,22 +23,30 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-from honepad.catalog import problems
+from honepad import review
+from honepad.catalog import language, load_catalog, problems
 from honepad.session import (
     _replace_text,
     clock_left,
     is_paused,
     load_session,
     max_level,
+    session_path,
     work_src,
 )
 from honepad.term import HONEPAD_ERRORS
-from honepad.traces import problem_dir
+from honepad.traces import load_cases, method_name, problem_dir
 
 MAX_BODY = 1_000_000
 ACTION_TIMEOUT_S = 600
 _ANSI = re.compile(r"\x1b\[[0-9;?]*[A-Za-z]|\x1b\]8;;[^\x1b]*\x1b\\")
 _PAGE = Path(__file__).resolve().parent / "static" / "web.html"
+# Last public-trace report per (problem, lang), so the Tests tab survives a reload.
+_LAST_REPORTS: dict[tuple[str, str, str], dict[str, Any]] = {}
+
+
+def _report_key(problem: str, lang: str) -> tuple[str, str, str]:
+    return (str(session_path()), problem, lang)
 
 
 def _runnable_langs() -> list[str]:
@@ -80,6 +89,7 @@ def _session() -> dict[str, Any] | None:
 def state() -> dict[str, Any]:
     session = _session()
     desks = (session or {}).get("desks") or {}
+    originals = set(load_catalog().get("original_problems", []))
     rows = []
     for pid in problems():
         desk = desks.get(pid) or {}
@@ -90,6 +100,7 @@ def state() -> dict[str, Any]:
                 "unlocked": int(desk.get("unlocked", 0)),
                 "lang": desk.get("lang"),
                 "cleared": bool(desk.get("cleared")),
+                "original": pid in originals,
             }
         )
     active = None
@@ -105,7 +116,48 @@ def state() -> dict[str, Any]:
             "cleared": bool(session.get("cleared")),
             "last_run": session.get("last_run"),
         }
-    return {"problems": rows, "langs": _runnable_langs(), "session": active}
+    return {
+        "problems": rows,
+        "originals_done": sum(1 for r in rows if r["original"] and r["cleared"]),
+        "originals_total": sum(1 for r in rows if r["original"]),
+        "langs": _runnable_langs(),
+        "session": active,
+        "claude_available": review.claude_available(),
+    }
+
+
+def cases_view() -> dict[str, Any]:
+    """Public traces through the unlocked level, in the user's method naming."""
+    session = _session()
+    if session is None:
+        return {"error": "no session"}
+    problem, lang = str(session["problem"]), str(session["lang"])
+    level = int(session["unlocked"])
+    naming = str(language(lang)["naming"])
+    cases = [
+        {
+            "id": str(case["id"]),
+            "level": int(case.get("level", 0)),
+            "calls": [
+                {"m": method_name(str(c["m"]), naming), "a": c["a"], "e": c["e"]}
+                for c in case["calls"]
+            ],
+        }
+        for case in load_cases(problem, level)
+    ]
+    return {"level": level, "cases": cases, "report": _LAST_REPORTS.get(_report_key(problem, lang))}
+
+
+def make_review(ask_claude: bool = False) -> dict[str, Any]:
+    session = _session()
+    if session is None:
+        return {"error": "no session"}
+    markdown, meta = review.build_review(session)
+    path = review.save_review(markdown, session)
+    result: dict[str, Any] = {"markdown": markdown, "path": str(path), "meta": meta}
+    if ask_claude:
+        result["review"] = review.ask_claude(markdown)
+    return result
 
 
 def spec_text() -> dict[str, Any]:
@@ -156,6 +208,7 @@ def _action(kind: str, body: dict[str, Any]) -> dict[str, Any]:
         if problem not in problems() or lang not in _runnable_langs():
             return {"error": "unknown problem or language"}
         args = ["start", problem, lang, "--no-console", "--yes"]
+        _LAST_REPORTS.pop(_report_key(problem, lang), None)
         if body.get("reset"):
             args.append("--reset")
         code, out = _cli(*args)
@@ -171,11 +224,24 @@ def _action(kind: str, body: dict[str, Any]) -> dict[str, Any]:
         saved = save_work(str(body["code"]))
         if "error" in saved:
             return saved
-    if kind == "run":
-        code, out = _cli("run", problem, "--lang", lang, "--kind", "work")
-    else:
-        code, out = _cli("submit", problem, "--lang", lang, "--kind", "work", "--confirm", "y")
-    return {"ok": code == 0, "output": out}
+    with tempfile.TemporaryDirectory(prefix="honepad-web-") as tmp:
+        report_path = Path(tmp) / "report.json"
+        extra = ["--report-json", str(report_path)]
+        if kind == "run":
+            code, out = _cli("run", problem, "--lang", lang, "--kind", "work", *extra)
+        else:
+            code, out = _cli(
+                "submit", problem, "--lang", lang, "--kind", "work", "--confirm", "y", *extra
+            )
+        report = None
+        if report_path.is_file():
+            try:
+                report = json.loads(report_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                report = None
+    if report is not None:
+        _LAST_REPORTS[_report_key(problem, lang)] = report
+    return {"ok": code == 0, "output": out, "report": report}
 
 
 class _Server(ThreadingHTTPServer):
@@ -264,6 +330,8 @@ class _Handler(BaseHTTPRequestHandler):
                 self._json(200, spec_text())
             elif url.path == "/api/work":
                 self._json(200, read_work())
+            elif url.path == "/api/cases":
+                self._json(200, cases_view())
             else:
                 self._json(404, {"error": "not found"})
         except HONEPAD_ERRORS as exc:
@@ -287,7 +355,7 @@ class _Handler(BaseHTTPRequestHandler):
         if not self._guard():
             return
         kind = urlparse(self.path).path.removeprefix("/api/")
-        if kind not in {"start", "run", "submit", "pause", "resume"}:
+        if kind not in {"start", "run", "submit", "pause", "resume", "review", "review/claude"}:
             self._json(404, {"error": "not found"})
             return
         body = self._body()
@@ -297,8 +365,11 @@ class _Handler(BaseHTTPRequestHandler):
             self._json(409, {"error": "another action is still running"})
             return
         try:
-            self._json(200, _action(kind, body))
-        except HONEPAD_ERRORS as exc:
+            if kind.startswith("review"):
+                self._json(200, make_review(ask_claude=kind == "review/claude"))
+            else:
+                self._json(200, _action(kind, body))
+        except HONEPAD_ERRORS + (NotImplementedError,) as exc:
             self._json(200, {"error": str(exc)})
         finally:
             self.server.action_lock.release()

@@ -1,4 +1,5 @@
 import json
+import shutil
 import threading
 import urllib.error
 import urllib.request
@@ -99,3 +100,85 @@ def test_start_rejects_unknown_problem(web) -> None:
 def test_unknown_routes_404(web) -> None:
     assert _call(web, "GET", "/api/nope")[0] == 404
     assert _call(web, "POST", "/api/delete", {})[0] == 404
+
+
+def test_state_marks_the_original_problems(web) -> None:
+    state = json.loads(_call(web, "GET", "/api/state")[1])
+    originals = [row["id"] for row in state["problems"] if row["original"]]
+    assert originals[0] == "bank_system"
+    assert len(originals) == 10
+    assert "library" not in originals
+    assert state["originals_total"] == 10
+    assert state["originals_done"] == 0
+    assert isinstance(state["claude_available"], bool)
+
+
+def test_run_report_lists_every_failure_and_cases_use_user_naming(web) -> None:
+    assert json.loads(
+        _call(web, "POST", "/api/start", {"problem": "bank_system", "lang": "python3"})[1]
+    )["ok"]
+    cases = json.loads(_call(web, "GET", "/api/cases")[1])
+    assert cases["level"] == 1
+    assert cases["report"] is None
+    assert cases["cases"][0]["calls"][0]["m"] == "create_account"
+
+    ran = json.loads(_call(web, "POST", "/api/run", {})[1])
+    assert not ran["ok"]
+    report = ran["report"]
+    assert report["total"] == len(cases["cases"])
+    assert len(report["failed"]) > 1
+    first = report["failed"][0]
+    assert {"case", "index", "method", "expected", "actual", "args"} <= first.keys()
+    again = json.loads(_call(web, "GET", "/api/cases")[1])
+    assert again["report"]["failed"] == report["failed"]
+
+
+@pytest.mark.skipif(shutil.which("javac") is None, reason="javac not on PATH")
+def test_cases_use_camel_case_for_java(web) -> None:
+    assert json.loads(
+        _call(web, "POST", "/api/start", {"problem": "bank_system", "lang": "java"})[1]
+    )["ok"]
+    cases = json.loads(_call(web, "GET", "/api/cases")[1])
+    assert cases["cases"][0]["calls"][0]["m"] == "createAccount"
+
+
+def test_review_withholds_hidden_cases_mid_test(web, tmp_path: Path) -> None:
+    assert json.loads(
+        _call(web, "POST", "/api/start", {"problem": "bank_system", "lang": "python3"})[1]
+    )["ok"]
+    res = json.loads(_call(web, "POST", "/api/review", {})[1])
+    text = res["markdown"]
+    assert "You are reviewing a practice attempt" in text
+    assert "### Bank system level 1" in text
+    assert "class Simulation" in text
+    assert "## Public test results" in text
+    assert "<-- " in text
+    assert "hidden cases withheld" in text
+    assert "hid-l1" not in text
+    assert "solution" not in res["path"]
+    assert Path(res["path"]).parent == tmp_path / "reviews"
+    assert Path(res["path"]).read_text(encoding="utf-8") == text
+    assert res["meta"]["finished"] is False
+
+
+def test_review_shows_hidden_cases_once_time_is_up(web, tmp_path: Path) -> None:
+    assert json.loads(
+        _call(web, "POST", "/api/start", {"problem": "bank_system", "lang": "python3"})[1]
+    )["ok"]
+    path = tmp_path / "session.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["started_at"] -= 91 * 60
+    path.write_text(json.dumps(data), encoding="utf-8")
+    text = json.loads(_call(web, "POST", "/api/review", {})[1])["markdown"]
+    assert "clock ran out" in text
+    assert "hid-l1" in text
+    assert "hidden cases withheld" not in text
+
+
+def test_review_claude_reports_missing_cli(web, monkeypatch) -> None:
+    assert json.loads(
+        _call(web, "POST", "/api/start", {"problem": "bank_system", "lang": "python3"})[1]
+    )["ok"]
+    monkeypatch.setattr("honepad.review.shutil.which", lambda name: None)
+    res = json.loads(_call(web, "POST", "/api/review/claude", {})[1])
+    assert "not on PATH" in res["error"]
