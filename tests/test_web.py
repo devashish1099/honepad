@@ -244,3 +244,14 @@ def test_state_scores_every_problem_for_the_difficulty_order(web) -> None:
     assert {row["tier"] for row in rows} == {"Easy", "Medium", "Hard"}
     tiers = {row["id"]: row["tier"] for row in rows}
     assert tiers["rate_limiter"] == "Easy" and tiers["order_matching"] == "Hard"
+
+
+def test_wsl_opens_the_browser_not_file_explorer(monkeypatch) -> None:
+    from honepad import web
+
+    url = "http://127.0.0.1:1/?t=abc"
+    monkeypatch.setattr(web.platform, "release", lambda: "6.6.87.2-microsoft-standard-WSL2")
+    monkeypatch.setattr(web.shutil, "which", lambda name: name if name == "rundll32.exe" else None)
+    assert web._wsl_opener(url) == ["rundll32.exe", "url.dll,FileProtocolHandler", url]
+    monkeypatch.setattr(web.platform, "release", lambda: "6.8.0-generic")
+    assert web._wsl_opener(url) is None

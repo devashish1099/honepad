@@ -484,16 +484,29 @@ def make_server(port: int = 0) -> _Server:
     return _Server(port)
 
 
+def _wsl_opener(url: str) -> list[str] | None:
+    """Command that opens url in the Windows default browser, or None off WSL.
+
+    explorer.exe is not used: given a URL with a query string it can open a
+    File Explorer window instead of the browser.
+    """
+    if "microsoft" not in platform.release().lower():
+        return None
+    if shutil.which("wslview"):
+        return ["wslview", url]
+    if shutil.which("rundll32.exe"):
+        return ["rundll32.exe", "url.dll,FileProtocolHandler", url]
+    return None
+
+
 def _open(url: str) -> None:
-    if "microsoft" in platform.release().lower() and shutil.which("explorer.exe"):
-        # WSL: hand the URL to the Windows default browser.
-        subprocess.Popen(
-            ["explorer.exe", url],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
+    argv = _wsl_opener(url)
+    if argv is None:
+        webbrowser.open(url)
         return
-    webbrowser.open(url)
+    # A Windows exe started from a WSL folder warns about UNC paths; start it on C:.
+    cwd = "/mnt/c" if Path("/mnt/c").is_dir() else None
+    subprocess.Popen(argv, cwd=cwd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def serve(port: int = 0, open_browser: bool = True) -> int:
