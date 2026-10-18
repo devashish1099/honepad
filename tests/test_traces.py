@@ -15,6 +15,7 @@ from honepad.runner import (
     _RUNNERS,
     COMPILE_TIMEOUT_S,
     RUN_TIMEOUT_S,
+    _json_safe,
     _values_differ,
     compile_fail,
     report_from_proc,
@@ -22,9 +23,10 @@ from honepad.runner import (
     run_compiled,
     run_prepare_cmd,
     run_python,
+    run_python_body,
     run_script,
 )
-from honepad.traces import load_cases
+from honepad.traces import _load_suite_cases, load_cases
 
 
 def _report_helpers():
@@ -159,10 +161,12 @@ def test_load_cases_opens_only_level_files_when_level_set(monkeypatch, tmp_path:
     cases_dir = tmp_path / "cases"
     cases_dir.mkdir()
     (cases_dir / "level1.json").write_text(
-        '[{"id": "l1", "level": 1, "calls": []}]', encoding="utf-8"
+        '[{"id": "l1", "level": 1, "calls": [{"m": "deposit", "a": [], "e": 0}]}]',
+        encoding="utf-8",
     )
     (cases_dir / "level2.json").write_text(
-        '[{"id": "l2", "level": 2, "calls": []}]', encoding="utf-8"
+        '[{"id": "l2", "level": 2, "calls": [{"m": "deposit", "a": [], "e": 0}]}]',
+        encoding="utf-8",
     )
     (cases_dir / "extra.json").write_text("{", encoding="utf-8")
     monkeypatch.setattr("honepad.traces.problem_dir", lambda _problem: tmp_path)
@@ -171,9 +175,68 @@ def test_load_cases_opens_only_level_files_when_level_set(monkeypatch, tmp_path:
     loaded = load_cases("bank_system", 2)
     assert [case["id"] for case in loaded] == ["l1", "l2"]
     extra = cases_dir / "extra.json"
-    extra.write_text('[{"id": "x", "level": 1, "calls": []}]', encoding="utf-8")
+    extra.write_text(
+        '[{"id": "x", "level": 1, "calls": [{"m": "deposit", "a": [], "e": 0}]}]',
+        encoding="utf-8",
+    )
     all_cases = load_cases("bank_system", None)
     assert [case["id"] for case in all_cases] == ["x", "l1", "l2"]
+
+
+def test_suite_case_level_rejects_bool_and_null(tmp_path: Path) -> None:
+    cases_dir = tmp_path / "cases"
+    cases_dir.mkdir()
+    path = cases_dir / "level1.json"
+    path.write_text('[{"id": "bad-bool", "level": false}]', encoding="utf-8")
+    with pytest.raises(ValueError, match=re.escape(str(path))):
+        _load_suite_cases(cases_dir, 1)
+
+    path.write_text('[{"id": "bad-null", "level": null}]', encoding="utf-8")
+    with pytest.raises(ValueError, match=re.escape(str(path))):
+        _load_suite_cases(cases_dir, 1)
+
+    ok = {"id": "ok", "level": 1, "calls": [{"m": "deposit", "a": [], "e": 0}]}
+    path.write_text(json.dumps([ok]), encoding="utf-8")
+    loaded = _load_suite_cases(cases_dir, 1)
+    assert loaded == [ok]
+
+
+def test_no_calls_and_empty_calls_raise(tmp_path: Path) -> None:
+    cases_dir = tmp_path / "cases"
+    cases_dir.mkdir()
+    path = cases_dir / "level1.json"
+    call = {"m": "deposit", "a": [], "e": 0}
+
+    path.write_text(
+        json.dumps([{"id": "empty", "level": 1, "calls": []}]),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as empty_exc:
+        _load_suite_cases(cases_dir, 1)
+    assert str(empty_exc.value) == f"{path} case empty has no calls"
+
+    path.write_text(json.dumps([{"id": "missing", "level": 1}]), encoding="utf-8")
+    with pytest.raises(ValueError) as missing_exc:
+        _load_suite_cases(cases_dir, None)
+    assert str(missing_exc.value) == f"{path} case missing has no calls"
+
+    path.write_text(
+        json.dumps([{"id": "shaped", "level": 1, "calls": {"m": "deposit"}}]),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError) as shaped_exc:
+        _load_suite_cases(cases_dir, 1)
+    assert str(shaped_exc.value) == f"{path} case shaped has no calls"
+
+    path.write_text(json.dumps([{"id": "ok", "level": 1, "calls": [call]}]), encoding="utf-8")
+    assert _load_suite_cases(cases_dir, 1) == [{"id": "ok", "level": 1, "calls": [call]}]
+
+
+def test_empty_calls_are_not_ok() -> None:
+    report = run_python("bank_system", 1, cases=[{"id": "only", "calls": []}])
+    assert report.passed == 0
+    assert [row.case for row in report.failed] == ["only"]
+    assert not report.ok
 
 
 # Public (problem, level) pairs that shipped with one case on 2026-09-10.
@@ -1502,6 +1565,97 @@ def test_values_differ_does_not_treat_bool_as_int() -> None:
     assert not _values_differ("0", "0")
 
 
+def test_json_safe_rewrites_nonfinite_floats() -> None:
+    word = "NaN"
+    nested = [{"v": float("nan"), "ok": True, "n": 0}, word, float("inf")]
+    safe = _json_safe(nested)
+    assert _json_safe(float("nan")) == "NaN"
+    assert _json_safe(float("inf")) == "Infinity"
+    assert _json_safe(float("-inf")) == "-Infinity"
+    assert _json_safe([float("nan")]) == ["NaN"]
+    assert _json_safe({"a": float("nan"), "b": float("-inf")}) == {
+        "a": "NaN",
+        "b": "-Infinity",
+    }
+    assert safe == [{"v": "NaN", "ok": True, "n": 0}, "NaN", "Infinity"]
+    assert safe[0]["ok"] is True
+    assert type(safe[0]["n"]) is int
+    assert _json_safe(word) == word
+    assert isinstance(_json_safe(word), str)
+    assert _json_safe("Infinity") == "Infinity"
+    assert _json_safe("-Infinity") == "-Infinity"
+    assert _json_safe(True) is True
+    assert _json_safe(False) is False
+    assert _json_safe(1) == 1 and type(_json_safe(1)) is int
+    assert _json_safe(0) == 0 and type(_json_safe(0)) is int
+    assert _json_safe(None) is None
+    assert _json_safe(1.5) == 1.5 and isinstance(_json_safe(1.5), float)
+    assert _values_differ(_json_safe(float("nan")), None)
+    assert _values_differ(_json_safe(float("inf")), None)
+    assert _values_differ(_json_safe(float("-inf")), 0)
+    assert not _values_differ(_json_safe(word), word)
+    box = {"n": float("nan")}
+    assert _json_safe(box) == {"n": "NaN"}
+    assert isinstance(box["n"], float)
+    parsed = json.loads(json.dumps(_json_safe({"a": float("nan"), "b": [float("inf")]})))
+    assert parsed == {"a": "NaN", "b": ["Infinity"]}
+    assert isinstance(parsed["a"], str)
+
+
+def test_nonfinite_return_is_a_failed_row(tmp_path: Path, monkeypatch) -> None:
+    src = tmp_path / "work.py"
+    src.write_text(
+        "class Simulation:\n"
+        "    def ret_nan(self):\n"
+        "        return float('nan')\n"
+        "    def ret_inf(self):\n"
+        "        return float('inf')\n"
+        "    def ret_ninf(self):\n"
+        "        return float('-inf')\n"
+        "    def ret_list(self):\n"
+        "        return [float('nan')]\n"
+        "    def ret_box(self):\n"
+        "        return {'val': float('nan')}\n"
+        "    def ret_word(self):\n"
+        "        return 'NaN'\n"
+        "    def ret_one(self):\n"
+        "        return 1\n"
+        "    def ret_flag(self):\n"
+        "        return True\n"
+        "    def ret_null(self):\n"
+        "        return None\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr("honepad.runner.python_entry", lambda *_args, **_kwargs: src)
+    cases = [
+        _case("nan", "ret_nan", None),
+        _case("inf", "ret_inf", None),
+        _case("ninf", "ret_ninf", None),
+        _case("list", "ret_list", [None]),
+        _case("box", "ret_box", {"val": None}),
+        _case("word", "ret_word", "NaN"),
+        _case("one", "ret_one", 1),
+        _case("one-true", "ret_one", True),
+        _case("flag", "ret_flag", True),
+        _case("null", "ret_null", None),
+    ]
+    report = run_python_body("bank_system", 1, "solution", cases=cases)
+    assert report.passed == 4
+    _assert_failed(report, "nan", "NaN", None)
+    _assert_failed(report, "inf", "Infinity", None)
+    _assert_failed(report, "ninf", "-Infinity", None)
+    _assert_failed(report, "list", ["NaN"], [None])
+    _assert_failed(report, "box", {"val": "NaN"}, {"val": None})
+    _assert_failed(report, "one-true", 1, True)
+    _assert_passed(report, "word")
+    _assert_passed(report, "one")
+    _assert_passed(report, "flag")
+    _assert_passed(report, "null")
+    nan_row = next(row for row in report.failed if row.case == "nan")
+    assert isinstance(nan_row.actual, str)
+    assert json.loads(json.dumps({"actual": nan_row.actual}))["actual"] == "NaN"
+
+
 def test_report_from_proc_rejects_non_object_failed_rows() -> None:
     proc = subprocess.CompletedProcess(
         ["adapter"], 0, stdout='{"passed": 0, "failed": [1]}\n', stderr=""
@@ -1524,6 +1678,65 @@ def test_report_from_proc_rejects_null_failed() -> None:
     )
     with pytest.raises(RuntimeError, match="invalid JSON"):
         report_from_proc(proc, "bank_system", "java", 1)
+
+
+def test_report_from_proc_rejects_null_passed() -> None:
+    proc = subprocess.CompletedProcess(
+        ["adapter"], 0, stdout='{"passed": null, "failed": []}\n', stderr=""
+    )
+    with pytest.raises(RuntimeError, match="invalid JSON") as excinfo:
+        report_from_proc(proc, "bank_system", "java", 1)
+    assert type(excinfo.value) is not TypeError
+
+
+def test_report_from_proc_rejects_true_passed_on_one_case() -> None:
+    proc = subprocess.CompletedProcess(
+        ["adapter"], 0, stdout='{"passed": true, "failed": []}\n', stderr=""
+    )
+    cases = [{"id": "only", "calls": [{"a": []}]}]
+    with pytest.raises(RuntimeError, match="invalid JSON") as excinfo:
+        report_from_proc(proc, "bank_system", "java", 1, cases=cases)
+    assert type(excinfo.value) is not TypeError
+
+
+def test_report_from_proc_rejects_string_passed() -> None:
+    proc = subprocess.CompletedProcess(
+        ["adapter"], 0, stdout='{"passed": "nope", "failed": []}\n', stderr=""
+    )
+    with pytest.raises(RuntimeError, match="invalid JSON") as excinfo:
+        report_from_proc(proc, "bank_system", "java", 1)
+    assert type(excinfo.value) is not TypeError
+
+
+def test_report_from_proc_rejects_null_index() -> None:
+    proc = subprocess.CompletedProcess(
+        ["adapter"],
+        0,
+        stdout=(
+            '{"passed": 0, "failed": [{"case": "x", "index": null, '
+            '"method": "m", "expected": 1, "actual": 0}]}\n'
+        ),
+        stderr="",
+    )
+    with pytest.raises(RuntimeError, match="invalid JSON") as excinfo:
+        report_from_proc(proc, "bank_system", "java", 1)
+    assert type(excinfo.value) is not TypeError
+
+
+def test_report_from_proc_rejects_true_index_with_args() -> None:
+    proc = subprocess.CompletedProcess(
+        ["adapter"],
+        0,
+        stdout=(
+            '{"passed": 0, "failed": [{"case": "only", "index": true, '
+            '"method": "m", "args": [1], "expected": 1, "actual": 0}]}\n'
+        ),
+        stderr="",
+    )
+    cases = [{"id": "only", "calls": [{"a": [1]}]}]
+    with pytest.raises(RuntimeError, match="invalid JSON") as excinfo:
+        report_from_proc(proc, "bank_system", "java", 1, cases=cases)
+    assert type(excinfo.value) is not TypeError
 
 
 def test_report_from_proc_rejects_passed_count_mismatch() -> None:

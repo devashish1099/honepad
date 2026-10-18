@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import math
 import os
 import secrets
 import shutil
@@ -68,9 +69,8 @@ class Report:
 
 def pack_src(lang_id: str, problem: str, kind: str, solution_name: str, stub_name: str) -> Path:
     if kind == "work":
-        from honepad.session import work_src
-
-        path = work_src(problem, lang_id)
+        session = importlib.import_module("honepad.session")
+        path = session.work_src(problem, lang_id)
         if path.is_symlink():
             raise RuntimeError(f"work file is a symlink: {path}")
         if not path.is_file():
@@ -101,6 +101,13 @@ def _adapter_detail(src: Path | None, lang_id: str, detail: str) -> str:
     if src is not None:
         return f"{src}: {lang_id}: {detail}"
     return f"{lang_id}: {detail}"
+
+
+def _json_int(value: Any, lang_id: str) -> int:
+    # bool is a subclass of int, and int(True) is 1. Only a real integer counts.
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise RuntimeError(f"{lang_id} adapter produced invalid JSON")
+    return value
 
 
 def _extract_report_payload(stdout: str, lang_id: str) -> tuple[dict[str, Any], str]:
@@ -149,19 +156,17 @@ def report_from_proc(
             raise RuntimeError(f"{lang_id} adapter produced invalid JSON")
         if any(key not in row for key in ("case", "index", "method", "expected", "actual")):
             raise RuntimeError(f"{lang_id} adapter produced invalid JSON")
+        idx = _json_int(row["index"], lang_id)
         args = row.get("args", row.get("a"))
         if not isinstance(args, list):
             case = cases.get(str(row["case"]))
-            idx = int(row["index"])
             calls = case["calls"] if case is not None else []
             if 0 <= idx < len(calls):
                 args = list(calls[idx]["a"])
             else:
                 args = []
-        failed.append(
-            Fail(row["case"], row["index"], row["method"], args, row["expected"], row["actual"])
-        )
-    passed = int(payload.get("passed", 0))
+        failed.append(Fail(row["case"], idx, row["method"], args, row["expected"], row["actual"]))
+    passed = _json_int(payload.get("passed", 0), lang_id)
     if passed + len(failed) != len(cases):
         raise RuntimeError(
             f"{lang_id} adapter report count mismatch: {passed + len(failed)} != {len(cases)}"
@@ -366,6 +371,25 @@ def python_entry(problem: str, kind: str) -> Path:
     return pack_src("python3", problem, kind, "solution.py", "stub.py")
 
 
+def _json_safe(value: Any) -> Any:
+    """Non-finite floats become "NaN", "Infinity", or "-Infinity".
+
+    Nested lists and dicts are walked. Other values, including the string
+    "NaN", bool, and int, are unchanged.
+    """
+    if isinstance(value, float):
+        if math.isnan(value):
+            return "NaN"
+        if math.isinf(value):
+            return "Infinity" if value > 0 else "-Infinity"
+        return value
+    if isinstance(value, list):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _json_safe(item) for key, item in value.items()}
+    return value
+
+
 def _in_honepad(filename: str) -> bool:
     try:
         path = Path(filename).resolve()
@@ -427,7 +451,12 @@ def run_python_body(
     debug_lines: list[str] = []
     passed = 0
     for case in cases:
-        for i, call in enumerate(case["calls"]):
+        # Zero calls must not take the for/else success path.
+        calls = case.get("calls")
+        if not isinstance(calls, list) or not calls:
+            failed.append(Fail(case["id"], 0, "calls", [], None, "no calls"))
+            continue
+        for i, call in enumerate(calls):
             method = call["m"]
             args = list(call["a"])
             expected = call["e"]
@@ -446,6 +475,8 @@ def run_python_body(
                 if line not in debug_lines:
                     debug_lines.append(line)
                 break
+            # Report contract: NaN and Infinity are strings, not bare tokens.
+            actual = _json_safe(actual)
             if differ(actual, expected):
                 failed.append(Fail(case["id"], i, method, args, expected, actual))
                 break
