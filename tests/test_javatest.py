@@ -122,6 +122,39 @@ def test_render_junit_rejects_hostile_method() -> None:
         render_junit("bank_system", [case])
 
 
+def test_contributing_names_make_check() -> None:
+    text = (Path(__file__).resolve().parents[1] / "CONTRIBUTING.md").read_text(encoding="utf-8")
+    assert "make check" in text
+
+
+def test_same_helper_matches_runner_compare() -> None:
+    from honepad.pythontest import _SAME_HELPER
+    from honepad.runner import _values_differ
+
+    namespace: dict[str, object] = {}
+    exec(_SAME_HELPER, namespace)
+    same = namespace["_same"]
+    assert callable(same)
+    pairs = [
+        ([True, False], [1, 0]),
+        ([1, 0], [1, 0]),
+        ([[False]], [[0]]),
+        ({"n": True}, {"n": 1}),
+        ({"n": 1}, {"n": 1}),
+        (["acc1(500)"], ["acc1(500)"]),
+        ([], []),
+        ({}, {}),
+        ([None], [0]),
+        ([True], [True]),
+        (True, 1),
+        (1, True),
+        ((1,), [1]),
+        ({"a": 1, "b": 2}, {"b": 2, "a": 1}),
+    ]
+    for actual, expected in pairs:
+        assert _values_differ(actual, expected) == (not same(actual, expected))
+
+
 def test_render_pytest_rejects_hostile_method() -> None:
     from honepad.pythontest import render_pytest
 
@@ -227,3 +260,41 @@ def test_generated_pytest_rejects_bool_when_expected_is_number(tmp_path: Path) -
     assert returned_bool.returncode != 0, returned_bool.stdout + returned_bool.stderr
     returned_int = run_generated("returns_int", "1")
     assert returned_int.returncode == 0, returned_int.stdout + returned_int.stderr
+
+
+def test_generated_pytest_rejects_nested_bool_as_int(tmp_path: Path) -> None:
+    from honepad.pythontest import render_pytest
+
+    case = {
+        "id": "l2-pair",
+        "level": 2,
+        "calls": [{"m": "counts", "a": [1], "e": [1, 0]}],
+    }
+    text = render_pytest("bank_system", [case])
+
+    def run_generated(folder: str, returned: str) -> subprocess.CompletedProcess[str]:
+        root = tmp_path / folder
+        root.mkdir()
+        (root / "work.py").write_text(
+            "class Simulation:\n"
+            "    def counts(self, timestamp: object) -> object:\n"
+            f"        return {returned}\n",
+            encoding="utf-8",
+        )
+        test_path = root / "test_public.py"
+        test_path.write_text(text, encoding="utf-8")
+        return subprocess.run(
+            [sys.executable, "-m", "pytest", "-q", "--tb=short", str(test_path)],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+    returned_bools = run_generated("returns_bools", "[True, False]")
+    assert returned_bools.returncode != 0, returned_bools.stdout + returned_bools.stderr
+    assert "_same" in text
+    assert "isinstance(actual, bool)" not in text
+    assert "assert _same(actual, [1, 0]), repr(actual)" in text
+    returned_ints = run_generated("returns_ints", "[1, 0]")
+    assert returned_ints.returncode == 0, returned_ints.stdout + returned_ints.stderr
