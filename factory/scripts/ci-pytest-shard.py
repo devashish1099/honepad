@@ -89,6 +89,7 @@ _OVERRIDES: dict[str, str] = {
 # Shards that install each skipif binary. Set membership, not 1:1.
 BINARY_TO_SHARDS: dict[str, frozenset[str]] = {
     "javac": frozenset({"unit", "script", "jvm"}),
+    "java": frozenset({"unit", "script", "jvm"}),
     "kotlinc": frozenset({"jvm"}),
     "c++": frozenset({"compiled"}),
     "node": frozenset(SHARDS),

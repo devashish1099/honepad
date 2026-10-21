@@ -22,6 +22,16 @@ def _copy_official_python_work(problem: str) -> None:
     shutil.copyfile(src, dest)
 
 
+def _official_lang(problem: str) -> str:
+    # Java-only practice problems have no python3 solution.
+    py = repo_root() / "langs" / "python3" / "problems" / problem / "solution.py"
+    if py.is_file():
+        return "python3"
+    if shutil.which("javac") is None:
+        pytest.skip("javac not on PATH")
+    return "java"
+
+
 def test_hidden_methods_stay_inside_unlocked_public_api() -> None:
     from honepad.catalog import problems
     from honepad.session import max_level
@@ -118,7 +128,7 @@ def test_official_solution_passes_hidden() -> None:
 
     for problem in problems():
         hidden = load_hidden_cases(problem, 4)
-        report = run(problem, "python3", 4, "solution", cases=hidden)
+        report = run(problem, _official_lang(problem), 4, "solution", cases=hidden)
         assert report.ok, (problem, report.failed)
         assert report.passed == len(hidden)
 
@@ -130,7 +140,7 @@ def test_official_solution_passes_hidden_at_every_level() -> None:
     for problem in problems():
         for n in range(1, max_level(problem) + 1):
             hidden = load_hidden_cases(problem, n)
-            report = run(problem, "python3", n, "solution", cases=hidden)
+            report = run(problem, _official_lang(problem), n, "solution", cases=hidden)
             assert report.ok, (problem, n, report.failed)
             assert report.passed == len(hidden)
 
